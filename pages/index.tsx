@@ -1,14 +1,12 @@
-import Image from 'next/image'
+/* eslint-disable @next/next/no-img-element */
 import { ComponentProps } from 'react'
-
-import logo from '@/public/chriskjaer-logo.svg'
 
 export default function Home() {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen">
       <div className="flex items-center justify-center px-4">
         <span className="w-3 h-3 mr-0 ns:(mr-4 mt-0)">
-          <Image src={logo} alt="chriskjaer logo" />
+          <img src="/chriskjaer-logo.svg" alt="chriskjaer logo" />
         </span>
 
         <div className="pl-4 py-3 ml-4 border-l border-gray-300">
