@@ -1,5 +1,6 @@
 import type { AppProps } from 'next/app'
 import Head from 'next/head'
+import Script from 'next/script'
 import { DefaultSeo } from 'next-seo'
 import tw, { globalStyles } from 'twin.macro'
 
@@ -27,6 +28,7 @@ export default function App({ Component, pageProps }: AppProps) {
         <link rel="icon" href="/favicon.ico" />
         <link rel="icon" href="/favicon.svg" />
       </Head>
+
       <div>
         <DefaultSeo
           title="chriskjaer"
@@ -34,6 +36,11 @@ export default function App({ Component, pageProps }: AppProps) {
         />
         <Component {...pageProps} />
       </div>
+
+      <Script
+        src="https://static.cloudflareinsights.com/beacon.min.js"
+        data-cf-beacon='{"token": "d696baa252124d3c9e286ce4e5bf23b1"}'
+      />
     </>
   )
 }
