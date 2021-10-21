@@ -1,11 +1,26 @@
-import 'tailwindcss/tailwind.css'
-import '../base.global.css'
-
 import type { AppProps } from 'next/app'
 import Head from 'next/head'
 import { DefaultSeo } from 'next-seo'
+import tw, { globalStyles } from 'twin.macro'
+
+import { globalCss } from '../stitches.config'
+
+const custom = {
+  body: {
+    ...tw`antialiased`,
+    fontFamily:
+      "avenir next, avenir, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'",
+  },
+}
+
+const styles = () => {
+  globalCss(custom)()
+  globalCss(globalStyles as typeof custom)()
+}
 
 export default function App({ Component, pageProps }: AppProps) {
+  styles()
+
   return (
     <>
       <Head>
