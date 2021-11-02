@@ -8,9 +8,15 @@
     ],
     "baseUrl": ".",
     "paths": {
-      "@/components/*": ["components/*"],
-      "@/public/*": ["public/*"],
-      "@/pages/*": ["pages/*"]
+      "@/components/*": [
+        "components/*"
+      ],
+      "@/public/*": [
+        "public/*"
+      ],
+      "@/pages/*": [
+        "pages/*"
+      ]
     },
     "module": "esnext",
     "jsx": "preserve",
@@ -25,8 +31,15 @@
     "isolatedModules": true,
     "noUnusedLocals": true,
     "noImplicitReturns": true,
-    "noUncheckedIndexedAccess": true
+    "noUncheckedIndexedAccess": true,
+    "incremental": true
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules"]
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }
