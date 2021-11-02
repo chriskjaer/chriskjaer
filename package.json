@@ -1,5 +1,8 @@
 {
   "private": true,
+  "engines": {
+    "node": "14.x"
+  },
   "scripts": {
     "dev": "next dev --port=3333",
     "build": "next build",
