@@ -28,7 +28,7 @@ export default function Home() {
 
           <p tw="text-f6 italic nl:(text-f7 mt-3)">
             Previously: Co-Founder of{' '}
-            <A href="https://gaest.com" rel="Gaest.com">
+            <A href="https://techcrunch.com/2019/01/25/airbnb-acquires-denmarks-gaest-to-expand-in-bookings-for-meetings-and-offsites" rel="Gaest.com">
               Gaest.com
             </A>
             , ex-Airbnb.
