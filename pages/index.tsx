@@ -15,7 +15,7 @@ export default function Home() {
 
         <div tw="border-gray-300 sm:(mt-3 pt-4 border-t text-center) ns:(border-l pl-4 py-3.5 ml-3)">
           <h1 tw="font-serif text-f2.5 font-bold leading-none mb-2 sm:(mb-3 text-f3)">
-            Chris Kjær Sørensen
+            Chris Kjær Bruhn Sørensen
           </h1>
 
           <p tw="text-f6 ns:text-f5 mb-1">
