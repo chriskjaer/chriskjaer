@@ -1,6 +1,6 @@
 SHELL := /bin/sh
 
-.PHONY: build dev minify clean
+.PHONY: build dev minify clean test
 
 build:
 	@./scripts/build.sh
@@ -14,3 +14,6 @@ minify: build
 
 clean:
 	@rm -f ./public/index.html
+
+test:
+	@./scripts/smol_test.sh
