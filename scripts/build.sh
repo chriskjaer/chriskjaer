@@ -3,10 +3,9 @@ set -eu
 
 root=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
 
-src="$root/src"
 out="$root/public"
 
-template="$src/index.smol"
+template="$root/index.smol"
 compiler="$root/scripts/smol.awk"
 target="$out/index.html"
 

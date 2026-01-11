@@ -2,13 +2,18 @@
 set -eu
 
 root=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
-src="$root/src"
 out="$root/public"
 build="$root/scripts/build.sh"
 port="${PORT:-3333}"
 
-hash_dir() {
-  find "$src" -type f -print | sort | while IFS= read -r file; do
+watch_files="$root/index.smol $root/scripts/smol.awk"
+
+hash_files() {
+  for file in $watch_files; do
+    if [ ! -f "$file" ]; then
+      printf '%s\n' "missing $file" >&2
+      exit 1
+    fi
     cksum "$file"
   done | cksum | awk '{print $1}'
 }
@@ -49,10 +54,10 @@ open_browser
 
 trap 'kill "$server_pid" 2>/dev/null' INT TERM EXIT
 
-printf '%s\n' "watching $src (ctrl-c to stop)"
+printf '%s\n' "watching $watch_files (ctrl-c to stop)"
 
 while :; do
-  current=$(hash_dir)
+  current=$(hash_files)
   if [ "$current" != "$last" ]; then
     last="$current"
     "$build"
