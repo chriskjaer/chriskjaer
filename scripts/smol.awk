@@ -84,7 +84,7 @@ BEGIN {
         print css_indent(css_depth) prop
         next
       }
-      if (css_text ~ /^[A-Za-z]{2,}[A-Za-z0-9_-]*[ \t]*:/) {
+      if (css_text ~ /^-?[A-Za-z][A-Za-z0-9_-]*[ \t]*:/) {
         prop = css_text
         if (prop !~ /;$/) prop = prop ";"
         print css_indent(css_depth) prop

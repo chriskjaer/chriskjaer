@@ -18,6 +18,7 @@ cat <<'HAML' > "$tmp_in"
 %style
   body
     margin: 0
+    -webkit-font-smoothing: antialiased
   a
     color: red
     &:hover
@@ -36,6 +37,7 @@ cat <<'HTML' > "$tmp_expected"
 <style>
   body {
     margin: 0;
+    -webkit-font-smoothing: antialiased;
   }
   a {
     color: red;
