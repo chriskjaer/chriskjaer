@@ -9,6 +9,14 @@ Minify: `make minify` (shrinks `public/index.html`).
 Clean: `make clean` (removes `public/index.html`).
 Test: `make test` (sanity check for smol).
 
+Smol:
+- `%tag` with `.class` / `#id` sugar.
+- Attributes: `(key="value" key2="value")`.
+- Plain text: `| some text`.
+- Raw blocks: `:raw` / `:plain` (pass-through).
+- Comments: `-# ...`.
+
 Smol CSS:
-- Use `%style` with indented selectors + properties.
+- Use `%style` with indented selectors + properties (any `%style` uses smol CSS).
 - Nested selectors: prefix with `&` (example: `&:hover`).
+- At-rules: start line with `@media ...`.
