@@ -19,7 +19,6 @@
   @include styles.smol
 
 :body
-  %script(defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token":"#{beacon_token}"}')
   %main.page
     .intro
       @include logo.smol logo_class=logo
