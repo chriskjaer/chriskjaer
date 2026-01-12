@@ -49,5 +49,9 @@ indentation in text nodes is trimmed.
 The favicon is a tiny SVG at `public/favicon.svg`, wired up in the head.
 
 The background runs a tiny Game of Life in WebAssembly, compiled from
-`wasm/life.zig`. Build requires Zig (install with `mise install zig@latest`,
-then `mise use -g zig@latest`).
+`wasm/life.zig`. Build prefers Zig (install with `mise install zig@latest`,
+then `mise use -g zig@latest`). If Zig is missing (for example on Cloudflare
+Pages), `scripts/wasm.sh` will fall back to a prebuilt `wasm/life.wasm`.
+
+To refresh the prebuilt wasm:
+`mise exec zig@latest -- zig build-exe -O ReleaseSmall -target wasm32-freestanding -fno-entry -rdynamic -femit-bin=wasm/life.wasm wasm/life.zig`.

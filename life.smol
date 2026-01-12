@@ -1,0 +1,131 @@
+%script
+  :raw
+    (() => {
+      const idle = window.requestIdleCallback || ((fn) => setTimeout(fn, 200));
+
+      idle(() => {
+        const bytes = Uint8Array.from(atob("__WASM__"), (c) => c.charCodeAt(0));
+
+        WebAssembly.instantiate(bytes, {}).then(({ instance }) => {
+          const { memory, set_size, step, ptr, splat } = instance.exports;
+          const canvas = document.getElementById("life");
+          if (!canvas) return;
+
+          const ctx = canvas.getContext("2d", { alpha: true });
+          const maxCells = 1_000_000;
+          const stepMs = 240;
+          const clusterSize = 3;
+          const clusterJitter = 2;
+
+          let width = 0;
+          let height = 0;
+          let cols = 0;
+          let rows = 0;
+          let cell = 4;
+          let grid = null;
+          let centerX = 0;
+          let centerY = 0;
+          let deadZone = 0;
+          let last = 0;
+          let acc = 0;
+          let ticks = 0;
+
+          const resize = () => {
+            const dpr = window.devicePixelRatio || 1;
+            width = window.innerWidth;
+            height = window.innerHeight;
+            canvas.width = Math.floor(width * dpr);
+            canvas.height = Math.floor(height * dpr);
+            canvas.style.width = `${width}px`;
+            canvas.style.height = `${height}px`;
+            ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+            ctx.imageSmoothingEnabled = false;
+
+            cell = 4;
+            cols = Math.max(10, Math.floor(width / cell));
+            rows = Math.max(10, Math.floor(height / cell));
+            while (cols * rows > maxCells) {
+              cell += 1;
+              cols = Math.floor(width / cell);
+              rows = Math.floor(height / cell);
+            }
+
+            centerX = cols >> 1;
+            centerY = rows >> 1;
+            deadZone = Math.max(4, Math.floor(Math.min(cols, rows) / 4));
+
+            set_size(cols, rows);
+            grid = new Uint8Array(memory.buffer, ptr(), cols * rows);
+            ctx.clearRect(0, 0, width, height);
+          };
+
+          const fade = () => {
+            ctx.fillStyle = "rgba(255,255,255,0.16)";
+            ctx.fillRect(0, 0, width, height);
+          };
+
+          const draw = () => {
+            if (!grid) return;
+            fade();
+            ctx.fillStyle = "rgba(210,200,190,0.32)";
+            for (let y = 0; y < rows; y++) {
+              const offset = y * cols;
+              for (let x = 0; x < cols; x++) {
+                if (grid[offset + x]) {
+                  ctx.fillRect(x * cell, y * cell, cell, cell);
+                }
+              }
+            }
+          };
+
+          const spawn = () => {
+            let x = Math.floor(Math.random() * cols);
+            let y = Math.floor(Math.random() * rows);
+            if (Math.abs(x - centerX) < deadZone && Math.abs(y - centerY) < deadZone) {
+              x = (x + deadZone) % cols;
+              y = (y + deadZone) % rows;
+            }
+
+            for (let i = 0; i < clusterSize; i++) {
+              const ox = Math.floor(Math.random() * (clusterJitter * 2 + 1)) - clusterJitter;
+              const oy = Math.floor(Math.random() * (clusterJitter * 2 + 1)) - clusterJitter;
+              splat((x + ox + cols) % cols, (y + oy + rows) % rows);
+            }
+          };
+
+          const tick = (time) => {
+            if (!last) last = time;
+            acc += time - last;
+            last = time;
+
+            const stepped = acc >= stepMs;
+            while (acc >= stepMs) {
+              step();
+              acc -= stepMs;
+            }
+
+            if (stepped && ++ticks % 3 === 0) {
+              spawn();
+            }
+
+            draw();
+            requestAnimationFrame(tick);
+          };
+
+          window.addEventListener("pointerdown", (event) => {
+            const target = event.target;
+            if (target && target.closest && target.closest("a")) return;
+            const rect = canvas.getBoundingClientRect();
+            const x = Math.floor((event.clientX - rect.left) / cell);
+            const y = Math.floor((event.clientY - rect.top) / cell);
+            splat(x, y);
+            draw();
+          });
+
+          window.addEventListener("resize", resize);
+
+          resize();
+          requestAnimationFrame(tick);
+        });
+      });
+    })();

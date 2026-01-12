@@ -1,4 +1,4 @@
-const max_cells: usize = 32000;
+const max_cells: usize = 1000000;
 
 var width: usize = 0;
 var height: usize = 0;
@@ -37,6 +37,32 @@ export fn set_size(cols: u32, rows: u32) void {
 
 export fn ptr() usize {
     return @intFromPtr(&grid[0]);
+}
+
+fn wrap(value: isize, max: usize) usize {
+    const m: isize = @intCast(max);
+    var v = @mod(value, m);
+    if (v < 0) v += m;
+    return @intCast(v);
+}
+
+export fn splat(x_in: u32, y_in: u32) void {
+    if (width == 0 or height == 0) return;
+
+    const w = width;
+    const h = height;
+    const x: isize = @intCast(x_in);
+    const y: isize = @intCast(y_in);
+
+    var dy: isize = -2;
+    while (dy <= 2) : (dy += 1) {
+        var dx: isize = -2;
+        while (dx <= 2) : (dx += 1) {
+            const nx = wrap(x + dx, w);
+            const ny = wrap(y + dy, h);
+            grid[ny * w + nx] = 1;
+        }
+    }
 }
 
 export fn step() void {
