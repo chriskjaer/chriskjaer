@@ -8,24 +8,43 @@ out="$root/public"
 template="$root/index.smol"
 compiler="$root/scripts/smol.awk"
 target="$out/index.html"
-wat="$root/wasm/life.wat"
+zig_src="$root/wasm/life.zig"
 
 mkdir -p "$out"
 
 awk -f "$compiler" "$template" > "$target"
 
-if command -v wat2wasm >/dev/null 2>&1; then
-  wasm_tmp=$(mktemp)
-  wat2wasm "$wat" -o "$wasm_tmp"
-  wasm_b64=$(base64 < "$wasm_tmp" | tr -d '\n')
-  tmp_html=$(mktemp)
-  awk -v wasm="$wasm_b64" '{ gsub(/__WASM__/, wasm); print }' "$target" > "$tmp_html"
-  mv "$tmp_html" "$target"
-  rm -f "$wasm_tmp"
-else
-  printf '%s\n' "missing wat2wasm (install wabt) for wasm build" >&2
+run_zig() {
+  if command -v zig >/dev/null 2>&1; then
+    zig "$@"
+    return
+  fi
+
+  if command -v mise >/dev/null 2>&1; then
+    mise exec zig@latest -- zig "$@"
+    return
+  fi
+
+  return 1
+}
+
+if ! run_zig version >/dev/null 2>&1; then
+  printf '%s\n' "missing zig (install with: mise install zig@latest && mise use -g zig@latest)" >&2
   exit 1
 fi
 
-size=$(wc -c < "$target" | tr -d ' ')
-printf '%s\n' "built $(basename "$target") ($size bytes, unminified)"
+if [ ! -f "$zig_src" ]; then
+  printf '%s\n' "missing wasm source $zig_src" >&2
+  exit 1
+fi
+
+wasm_tmp=$(mktemp)
+run_zig build-exe -O ReleaseSmall -target wasm32-freestanding -fno-entry -rdynamic \
+  -femit-bin="$wasm_tmp" "$zig_src"
+wasm_b64=$(base64 < "$wasm_tmp" | tr -d '\n')
+tmp_html=$(mktemp)
+awk -v wasm="$wasm_b64" '{ gsub(/__WASM__/, wasm); print }' "$target" > "$tmp_html"
+mv "$tmp_html" "$target"
+rm -f "$wasm_tmp"
+
+printf '%s\n' "built $(basename "$target")"

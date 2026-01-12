@@ -52,23 +52,25 @@
           let rows = 0;
           let cell = 6;
           let grid = null;
+          let viewW = 0;
+          let viewH = 0;
 
           const resize = () => {
             const dpr = window.devicePixelRatio || 1;
-            const w = window.innerWidth;
-            const h = window.innerHeight;
-            canvas.width = Math.floor(w * dpr);
-            canvas.height = Math.floor(h * dpr);
-            canvas.style.width = `${w}px`;
-            canvas.style.height = `${h}px`;
+            viewW = window.innerWidth;
+            viewH = window.innerHeight;
+            canvas.width = Math.floor(viewW * dpr);
+            canvas.height = Math.floor(viewH * dpr);
+            canvas.style.width = `${viewW}px`;
+            canvas.style.height = `${viewH}px`;
             ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-            cell = Math.max(4, Math.floor(w / 160));
-            cols = Math.max(10, Math.floor(w / cell));
-            rows = Math.max(10, Math.floor(h / cell));
+            cell = Math.max(4, Math.floor(viewW / 160));
+            cols = Math.max(10, Math.floor(viewW / cell));
+            rows = Math.max(10, Math.floor(viewH / cell));
             while (cols * rows > maxCells) {
               cell += 1;
-              cols = Math.floor(w / cell);
-              rows = Math.floor(h / cell);
+              cols = Math.floor(viewW / cell);
+              rows = Math.floor(viewH / cell);
             }
             set_size(cols, rows);
             grid = new Uint8Array(memory.buffer, ptr(), cols * rows);
@@ -95,8 +97,8 @@
 
           const draw = () => {
             if (!grid) return;
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = "rgba(36,32,26,0.08)";
+            ctx.clearRect(0, 0, viewW, viewH);
+            ctx.fillStyle = "rgba(36,32,26,0.06)";
             for (let y = 0; y < rows; y++) {
               const row = y * cols;
               for (let x = 0; x < cols; x++) {
@@ -114,7 +116,9 @@
             requestAnimationFrame(tick);
           };
 
-          canvas.addEventListener("pointerdown", (event) => {
+          window.addEventListener("pointerdown", (event) => {
+            const target = event.target;
+            if (target && target.closest && target.closest(".page")) return;
             const rect = canvas.getBoundingClientRect();
             const x = Math.floor((event.clientX - rect.left) / cell);
             const y = Math.floor((event.clientY - rect.top) / cell);

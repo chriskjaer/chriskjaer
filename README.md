@@ -49,5 +49,5 @@ indentation in text nodes is trimmed.
 The favicon is a tiny SVG at `public/favicon.svg`, wired up in the head.
 
 The background runs a tiny Game of Life in WebAssembly, compiled from
-`wasm/life.wat`. Build requires `wat2wasm` from WABT
-(for example: `brew install wabt`).
+`wasm/life.zig`. Build requires Zig (install with `mise install zig@latest`,
+then `mise use -g zig@latest`).
