@@ -4,12 +4,13 @@
 @lang en
 @charset utf-8
 
-@set name "Chris Kjær Bruhn Sørensen"
-@set landfolk_url https://landfolk.com
-@set gaest_url https://techcrunch.com/2019/01/25/airbnb-acquires-denmarks-gaest-to-expand-in-bookings-for-meetings-and-offsites
-@set linkedin_url https://www.linkedin.com/in/chriskjaer/
-@set github_url https://github.com/chriskjaer
-@set beacon_token d696baa252124d3c9e286ce4e5bf23b1
+@vars
+  name "Chris Kjær Bruhn Sørensen"
+  landfolk_url https://landfolk.com
+  gaest_url https://techcrunch.com/2019/01/25/airbnb-acquires-denmarks-gaest-to-expand-in-bookings-for-meetings-and-offsites
+  linkedin_url https://www.linkedin.com/in/chriskjaer/
+  github_url https://github.com/chriskjaer
+  beacon_token d696baa252124d3c9e286ce4e5bf23b1
 
 :head
   %style
@@ -95,7 +96,7 @@
   %script(defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token":"#{beacon_token}"}')
   %main.page
     .intro
-      @include logo.smol
+      @include logo.smol logo_class=logo
       .copy
         %h1.name
           | #{name}

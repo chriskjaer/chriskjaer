@@ -16,11 +16,15 @@ cat <<'HAML' > "$tmp_in"
 @lang en
 @charset utf-8
 @meta(name="theme-color" content="#000")
-@set who "Chris"
+
+@vars
+  who "Chris"
+  note_class=note
+  note_text "Included #{who}"
 
 :body
   %h1 Hello #{who}
-  @include HAML
+  @include INC note_class=note note_text="Included #{who}"
   %style
     body
       margin: 0
@@ -29,11 +33,11 @@ cat <<'HAML' > "$tmp_in"
 HAML
 
 cat <<'HAML' > "$tmp_include"
-%p.note
-  | Included #{who}
+%p(class="#{note_class}")
+  | #{note_text}
 HAML
 
-sed -i "" "s|@include HAML|@include $tmp_include|" "$tmp_in"
+sed -i "" "s|@include INC|@include $tmp_include|" "$tmp_in"
 
 cat <<'HTML' > "$tmp_expected"
 <!doctype html>
@@ -45,9 +49,9 @@ cat <<'HTML' > "$tmp_expected"
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#000" />
     <style>
-      body {
-        margin: 0;
-      }
+    body {
+      margin: 0;
+    }
     </style>
   </head>
   <body>
@@ -56,7 +60,7 @@ cat <<'HTML' > "$tmp_expected"
       Included Chris
     </p>
     <script>
-      console.log("Chris")
+    console.log("Chris")
     </script>
   </body>
 </html>

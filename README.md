@@ -33,9 +33,14 @@ compact:
   `<!doctype>`, `%html`, `%head`, and `%body` by hand.
 - `@title`, `@description`, `@viewport`, `@lang`, `@charset`, and `@meta(...)`
   generate the usual `<head>` tags for you.
-- `@set name value` + `#{name}` interpolation keeps repeated strings tidy.
+- `@vars` lets you set multiple values at once, and `@set name value` is there
+  for one-offs. Use `#{name}` to interpolate.
 - `@include file.smol` drops another smol file in place (relative to the file
-  doing the include).
+  doing the include). You can pass parameters inline like
+  `@include logo.smol logo_class=logo`.
 
 One small convenience: any `%style` block found in the body is moved up into the
 head, and any `%script` block is moved to the end of the body.
+
+Minify also strips a bit more: safe attribute quotes are removed and leading
+indentation in text nodes is trimmed.

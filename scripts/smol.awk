@@ -74,6 +74,23 @@ function strip_quotes(s) {
   return s
 }
 
+function set_var_line(text,   key, val) {
+  if (text == "") return
+  key = text
+  if (match(text, /^[A-Za-z0-9_-]+[ \t]*=/)) {
+    key = substr(text, 1, RLENGTH)
+    gsub(/[ \t=]/, "", key)
+    val = substr(text, RLENGTH + 1)
+  } else {
+    sub(/[ \t].*$/, "", key)
+    val = substr(text, length(key) + 1)
+  }
+  val = ltrim(val)
+  if (val ~ /^=/) val = ltrim(substr(val, 2))
+  val = interpolate(strip_quotes(val))
+  if (key != "") vars[key] = val
+}
+
 function path_dir(path,   dir) {
   dir = path
   sub(/\/[^\/]*$/, "", dir)
@@ -88,13 +105,114 @@ function join_path(dir, file) {
   return dir "/" file
 }
 
+function parse_include_parts(text,   rest, file, q, pos) {
+  include_file = ""
+  include_params = ""
+  rest = ltrim(substr(text, length("@include") + 1))
+  if (rest == "") return
+  if (rest ~ /^\"/ || rest ~ /^'/) {
+    q = substr(rest, 1, 1)
+    rest = substr(rest, 2)
+    pos = index(rest, q)
+    if (pos > 0) {
+      file = substr(rest, 1, pos - 1)
+      include_params = ltrim(substr(rest, pos + 1))
+    } else {
+      file = rest
+      include_params = ""
+    }
+  } else {
+    file = rest
+    sub(/[ \t].*$/, "", file)
+    include_params = ltrim(substr(rest, length(file) + 1))
+  }
+  include_file = interpolate(strip_quotes(file))
+}
+
 function parse_include(text) {
-  text = ltrim(substr(text, length("@include") + 1))
-  text = strip_quotes(text)
-  return interpolate(text)
+  parse_include_parts(text)
+  return include_file
+}
+
+function parse_params(params,   rest, key, val, q, pos) {
+  param_count = 0
+  rest = params
+  while (1) {
+    sub(/^[ \t]+/, "", rest)
+    if (rest == "") break
+    if (!match(rest, /^[A-Za-z0-9_-]+/)) break
+    key = substr(rest, RSTART, RLENGTH)
+    rest = substr(rest, RLENGTH + 1)
+    sub(/^[ \t]*/, "", rest)
+    if (substr(rest, 1, 1) == "=") {
+      rest = substr(rest, 2)
+      sub(/^[ \t]*/, "", rest)
+    }
+    if (substr(rest, 1, 1) == "\"" || substr(rest, 1, 1) == "'") {
+      q = substr(rest, 1, 1)
+      rest = substr(rest, 2)
+      pos = index(rest, q)
+      if (pos > 0) {
+        val = substr(rest, 1, pos - 1)
+        rest = substr(rest, pos + 1)
+      } else {
+        val = rest
+        rest = ""
+      }
+    } else if (match(rest, /^[^ \t]+/)) {
+      val = substr(rest, RSTART, RLENGTH)
+      rest = substr(rest, RLENGTH + 1)
+    } else {
+      val = ""
+      rest = ""
+    }
+    val = interpolate(strip_quotes(val))
+    include_param_keys[++param_count] = key
+    include_param_vals[param_count] = val
+  }
+  return param_count
+}
+
+function vars_push(count,   i, key) {
+  if (count <= 0) return
+  vars_depth++
+  vars_frame_count[vars_depth] = count
+  for (i = 1; i <= count; i++) {
+    key = include_param_keys[i]
+    vars_frame_keys[vars_depth, i] = key
+    if (key in vars) {
+      vars_frame_has[vars_depth, i] = 1
+      vars_frame_prev[vars_depth, i] = vars[key]
+    } else {
+      vars_frame_has[vars_depth, i] = 0
+      vars_frame_prev[vars_depth, i] = ""
+    }
+    vars[key] = include_param_vals[i]
+  }
+}
+
+function vars_pop(   i, key) {
+  if (vars_depth <= 0) return
+  for (i = vars_frame_count[vars_depth]; i >= 1; i--) {
+    key = vars_frame_keys[vars_depth, i]
+    if (vars_frame_has[vars_depth, i]) {
+      vars[key] = vars_frame_prev[vars_depth, i]
+    } else {
+      delete vars[key]
+    }
+  }
+  vars_frame_count[vars_depth] = 0
+  vars_depth--
 }
 
 function handle_directive(text, indent, file_dir, line,   rest, key, val, attrs, inc, path, prefix) {
+  if (text ~ /^@vars([ \t]|$)/) {
+    vars_mode = 1
+    vars_indent = indent
+    vars_base_indent = -1
+    return 1
+  }
+
   if (match(text, /^@set[ \t]+/)) {
     rest = ltrim(substr(text, RLENGTH + 1))
     key = rest
@@ -145,11 +263,19 @@ function handle_directive(text, indent, file_dir, line,   rest, key, val, attrs,
   }
 
   if (match(text, /^@include[ \t]+/)) {
-    inc = parse_include(text)
+    parse_include_parts(text)
+    inc = include_file
     if (inc == "") return 1
     path = join_path(file_dir, inc)
-    prefix = substr(line, 1, indent)
+    if (section_name != "") {
+      prefix = sprintf("%*s", section_base_indent + indent, "")
+    } else {
+      prefix = substr(line, 1, indent)
+    }
+    param_count = parse_params(include_params)
+    vars_push(param_count)
     process_file(path, prefix)
+    vars_pop()
     return 1
   }
 
@@ -183,6 +309,19 @@ function process_line(line, file_dir,   indent, text, ch, pos, c, tag, id, class
   text = rtrim(ltrim(line))
 
   if (text ~ /^-#/) return
+
+  if (vars_mode) {
+    if (indent <= vars_indent) {
+      vars_mode = 0
+      vars_base_indent = -1
+    } else {
+      if (vars_base_indent < 0) vars_base_indent = indent
+      text = rtrim(ltrim(substr(line, vars_base_indent + 1)))
+      if (text ~ /^-#/ || text == "") return
+      set_var_line(text)
+      return
+    }
+  }
 
   if (autowrap && section_name == "") {
     if (text ~ /^:head([ \t]|$)/) {
@@ -554,6 +693,10 @@ BEGIN {
   ARGC = 1
 
   reset_state()
+  vars_mode = 0
+  vars_indent = -1
+  vars_base_indent = -1
+  vars_depth = 0
 
   found_html = 0
   found_sections = 0

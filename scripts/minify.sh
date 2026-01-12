@@ -12,7 +12,7 @@ fi
 tmp=$(mktemp)
 tmp_css=$(mktemp)
 
-tr -s ' \t\r\n' ' ' < "$file" | sed 's/> </></g; s/^ //; s/ $//' > "$tmp"
+tr -s ' \t\r\n' ' ' < "$file" | sed -E 's/> </></g; s/^ //; s/ $//; s/>[[:space:]]+([^<[:space:]])/>\1/g; s/="([^"[:space:]=<>`]+)"/=\1/g' > "$tmp"
 
 awk '
 function mincss(css,   t) {
