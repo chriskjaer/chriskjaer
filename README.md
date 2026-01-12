@@ -9,6 +9,7 @@ Common tasks live behind `make`:
 - `make minify` shrinks `public/index.html`.
 - `make clean` removes `public/index.html`.
 - `make test` runs a small sanity check for smol.
+- `make fmt` normalizes indentation and trims trailing whitespace in smol files.
 
 Smol is a tiny HAML-ish markup language compiled by `scripts/smol.awk`. The
 entire site lives in `index.smol`, which becomes `public/index.html`.
@@ -44,3 +45,5 @@ head, and any `%script` block is moved to the end of the body.
 
 Minify also strips a bit more: safe attribute quotes are removed and leading
 indentation in text nodes is trimmed.
+
+The favicon is a tiny SVG at `public/favicon.svg`, wired up in the head.

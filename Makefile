@@ -1,6 +1,6 @@
 SHELL := /bin/sh
 
-.PHONY: build dev minify clean test
+.PHONY: build dev minify clean test fmt
 
 build:
 	@./scripts/build.sh
@@ -17,3 +17,6 @@ clean:
 
 test:
 	@./scripts/smol_test.sh
+
+fmt:
+	@./scripts/smol_fmt.sh
