@@ -10,7 +10,6 @@
   gaest_url https://techcrunch.com/2019/01/25/airbnb-acquires-denmarks-gaest-to-expand-in-bookings-for-meetings-and-offsites
   linkedin_url https://www.linkedin.com/in/chriskjaer/
   github_url https://github.com/chriskjaer
-  beacon_token d696baa252124d3c9e286ce4e5bf23b1
 
 :head
   %link(rel="icon" type="image/svg+xml" href="/favicon.svg")
@@ -19,6 +18,7 @@
   @include styles.smol
 
 :body
+  %canvas#life.life
   %main.page
     .intro
       @include logo.smol logo_class=logo
@@ -37,3 +37,95 @@
     .links
       %a(href="#{linkedin_url}") LinkedIn
       %a(href="#{github_url}") Github
+
+  %script
+    :raw
+      (() => {
+        const wasmBase64 = "__WASM__";
+        const bytes = Uint8Array.from(atob(wasmBase64), c => c.charCodeAt(0));
+        WebAssembly.instantiate(bytes, {}).then(({ instance }) => {
+          const { memory, set_size, step, ptr } = instance.exports;
+          const canvas = document.getElementById("life");
+          const ctx = canvas.getContext("2d", { alpha: true });
+          const maxCells = 32000;
+          let cols = 0;
+          let rows = 0;
+          let cell = 6;
+          let grid = null;
+
+          const resize = () => {
+            const dpr = window.devicePixelRatio || 1;
+            const w = window.innerWidth;
+            const h = window.innerHeight;
+            canvas.width = Math.floor(w * dpr);
+            canvas.height = Math.floor(h * dpr);
+            canvas.style.width = `${w}px`;
+            canvas.style.height = `${h}px`;
+            ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+            cell = Math.max(4, Math.floor(w / 160));
+            cols = Math.max(10, Math.floor(w / cell));
+            rows = Math.max(10, Math.floor(h / cell));
+            while (cols * rows > maxCells) {
+              cell += 1;
+              cols = Math.floor(w / cell);
+              rows = Math.floor(h / cell);
+            }
+            set_size(cols, rows);
+            grid = new Uint8Array(memory.buffer, ptr(), cols * rows);
+            seed(0.12);
+          };
+
+          const seed = (density) => {
+            if (!grid) return;
+            for (let i = 0; i < grid.length; i++) {
+              grid[i] = Math.random() < density ? 1 : 0;
+            }
+          };
+
+          const splat = (x, y) => {
+            if (!grid) return;
+            for (let dy = -2; dy <= 2; dy++) {
+              for (let dx = -2; dx <= 2; dx++) {
+                const nx = (x + dx + cols) % cols;
+                const ny = (y + dy + rows) % rows;
+                grid[ny * cols + nx] = 1;
+              }
+            }
+          };
+
+          const draw = () => {
+            if (!grid) return;
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = "rgba(36,32,26,0.08)";
+            for (let y = 0; y < rows; y++) {
+              const row = y * cols;
+              for (let x = 0; x < cols; x++) {
+                if (grid[row + x]) {
+                  ctx.fillRect(x * cell, y * cell, cell, cell);
+                }
+              }
+            }
+          };
+
+          const tick = () => {
+            step();
+            grid = new Uint8Array(memory.buffer, ptr(), cols * rows);
+            draw();
+            requestAnimationFrame(tick);
+          };
+
+          canvas.addEventListener("pointerdown", (event) => {
+            const rect = canvas.getBoundingClientRect();
+            const x = Math.floor((event.clientX - rect.left) / cell);
+            const y = Math.floor((event.clientY - rect.top) / cell);
+            splat(x, y);
+          });
+
+          window.addEventListener("resize", () => {
+            resize();
+          });
+
+          resize();
+          requestAnimationFrame(tick);
+        });
+      })();

@@ -47,3 +47,7 @@ Minify also strips a bit more: safe attribute quotes are removed and leading
 indentation in text nodes is trimmed.
 
 The favicon is a tiny SVG at `public/favicon.svg`, wired up in the head.
+
+The background runs a tiny Game of Life in WebAssembly, compiled from
+`wasm/life.wat`. Build requires `wat2wasm` from WABT
+(for example: `brew install wabt`).
