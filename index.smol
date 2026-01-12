@@ -11,86 +11,11 @@
   linkedin_url https://www.linkedin.com/in/chriskjaer/
   github_url https://github.com/chriskjaer
   beacon_token d696baa252124d3c9e286ce4e5bf23b1
+  favicon "data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20300%20300%22%3E%3Ccircle%20cx%3D%22150%22%20cy%3D%22150%22%20r%3D%22150%22%20fill%3D%22%2324201a%22%2F%3E%3Cpath%20fill%3D%22%23fff%22%20d%3D%22M190.306%20143.348q5.997-4.832%2011.629-7.169%205.629-2.336%2011.365-2.337%204.245.001%208.92%201.487l3.611-14.869q-4.356-1.698-7.328-1.699-7.436.001-17.736%206.637-10.303%206.64-23.1%2021.083-12.8%2014.446-21.082%2026.339%203.186-12.532%207.01-30.693l6.16-29.312c4.104-19.612%209.396-45.518%2011.877-55.714l-2.656-2.019q-13.7%205.312-33.454%208.391l-.85.956-.318%202.655.85.85%208.921.106q4.673%200%206.106%201.062%201.435%201.064%201.435%203.293-.001%202.337-.743%206.479l-4.93%2033.197c-1.66%2011.689-2.904%2025.642-7.187%2046.422-2.617%2012.692-3.635%2017.625-5.713%2025.033-8.412%206.176-15.025%2010.286-19.82%2012.3q-7.33%203.082-14.02%203.081c-5.453%200-11.914-2-15.383-6.002-3.47-3.999-5.578-10.948-6.032-16.735-.692-8.822%203.958-22.228%209.085-33.182%2011.145-23.812%2022.439-29.146%2035.478-29.146%207%200%209.821%203.027%2010.671%204.302s1.522%204.08%201.522%206.417c0%20.992.142%202.195.142%203.61v7.116l.353.557h3.293l.85-.703c1.296-9.404%202.186-18.604%203.673-25.522l-.318-1.345c-5.028-3.468-11.096-5.267-17.949-4.186-13.235%202.088-27.713%2013.049-30.901%2015.754-15.496%2013.146-23.335%2027.786-27.332%2038.742-7.349%2020.143-4.7%2036.099%205.024%2044.348%206.801%205.769%2011.045%207.125%2019.754%207.125q9.878%200%2020.657-5.788c5.837-3.134%2012.14-7.374%2018.891-12.683-.982%203.255-2.163%207.105-3.642%2011.928l-12.204%2041.181s-1.054%201.548.806%201.38%2019.333-5.657%2019.547-7.23l4.446-32.674q1.274-7.647%202.762-13.488%201.486-5.84%202.708-8.762a33%2033%200%200%201%203.026-5.63q1.804-2.709%208.285-10.673%206.796%2019.224%209.026%2025.224%202.228%206.002%206.268%2015.453%204.033%209.455%206.266%2012.691%202.228%203.238%203.451%203.931%201.219.689%202.283.689%202.229-.002%206.957-2.655%204.724-2.654%2019.701-13.7l.318-1.274-1.062-2.549-1.168-.319-3.293%202.019q-7.965%204.885-10.938%204.885-1.277.001-3.08-1.168c-1.207-.778-2.867-3.222-4.992-7.329q-3.186-6.157-9.293-21.452-6.108-15.293-9.719-26.659%207.112-7.225%2013.116-12.057%22%2F%3E%3C%2Fsvg%3E"
 
 :head
-  %style
-    *
-      box-sizing: border-box
-    body
-      margin: 0
-      font-family: avenir next, avenir, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"
-      -webkit-font-smoothing: antialiased
-    a
-      color: #d86738
-      text-decoration: underline
-    .page
-      min-height: 100vh
-      display: flex
-      flex-direction: column
-      align-items: center
-      justify-content: center
-    .intro
-      display: flex
-      align-items: center
-      justify-content: center
-      padding: 0 1rem
-    .logo
-      width: 4rem
-      height: 4rem
-      display: block
-      flex: 0 0 auto
-    .copy
-      border-left: 1px solid #d1d5db
-      padding: 1.5rem 0 1.5rem 2rem
-      margin-left: 1rem
-    .name
-      font-family: Palatino Linotype, Palatino, Palladio, URW Palladio L, ui-serif, Georgia, Cambria, "Times New Roman", Times, serif
-      font-size: 2rem
-      font-weight: 700
-      line-height: 1
-      margin: 0 0 .5rem
-    .role
-      margin: 0 0 .25rem
-      font-size: .875rem
-    .past
-      margin: 0
-      font-style: italic
-      font-size: .875rem
-    .links
-      margin-top: 4rem
-      display: flex
-      gap: 1rem
-      font-size: .75rem
-    .break
-      display: none
-    @media (min-width: 30em)
-      .logo
-        margin-right: 1rem
-      .role
-        font-size: 1rem
-      .links
-        margin-bottom: 4rem
-    @media (max-width: 30em)
-      .intro
-        flex-direction: column
-      .logo
-        margin-bottom: 1rem
-      .copy
-        border-left: 0
-        border-top: 1px solid #d1d5db
-        margin-left: 0
-        margin-top: 1rem
-        padding: 2rem 0 0
-        text-align: center
-      .name
-        font-size: 1.5rem
-        margin-bottom: 1rem
-      .break
-        display: block
-    @media (max-width: 60em)
-      .past
-        font-size: .75rem
-        margin-top: 1rem
+  %link(rel="icon" type="image/svg+xml" href="#{favicon}")
+  @include styles.smol
 
 :body
   %script(defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token":"#{beacon_token}"}')
