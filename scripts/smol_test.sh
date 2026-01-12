@@ -7,51 +7,65 @@ compiler="$root/scripts/smol.awk"
 tmp_in=$(mktemp)
 tmp_out=$(mktemp)
 tmp_expected=$(mktemp)
+tmp_include=$(mktemp)
 
 cat <<'HAML' > "$tmp_in"
-%div#app.container
-  %h1 Hello
-  %img(src="/logo.svg" alt="logo")
-  %p
-    | plain text
-  %p.note Secondary
-%style
-  body
-    margin: 0
-    -webkit-font-smoothing: antialiased
-  a
-    color: red
-    &:hover
-      color: blue
+@title Smol Test
+@description Example site
+@viewport width=device-width, initial-scale=1
+@lang en
+@charset utf-8
+@meta(name="theme-color" content="#000")
+@set who "Chris"
+
+:body
+  %h1 Hello #{who}
+  @include HAML
+  %style
+    body
+      margin: 0
+  %script
+    | console.log("#{who}")
 HAML
 
+cat <<'HAML' > "$tmp_include"
+%p.note
+  | Included #{who}
+HAML
+
+sed -i "" "s|@include HAML|@include $tmp_include|" "$tmp_in"
+
 cat <<'HTML' > "$tmp_expected"
-<div id="app" class="container">
-  <h1>Hello</h1>
-  <img src="/logo.svg" alt="logo" />
-  <p>
-    plain text
-  </p>
-  <p class="note">Secondary</p>
-</div>
-<style>
-  body {
-    margin: 0;
-    -webkit-font-smoothing: antialiased;
-  }
-  a {
-    color: red;
-  }
-  a:hover {
-    color: blue;
-  }
-</style>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Smol Test</title>
+    <meta name="description" content="Example site" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000" />
+    <style>
+      body {
+        margin: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Hello Chris</h1>
+    <p class="note">
+      Included Chris
+    </p>
+    <script>
+      console.log("Chris")
+    </script>
+  </body>
+</html>
 HTML
 
 awk -f "$compiler" "$tmp_in" > "$tmp_out"
 
 diff -u "$tmp_expected" "$tmp_out"
 
-rm -f "$tmp_in" "$tmp_out" "$tmp_expected"
+rm -f "$tmp_in" "$tmp_out" "$tmp_expected" "$tmp_include"
 
 printf '%s\n' "smol test ok"

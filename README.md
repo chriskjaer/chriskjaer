@@ -26,3 +26,16 @@ Smol CSS lives inside any `%style` block and follows the same indentation rules:
 - Indent selectors and properties.
 - Nest selectors with `&` (for example, `&:hover`).
 - Start at-rules with `@media ...`.
+
+Smol also has a tiny top-level DSL for wrapping the page and keeping things
+compact:
+- `:head` and `:body` become the document wrapper, so you can skip writing
+  `<!doctype>`, `%html`, `%head`, and `%body` by hand.
+- `@title`, `@description`, `@viewport`, `@lang`, `@charset`, and `@meta(...)`
+  generate the usual `<head>` tags for you.
+- `@set name value` + `#{name}` interpolation keeps repeated strings tidy.
+- `@include file.smol` drops another smol file in place (relative to the file
+  doing the include).
+
+One small convenience: any `%style` block found in the body is moved up into the
+head, and any `%script` block is moved to the end of the body.
