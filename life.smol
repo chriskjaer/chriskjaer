@@ -16,6 +16,7 @@
           const stepMs = 240;
           const clusterSize = 3;
           const clusterJitter = 2;
+          const spawnEvery = 6;
 
           let width = 0;
           let height = 0;
@@ -104,7 +105,7 @@
               acc -= stepMs;
             }
 
-            if (stepped && ++ticks % 3 === 0) {
+            if (stepped && ++ticks % spawnEvery === 0) {
               spawn();
             }
 
