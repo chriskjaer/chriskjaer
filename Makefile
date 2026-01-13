@@ -2,7 +2,7 @@ SHELL := /bin/sh
 
 .PHONY: build dev minify clean test fmt wasm
 
-build: wasm
+build:
 	@./scripts/build.sh
 	@./scripts/minify.sh
 
@@ -22,4 +22,4 @@ fmt:
 	@./scripts/smol_fmt.sh
 
 wasm:
-	@./scripts/wasm.sh >/dev/null
+	@./scripts/wasm_build.sh

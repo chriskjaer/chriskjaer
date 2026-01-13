@@ -5,6 +5,7 @@ var height: usize = 0;
 
 var grid: [max_cells]u8 = [_]u8{0} ** max_cells;
 var next: [max_cells]u8 = [_]u8{0} ** max_cells;
+var rng_state: u32 = 1;
 
 export fn set_size(cols: u32, rows: u32) void {
     if (cols == 0 or rows == 0) {
@@ -37,6 +38,28 @@ export fn set_size(cols: u32, rows: u32) void {
 
 export fn ptr() usize {
     return @intFromPtr(&grid[0]);
+}
+
+fn rand_u32() u32 {
+    rng_state = rng_state * 1664525 + 1013904223;
+    return rng_state;
+}
+
+export fn seed(density: f32, seed_value: u32) void {
+    if (width == 0 or height == 0) return;
+
+    rng_state = if (seed_value == 0) 1 else seed_value;
+    var d = density;
+    if (d < 0) d = 0;
+    if (d > 1) d = 1;
+
+    const threshold: u32 = @intFromFloat(d * 4294967295.0);
+    const size = width * height;
+    var i: usize = 0;
+    while (i < size) : (i += 1) {
+        grid[i] = if (rand_u32() <= threshold) 1 else 0;
+        next[i] = 0;
+    }
 }
 
 fn wrap(value: isize, max: usize) usize {

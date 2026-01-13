@@ -7,7 +7,7 @@
         const bytes = Uint8Array.from(atob("__WASM__"), (c) => c.charCodeAt(0));
 
         WebAssembly.instantiate(bytes, {}).then(({ instance }) => {
-          const { memory, set_size, step, ptr, splat } = instance.exports;
+          const { memory, set_size, seed, step, ptr, splat } = instance.exports;
           const canvas = document.getElementById("life");
           if (!canvas) return;
 
@@ -17,6 +17,7 @@
           const clusterSize = 3;
           const clusterJitter = 2;
           const spawnEvery = 6;
+          const seedDensity = 0.06;
 
           let width = 0;
           let height = 0;
@@ -57,6 +58,7 @@
 
             set_size(cols, rows);
             grid = new Uint8Array(memory.buffer, ptr(), cols * rows);
+            seed(seedDensity, Math.floor(Math.random() * 0x100000000));
             ctx.clearRect(0, 0, width, height);
           };
 

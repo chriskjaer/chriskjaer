@@ -12,7 +12,8 @@ Common tasks live behind `make`:
 - `make fmt` normalizes indentation and trims trailing whitespace in smol files.
 
 Smol is a tiny HAML-ish markup language compiled by `scripts/smol.awk`. The
-entire site lives in `index.smol`, which becomes `public/index.html`.
+entire site lives in `index.smol`, which becomes `public/index.html`. Shared
+partials live in `smol/`.
 If you want syntax highlighting in Neovim, grab the smol syntax file from my
 dotfiles here: https://github.com/chriskjaer/dotfiles/blob/master/common/config/nvim/syntax/smol.vim
 
@@ -38,7 +39,7 @@ compact:
   for one-offs. Use `#{name}` to interpolate.
 - `@include file.smol` drops another smol file in place (relative to the file
   doing the include). You can pass parameters inline like
-  `@include logo.smol logo_class=logo`.
+  `@include smol/logo.smol logo_class=logo`.
 
 One small convenience: any `%style` block found in the body is moved up into the
 head, and any `%script` block is moved to the end of the body.
@@ -49,9 +50,8 @@ indentation in text nodes is trimmed.
 The favicon is a tiny SVG at `public/favicon.svg`, wired up in the head.
 
 The background runs a tiny Game of Life in WebAssembly, compiled from
-`wasm/life.zig`. Build prefers Zig (install with `mise install zig@latest`,
-then `mise use -g zig@latest`). If Zig is missing (for example on Cloudflare
-Pages), `scripts/wasm.sh` will fall back to a prebuilt `wasm/life.wasm`.
+`wasm/life.zig`. The build uses a prebuilt `wasm/life.wasm.b64` so Cloudflare
+Pages never needs Zig.
 
 To refresh the prebuilt wasm:
-`mise exec zig@latest -- zig build-exe -O ReleaseSmall -target wasm32-freestanding -fno-entry -rdynamic -femit-bin=wasm/life.wasm wasm/life.zig`.
+`make wasm` (or run `scripts/wasm_build.sh` directly).
