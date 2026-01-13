@@ -17,8 +17,10 @@
           const stepMs = 240;
           const clusterSize = 3;
           const clusterJitter = 2;
-          const spawnEvery = 6;
-          const seedDensity = 0.06;
+          const spawnEvery = 12;
+          const seedDensity = 0;
+          const burstCount = 6;
+          const resetEvery = 480;
 
           let width = 0;
           let height = 0;
@@ -32,6 +34,14 @@
           let last = 0;
           let acc = 0;
           let ticks = 0;
+
+          const reset = () => {
+            seed(seedDensity, Math.floor(Math.random() * 0x100000000));
+            for (let i = 0; i < burstCount; i++) {
+              spawn();
+            }
+            ctx.clearRect(0, 0, width, height);
+          };
 
           const resize = () => {
             const dpr = window.devicePixelRatio || 1;
@@ -59,8 +69,7 @@
 
             set_size(cols, rows);
             grid = new Uint8Array(memory.buffer, ptr(), cols * rows);
-            seed(seedDensity, Math.floor(Math.random() * 0x100000000));
-            ctx.clearRect(0, 0, width, height);
+            reset();
           };
 
           const fade = () => {
@@ -108,8 +117,13 @@
               acc -= stepMs;
             }
 
-            if (stepped && ++ticks % spawnEvery === 0) {
-              spawn();
+            if (stepped) {
+              ticks += 1;
+              if (ticks % resetEvery === 0) {
+                reset();
+              } else if (ticks % spawnEvery === 0) {
+                spawn();
+              }
             }
 
             draw();

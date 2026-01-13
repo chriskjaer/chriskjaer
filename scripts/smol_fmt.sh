@@ -4,7 +4,7 @@ set -eu
 root=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
 
 if [ "$#" -eq 0 ]; then
-  set -- "$root/index.smol" "$root/includes/logo.smol" "$root/includes/styles.smol" "$root/includes/life.smol"
+  set -- "$root/src/index.smol" "$root/src/includes/logo.smol" "$root/src/includes/styles.smol" "$root/src/includes/life.smol"
 fi
 
 for file in "$@"; do

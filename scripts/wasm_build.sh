@@ -2,7 +2,7 @@
 set -eu
 
 root=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
-zig_src="$root/wasm/life.zig"
+zig_src="$root/src/wasm/life.zig"
 out_wasm="$root/public/life.wasm"
 
 run_zig() {

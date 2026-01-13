@@ -4,7 +4,7 @@ This will probably always be a work in progress; I never stop bikeshedding and I
 somehow keep overengineering even the simplest things.
 
 Common tasks live behind `make`:
-- `make build` compiles `index.smol` into `public/index.html`.
+- `make build` compiles `src/index.smol` into `public/index.html`.
 - `make dev` starts a local server, opens the page, and rebuilds on changes.
 - `make minify` shrinks `public/index.html`.
 - `make clean` removes `public/index.html`.
@@ -12,8 +12,8 @@ Common tasks live behind `make`:
 - `make fmt` normalizes indentation and trims trailing whitespace in smol files.
 
 Smol is a tiny HAML-ish markup language compiled by `scripts/smol.awk`. The
-entire site lives in `index.smol`, which becomes `public/index.html`. Shared
-partials live in `includes/`.
+entire site lives in `src/index.smol`, which becomes `public/index.html`. Shared
+partials live in `src/includes/`.
 If you want syntax highlighting in Neovim, grab the smol syntax file from my
 dotfiles here: https://github.com/chriskjaer/dotfiles/blob/master/common/config/nvim/syntax/smol.vim
 
@@ -50,7 +50,7 @@ indentation in text nodes is trimmed.
 The favicon is a tiny SVG at `public/favicon.svg`, wired up in the head.
 
 The background runs a tiny Game of Life in WebAssembly, compiled from
-`wasm/life.zig`. The build drops `public/life.wasm`, so the page fetches it at
+`src/wasm/life.zig`. The build drops `public/life.wasm`, so the page fetches it at
 runtime and Cloudflare doesn’t need Zig.
 
 To refresh the wasm:

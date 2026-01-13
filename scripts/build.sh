@@ -5,7 +5,7 @@ root=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
 
 out="$root/public"
 
-template="$root/index.smol"
+template="$root/src/index.smol"
 compiler="$root/scripts/smol.awk"
 target="$out/index.html"
 
