@@ -14,13 +14,13 @@
 
           const ctx = canvas.getContext("2d", { alpha: true });
           const maxCells = 1_000_000;
-          const stepMs = 240;
+          const stepMs = 180;
           const clusterSize = 3;
           const clusterJitter = 2;
-          const spawnEvery = 12;
-          const seedDensity = 0;
-          const burstCount = 6;
+          const spawnEvery = 8;
+          const seedDensity = 0.00;
           const resetEvery = 480;
+          const initialDelay = 1;
 
           let width = 0;
           let height = 0;
@@ -34,13 +34,13 @@
           let last = 0;
           let acc = 0;
           let ticks = 0;
+          let nextSpawn = initialDelay;
 
           const reset = () => {
             seed(seedDensity, Math.floor(Math.random() * 0x100000000));
-            for (let i = 0; i < burstCount; i++) {
-              spawn();
-            }
             ctx.clearRect(0, 0, width, height);
+            ticks = 0;
+            nextSpawn = initialDelay;
           };
 
           const resize = () => {
@@ -121,8 +121,9 @@
               ticks += 1;
               if (ticks % resetEvery === 0) {
                 reset();
-              } else if (ticks % spawnEvery === 0) {
+              } else if (ticks >= nextSpawn) {
                 spawn();
+                nextSpawn += spawnEvery;
               }
             }
 
