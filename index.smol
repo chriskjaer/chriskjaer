@@ -15,13 +15,13 @@
   %link(rel="icon" type="image/svg+xml" href="/favicon.svg")
   %meta(name="theme-color" content="#24201a")
   %meta(name="color-scheme" content="light")
-  @include smol/styles.smol
+  @include includes/styles.smol
 
 :body
   %canvas#life.life
   %main.page
     .intro
-      @include smol/logo.smol logo_class=logo
+      @include includes/logo.smol logo_class=logo
       .copy
         %h1.name
           | #{name}
@@ -38,4 +38,4 @@
       %a(href="#{linkedin_url}") LinkedIn
       %a(href="#{github_url}") Github
 
-  @include smol/life.smol
+  @include includes/life.smol

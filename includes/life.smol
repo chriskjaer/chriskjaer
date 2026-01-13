@@ -4,10 +4,11 @@
       const idle = window.requestIdleCallback || ((fn) => setTimeout(fn, 200));
 
       idle(() => {
-        const bytes = Uint8Array.from(atob("__WASM__"), (c) => c.charCodeAt(0));
-
-        WebAssembly.instantiate(bytes, {}).then(({ instance }) => {
-          const { memory, set_size, seed, step, ptr, splat } = instance.exports;
+        fetch("/life.wasm")
+          .then((res) => res.arrayBuffer())
+          .then((buffer) => WebAssembly.instantiate(buffer, {}))
+          .then(({ instance }) => {
+            const { memory, set_size, seed, step, ptr, splat } = instance.exports;
           const canvas = document.getElementById("life");
           if (!canvas) return;
 
@@ -127,8 +128,9 @@
 
           window.addEventListener("resize", resize);
 
-          resize();
-          requestAnimationFrame(tick);
-        });
+            resize();
+            requestAnimationFrame(tick);
+          })
+          .catch(() => {});
       });
     })();

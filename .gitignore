@@ -15,7 +15,6 @@
 # production
 /build
 /public/index.html
-wasm/*.wasm
 
 # misc
 .DS_Store

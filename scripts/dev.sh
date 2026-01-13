@@ -6,7 +6,7 @@ out="$root/public"
 build="$root/scripts/build.sh"
 port="${PORT:-3333}"
 
-watch_files="$root/index.smol $root/smol/life.smol $root/smol/styles.smol $root/smol/logo.smol $root/wasm/life.wasm.b64 $root/scripts/smol.awk $root/scripts/wasm_build.sh"
+watch_files="$root/index.smol $root/includes/life.smol $root/includes/styles.smol $root/includes/logo.smol $root/wasm/life.zig $root/public/life.wasm $root/scripts/smol.awk $root/scripts/wasm_build.sh"
 
 hash_files() {
   for file in $watch_files; do
