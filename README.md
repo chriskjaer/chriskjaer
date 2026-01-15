@@ -18,13 +18,13 @@ If you want syntax highlighting in Neovim, grab the smol syntax file from my
 dotfiles here: https://github.com/chriskjaer/dotfiles/blob/master/common/config/nvim/syntax/smol.vim
 
 Smol syntax overview:
-- `%tag` creates elements, with `.class` and `#id` sugar.
+- `tag` creates elements (preferred), with `.class` and `#id` sugar. `%tag` still works.
 - Attributes go in parentheses, like `(key="value" other="value")`.
-- Plain text uses `| some text`.
+- Plain text uses `| some text` (bare words are tags now).
 - Raw blocks use `:raw` or `:plain` for pass-through content.
 - Comments start with `-#`.
 
-Smol CSS lives inside any `%style` block and follows the same indentation rules:
+Smol CSS lives inside any `style` block and follows the same indentation rules:
 - Indent selectors and properties.
 - Nest selectors with `&` (for example, `&:hover`).
 - Start at-rules with `@media ...`.
@@ -32,7 +32,7 @@ Smol CSS lives inside any `%style` block and follows the same indentation rules:
 Smol also has a tiny top-level DSL for wrapping the page and keeping things
 compact:
 - `:head` and `:body` become the document wrapper, so you can skip writing
-  `<!doctype>`, `%html`, `%head`, and `%body` by hand.
+  `<!doctype>`, `html`, `head`, and `body` by hand.
 - `@title`, `@description`, `@viewport`, `@lang`, `@charset`, and `@meta(...)`
   generate the usual `<head>` tags for you.
 - `@vars` lets you set multiple values at once, and `@set name value` is there
@@ -41,8 +41,8 @@ compact:
   doing the include). You can pass parameters inline like
   `@include includes/logo.smol logo_class=logo`.
 
-One small convenience: any `%style` block found in the body is moved up into the
-head, and any `%script` block is moved to the end of the body.
+One small convenience: any `style` block found in the body is moved up into the
+head, and any `script` block is moved to the end of the body.
 
 Minify also strips a bit more: safe attribute quotes are removed and leading
 indentation in text nodes is trimmed.

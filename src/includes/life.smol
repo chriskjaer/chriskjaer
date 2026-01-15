@@ -1,4 +1,4 @@
-%script
+script
   :raw
     (() => {
       const idle = window.requestIdleCallback || ((fn) => setTimeout(fn, 200));

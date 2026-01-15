@@ -12,30 +12,30 @@
   github_url https://github.com/chriskjaer
 
 :head
-  %link(rel="icon" type="image/svg+xml" href="/favicon.svg")
-  %meta(name="theme-color" content="#24201a")
-  %meta(name="color-scheme" content="light")
+  link(rel="icon" type="image/svg+xml" href="/favicon.svg")
+  meta(name="theme-color" content="#24201a")
+  meta(name="color-scheme" content="light")
   @include includes/styles.smol
 
 :body
-  %canvas#life.life
-  %main.page
+  canvas#life.life
+  main.page
     .intro
       @include includes/logo.smol logo_class=logo
       .copy
-        %h1.name
+        h1.name
           | #{name}
-        %p.role
+        p.role
           | Creative Developer, Software Engineer.
-          %br.break
+          br.break
           | CTO & Co-Founder of
-          %a(href="#{landfolk_url}") Landfolk
-        %p.past
+          a(href="#{landfolk_url}") Landfolk
+        p.past
           | Previously: Co-Founder of
-          %a(href="#{gaest_url}") Gaest.com
+          a(href="#{gaest_url}") Gaest.com
           | , ex-Airbnb.
     .links
-      %a(href="#{linkedin_url}") LinkedIn
-      %a(href="#{github_url}") Github
+      a(href="#{linkedin_url}") LinkedIn
+      a(href="#{github_url}") Github
 
   @include includes/life.smol

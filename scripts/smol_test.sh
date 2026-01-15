@@ -23,17 +23,17 @@ cat <<'HAML' > "$tmp_in"
   note_text "Included #{who}"
 
 :body
-  %h1 Hello #{who}
+  h1 Hello #{who}
   @include INC note_class=note note_text="Included #{who}"
-  %style
+  style
     body
       margin: 0
-  %script
+  script
     | console.log("#{who}")
 HAML
 
 cat <<'HAML' > "$tmp_include"
-%p(class="#{note_class}")
+p(class="#{note_class}")
   | #{note_text}
 HAML
 

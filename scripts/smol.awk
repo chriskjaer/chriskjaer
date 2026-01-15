@@ -435,7 +435,7 @@ function process_line(line, file_dir,   indent, text, ch, pos, c, tag, id, class
   }
 
   ch = substr(text, 1, 1)
-  if (ch != "%" && ch != "." && ch != "#") {
+  if (ch != "%" && ch != "." && ch != "#" && text !~ /^[A-Za-z]/) {
     emit(indent_str(stack_depth) text)
     return
   }
@@ -445,6 +445,10 @@ function process_line(line, file_dir,   indent, text, ch, pos, c, tag, id, class
   if (ch == "%") {
     pos = 2
     tag = ""
+  } else if (ch ~ /[A-Za-z]/) {
+    tag = ""
+  }
+  if (tag == "") {
     while (pos <= length(text)) {
       c = substr(text, pos, 1)
       if (c ~ /[A-Za-z0-9_-]/) {
@@ -578,18 +582,49 @@ function process_file(path, prefix,   line, full, prev_dir, dir) {
   include_depth--
 }
 
-function scan_file(path,   line, text, dir, inc) {
+function scan_file(path,   line, text, dir, inc, indent) {
   if (scan_stack[path]++) return
+  css_scan = 0
+  css_scan_indent = -1
+  raw_scan = 0
+  raw_scan_indent = -1
   dir = path_dir(path)
   while ((getline line < path) > 0) {
+    indent = indent_count(line)
     text = rtrim(ltrim(line))
     if (text ~ /^-#/ || text == "") continue
+    if (raw_scan) {
+      if (indent <= raw_scan_indent) {
+        raw_scan = 0
+        raw_scan_indent = -1
+      } else {
+        continue
+      }
+    }
+    if (css_scan) {
+      if (indent <= css_scan_indent) {
+        css_scan = 0
+        css_scan_indent = -1
+      } else {
+        continue
+      }
+    }
+    if (text ~ /^:raw$/ || text ~ /^:plain$/) {
+      raw_scan = 1
+      raw_scan_indent = indent
+      continue
+    }
+    if (text ~ /^%style([ \t]|$)/ || text ~ /^style([ \t]|$)/) {
+      css_scan = 1
+      css_scan_indent = indent
+      continue
+    }
     if (match(text, /^@include[ \t]+/)) {
       inc = parse_include(text)
       if (inc != "") scan_file(join_path(dir, inc))
       continue
     }
-    if (text ~ /^\|[ \t]*<!doctype/ || text ~ /^<!doctype/ || text ~ /^%html([ \t]|$)/ || text ~ /^%head([ \t]|$)/ || text ~ /^%body([ \t]|$)/) {
+    if (text ~ /^\|[ \t]*<!doctype/ || text ~ /^<!doctype/ || text ~ /^%html([ \t]|$)/ || text ~ /^%head([ \t]|$)/ || text ~ /^%body([ \t]|$)/ || text ~ /^html([ \t]|$)/ || text ~ /^head([ \t]|$)/ || text ~ /^body([ \t]|$)/) {
       found_html = 1
     }
     if (text ~ /^:head([ \t]|$)/ || text ~ /^:body([ \t]|$)/ || text ~ /^@title([ \t]|$)/ || text ~ /^@description([ \t]|$)/ || text ~ /^@viewport([ \t]|$)/ || text ~ /^@lang([ \t]|$)/ || text ~ /^@charset([ \t]|$)/ || text ~ /^@meta([ \t]|$|\()/) {
