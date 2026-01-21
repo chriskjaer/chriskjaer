@@ -52,6 +52,41 @@
     .author
       color: #4b5563
       font-size: .875rem
+    .meta
+      color: #6b7280
+      font-size: .8rem
+    .year
+      margin: 1.5rem 0 .75rem
+      font-size: .875rem
+      font-weight: 700
+      color: #111827
+    .chart
+      list-style: none
+      margin: 0
+      padding: 0
+      display: flex
+      flex-direction: column
+      gap: .5rem
+    .bar
+      display: grid
+      grid-template-columns: 3.5rem 1fr 2.5rem
+      gap: .75rem
+      align-items: center
+    .track
+      height: .5rem
+      background: #e5e7eb
+      border-radius: 9999px
+      overflow: hidden
+    .fill
+      display: block
+      height: 100%
+      background: #d86738
+      border-radius: 9999px
+    .count
+      font-size: .8rem
+      color: #6b7280
+      text-align: right
+
     @media (min-width: 52em)
       .grid
         grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr))
@@ -74,8 +109,12 @@
             @include data/books_currently_reading.smol
         section
           h2.section_title
+            | Read per year
+          @include data/books_stats.smol
+        section
+          h2.section_title
             | Read
-          ol.book_list
+          .read_list
             @include data/books_read.smol
         section
           h2.section_title

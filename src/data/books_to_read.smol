@@ -12,14 +12,6 @@ li
 
 li
   span.book
-    | Antifragile: Things That Gain from Disorder
-  | 
-
-  span.author
-    | — Nassim Nicholas Taleb
-
-li
-  span.book
     | Specification by Example: How Successful Teams Deliver the Right Software
   | 
 
@@ -33,14 +25,6 @@ li
 
   span.author
     | — James S.A. Corey
-
-li
-  span.book
-    | Press Reset: Ruin and Recovery in the Video Game Industry
-  | 
-
-  span.author
-    | — Jason Schreier
 
 li
   span.book
@@ -164,22 +148,6 @@ li
 
 li
   span.book
-    | Tao of Charlie Munger: A Compilation of Quotes from Berkshire Hathaway&#x27;s Vice Chairman on Life, Business, and the Pursuit of Wealth With Commentary by David Clark
-  | 
-
-  span.author
-    | — David      Clark
-
-li
-  span.book
-    | Invention: A Life
-  | 
-
-  span.author
-    | — James Dyson
-
-li
-  span.book
     | The Bastards and the Knives (Gentleman Bastard, #1.5)
   | 
 
@@ -193,6 +161,14 @@ li
 
   span.author
     | — M.L. Wang
+
+li
+  span.book
+    | Press Reset: Ruin and Recovery in the Video Game Industry
+  | 
+
+  span.author
+    | — Jason Schreier
 
 li
   span.book
@@ -220,35 +196,11 @@ li
 
 li
   span.book
-    | L&#x27;enigma della camera 622
-  | 
-
-  span.author
-    | — Joël Dicker
-
-li
-  span.book
     | Why Greatness Cannot Be Planned: The Myth of the Objective
   | 
 
   span.author
     | — Kenneth O. Stanley
-
-li
-  span.book
-    | Outlaw Empire
-  | 
-
-  span.author
-    | — Nicholas Eames
-
-li
-  span.book
-    | Untitled (Mistborn, #8)
-  | 
-
-  span.author
-    | — Brandon Sanderson
 
 li
   span.book
@@ -265,14 +217,6 @@ li
 
   span.author
     | — John Seymour
-
-li
-  span.book
-    | Vesten mod vesten
-  | 
-
-  span.author
-    | — Rune Lykkeberg
 
 li
   span.book
@@ -324,11 +268,27 @@ li
 
 li
   span.book
+    | Invention: A Life
+  | 
+
+  span.author
+    | — James Dyson
+
+li
+  span.book
     | Against the Odds: An Autobiography
   | 
 
   span.author
     | — James Dyson
+
+li
+  span.book
+    | Tao of Charlie Munger: A Compilation of Quotes from Berkshire Hathaway&#x27;s Vice Chairman on Life, Business, and the Pursuit of Wealth With Commentary by David Clark
+  | 
+
+  span.author
+    | — David      Clark
 
 li
   span.book
@@ -353,6 +313,14 @@ li
 
   span.author
     | — Martin Mobråten
+
+li
+  span.book
+    | Untitled (Mistborn, #8)
+  | 
+
+  span.author
+    | — Brandon Sanderson
 
 li
   span.book
@@ -396,14 +364,6 @@ li
 
 li
   span.book
-    | The Cold Start Problem: How to Start and Scale Network Effects
-  | 
-
-  span.author
-    | — Andrew Chen
-
-li
-  span.book
     | How Brands Grow: What Marketers Don&#x27;t Know
   | 
 
@@ -444,6 +404,14 @@ li
 
 li
   span.book
+    | L&#x27;enigma della camera 622
+  | 
+
+  span.author
+    | — Joël Dicker
+
+li
+  span.book
     | Complexity: The Emerging Science at the Edge of Order and Chaos
   | 
 
@@ -457,6 +425,14 @@ li
 
   span.author
     | — Paramahansa Yogananda
+
+li
+  span.book
+    | The Cold Start Problem: How to Start and Scale Network Effects
+  | 
+
+  span.author
+    | — Andrew Chen
 
 li
   span.book
@@ -481,6 +457,14 @@ li
 
   span.author
     | — Jean-Martin Fortier
+
+li
+  span.book
+    | Vesten mod vesten
+  | 
+
+  span.author
+    | — Rune Lykkeberg
 
 li
   span.book
@@ -537,6 +521,14 @@ li
 
   span.author
     | — Richard Connell
+
+li
+  span.book
+    | Antifragile: Things That Gain from Disorder
+  | 
+
+  span.author
+    | — Nassim Nicholas Taleb
 
 li
   span.book
@@ -724,22 +716,6 @@ li
 
 li
   span.book
-    | Kun en pige
-  | 
-
-  span.author
-    | — Lise Nørgaard
-
-li
-  span.book
-    | The Little Book of Common Sense Investing: The Only Way to Guarantee Your Fair Share of Stock Market Returns (Little Books. Big Profits)
-  | 
-
-  span.author
-    | — John C. Bogle
-
-li
-  span.book
     | Amerika. Hvor er du?
   | 
 
@@ -769,6 +745,14 @@ li
 
   span.author
     | — Shaun Usher
+
+li
+  span.book
+    | Outlaw Empire
+  | 
+
+  span.author
+    | — Nicholas Eames
 
 li
   span.book
@@ -988,14 +972,6 @@ li
 
 li
   span.book
-    | Frank vender hjem
-  | 
-
-  span.author
-    | — Kristian Bang Foss
-
-li
-  span.book
     | Anthropic Bias (Studies in Philosophy)
   | 
 
@@ -1172,11 +1148,11 @@ li
 
 li
   span.book
-    | Auberon (The Expanse, #7.5)
+    | Frank vender hjem
   | 
 
   span.author
-    | — James S.A. Corey
+    | — Kristian Bang Foss
 
 li
   span.book
@@ -1201,6 +1177,14 @@ li
 
   span.author
     | — Søren Kierkegaard
+
+li
+  span.book
+    | Kun en pige
+  | 
+
+  span.author
+    | — Lise Nørgaard
 
 li
   span.book
@@ -1308,6 +1292,14 @@ li
 
 li
   span.book
+    | Auberon (The Expanse, #7.5)
+  | 
+
+  span.author
+    | — James S.A. Corey
+
+li
+  span.book
     | The Idea Factory: Bell Labs and the Great Age of American Innovation
   | 
 
@@ -1321,14 +1313,6 @@ li
 
   span.author
     | — Andrzej Sapkowski
-
-li
-  span.book
-    | Triggers: Creating Behavior That Lasts—Becoming the Person You Want to Be
-  | 
-
-  span.author
-    | — Marshall Goldsmith
 
 li
   span.book
@@ -1540,6 +1524,14 @@ li
 
 li
   span.book
+    | The Little Book of Common Sense Investing: The Only Way to Guarantee Your Fair Share of Stock Market Returns (Little Books. Big Profits)
+  | 
+
+  span.author
+    | — John C. Bogle
+
+li
+  span.book
     | Into the Wild
   | 
 
@@ -1580,14 +1572,6 @@ li
 
 li
   span.book
-    | The Science of Getting Rich: Original Retro First Edition
-  | 
-
-  span.author
-    | — Wallace D. Wattles
-
-li
-  span.book
     | Crucial Conversations: Tools for Talking When Stakes are High
   | 
 
@@ -1617,14 +1601,6 @@ li
 
   span.author
     | — Henri Charrière
-
-li
-  span.book
-    | Twelfth Night, Or What You Will
-  | 
-
-  span.author
-    | — William Shakespeare
 
 li
   span.book
@@ -1660,15 +1636,15 @@ li
 
 li
   span.book
-    | The Time Machine
+    | Twelfth Night, Or What You Will
   | 
 
   span.author
-    | — H.G. Wells
+    | — William Shakespeare
 
 li
   span.book
-    | The War of the Worlds
+    | The Time Machine
   | 
 
   span.author
@@ -1681,6 +1657,14 @@ li
 
   span.author
     | — Charles Dickens
+
+li
+  span.book
+    | The War of the Worlds
+  | 
+
+  span.author
+    | — H.G. Wells
 
 li
   span.book
@@ -1697,6 +1681,14 @@ li
 
   span.author
     | — L. Frank Baum
+
+li
+  span.book
+    | The Science of Getting Rich: Original Retro First Edition
+  | 
+
+  span.author
+    | — Wallace D. Wattles
 
 li
   span.book
@@ -1849,6 +1841,14 @@ li
 
   span.author
     | — Philip K. Dick
+
+li
+  span.book
+    | Triggers: Creating Behavior That Lasts—Becoming the Person You Want to Be
+  | 
+
+  span.author
+    | — Marshall Goldsmith
 
 li
   span.book

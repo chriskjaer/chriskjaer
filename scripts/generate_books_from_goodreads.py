@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import argparse
+import datetime as dt
 import html
 import json
 import os
@@ -9,8 +10,9 @@ import sys
 import urllib.error
 import urllib.request
 import xml.etree.ElementTree as ET
+from email.utils import parsedate_to_datetime
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
 
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
@@ -44,6 +46,34 @@ def _load_cached_json(shelf: str) -> List[Dict[str, Any]]:
         return json.load(f)
 
 
+def _parse_rss_date(value: str) -> Optional[str]:
+    value = (value or "").strip()
+    if not value:
+        return None
+
+    # Goodreads RSS values are usually ISO-ish.
+    for fmt in (
+        "%Y-%m-%dT%H:%M:%SZ",
+        "%Y-%m-%dT%H:%M:%S%z",
+        "%a, %d %b %Y %H:%M:%S %z",
+    ):
+        try:
+            parsed = dt.datetime.strptime(value, fmt)
+            if parsed.tzinfo is None:
+                parsed = parsed.replace(tzinfo=dt.timezone.utc)
+            return parsed.astimezone(dt.timezone.utc).isoformat()
+        except ValueError:
+            continue
+
+    try:
+        parsed = dt.datetime.fromisoformat(value.replace("Z", "+00:00"))
+        if parsed.tzinfo is None:
+            parsed = parsed.replace(tzinfo=dt.timezone.utc)
+        return parsed.astimezone(dt.timezone.utc).isoformat()
+    except ValueError:
+        return None
+
+
 def _fetch_shelf_rss_stdlib(shelf: str, max_pages: int = 10) -> List[Dict[str, Any]]:
     books: List[Dict[str, Any]] = []
 
@@ -64,13 +94,21 @@ def _fetch_shelf_rss_stdlib(shelf: str, max_pages: int = 10) -> List[Dict[str, A
         if not items:
             break
 
+        def _t(name: str) -> str:
+            el = item.find(name)
+            return el.text if el is not None and el.text is not None else ""
+
         for item in items:
-            title = item.find("title").text if item.find("title") is not None else ""
-            author = (
-                item.find("author_name").text if item.find("author_name") is not None else ""
+            books.append(
+                {
+                    "title": _t("title"),
+                    "author": _t("author_name"),
+                    "link": _t("link"),
+                    "rating": _t("user_rating"),
+                    "date_read": _parse_rss_date(_t("user_read_at")),
+                    "date_added": _parse_rss_date(_t("user_date_created")),
+                }
             )
-            link = item.find("link").text if item.find("link") is not None else ""
-            books.append({"title": title or "", "author": author or "", "link": link or ""})
 
     return books
 
@@ -123,12 +161,56 @@ def _fetch_shelf_json(shelf: str, refresh: bool) -> List[Dict[str, Any]]:
     return []
 
 
-def _smol_li(title: str, author: str) -> str:
-    title = html.escape(title.strip())
-    author = html.escape(author.strip())
+def _parse_dt(value: Any) -> Optional[dt.datetime]:
+    if not value:
+        return None
 
-    if not title:
-        title = "(untitled)"
+    raw = str(value).strip()
+    if not raw:
+        return None
+
+    # Common case: already ISO-ish.
+    try:
+        parsed = dt.datetime.fromisoformat(raw.replace("Z", "+00:00"))
+        if parsed.tzinfo is None:
+            parsed = parsed.replace(tzinfo=dt.timezone.utc)
+        return parsed.astimezone(dt.timezone.utc)
+    except ValueError:
+        pass
+
+    # Goodreads sometimes emits RFC2822-ish timestamps.
+    try:
+        parsed = parsedate_to_datetime(raw)
+        if parsed.tzinfo is None:
+            parsed = parsed.replace(tzinfo=dt.timezone.utc)
+        return parsed.astimezone(dt.timezone.utc)
+    except (TypeError, ValueError):
+        return None
+
+
+def _format_finished_date(value: Any) -> str:
+    parsed = _parse_dt(value)
+    if not parsed:
+        return ""
+    return parsed.date().isoformat()
+
+
+def _format_rating(value: Any) -> str:
+    raw = str(value or "").strip()
+    if not raw:
+        return ""
+    try:
+        rating = int(float(raw))
+    except ValueError:
+        return ""
+    if rating <= 0:
+        return ""
+    return "★" * min(rating, 5)
+
+
+def _smol_li_basic(book: Dict[str, Any]) -> str:
+    title = html.escape(str(book.get("title", "")).strip()) or "(untitled)"
+    author = html.escape(str(book.get("author", "")).strip())
 
     lines = [
         "li",
@@ -147,6 +229,47 @@ def _smol_li(title: str, author: str) -> str:
     return "\n".join(lines)
 
 
+def _smol_li_read(book: Dict[str, Any]) -> str:
+    title = html.escape(str(book.get("title", "")).strip()) or "(untitled)"
+    author = html.escape(str(book.get("author", "")).strip())
+    finished = html.escape(_format_finished_date(book.get("date_read")))
+    rating = html.escape(_format_rating(book.get("rating")))
+
+    lines = [
+        "li",
+        "  span.book",
+        f"    | {title}",
+    ]
+
+    if author:
+        lines += [
+            "  | ",
+            "",
+            "  span.author",
+            f"    | — {author}",
+        ]
+
+    meta_parts: List[str] = []
+    if finished:
+        meta_parts.append(finished)
+    if rating:
+        meta_parts.append(rating)
+
+    if meta_parts:
+        lines += [
+            "  | ",
+            "",
+            "  span.meta",
+            f"    | ({' · '.join(meta_parts)})",
+        ]
+
+    return "\n".join(lines)
+
+
+def _write_fragment(out_path: Path, header_lines: List[str], body: str) -> None:
+    out_path.write_text("\n".join(header_lines + [body, ""]))
+
+
 def _write_list(out_path: Path, shelf: str, books: List[Dict[str, Any]]) -> None:
     header = [
         "-# Generated file. Do not edit.",
@@ -155,9 +278,49 @@ def _write_list(out_path: Path, shelf: str, books: List[Dict[str, Any]]) -> None
         "",
     ]
 
+    if shelf == "read":
+        def _sort_key(b: Dict[str, Any]):
+            return _parse_dt(b.get("date_read")) or dt.datetime.min.replace(tzinfo=dt.timezone.utc)
+
+        sorted_books = sorted(books, key=_sort_key, reverse=True)
+
+        by_year: Dict[int, List[Dict[str, Any]]] = {}
+        for book in sorted_books:
+            parsed = _parse_dt(book.get("date_read"))
+            year = parsed.year if parsed else 0
+            by_year.setdefault(year, []).append(book)
+
+        years = sorted(by_year.keys(), reverse=True)
+        blocks: List[str] = []
+        for year in years:
+            title = str(year) if year else "Unknown year"
+            blocks.append("h3.year")
+            blocks.append(f"  | {html.escape(title)}")
+            blocks.append("ol.book_list")
+            year_items = [
+                "\n".join(
+                    "  " + line if i != 0 else "  " + line
+                    for i, line in enumerate(_smol_li_read(book).splitlines())
+                )
+                for book in by_year[year]
+            ]
+            if year_items:
+                blocks.append("\n\n".join(year_items))
+            else:
+                blocks.append("  li\n    span.book\n      | (no data)")
+
+        _write_fragment(out_path, header, "\n".join(blocks))
+        return
+
+    if shelf == "to-read":
+        def _sort_key(b: Dict[str, Any]):
+            return _parse_dt(b.get("date_added")) or dt.datetime.min.replace(tzinfo=dt.timezone.utc)
+
+        books = sorted(books, key=_sort_key, reverse=True)
+
     items = []
     for book in books:
-        items.append(_smol_li(str(book.get("title", "")), str(book.get("author", ""))))
+        items.append(_smol_li_basic(book))
 
     if not items:
         items = [
@@ -166,7 +329,7 @@ def _write_list(out_path: Path, shelf: str, books: List[Dict[str, Any]]) -> None
             "    | (no data)",
         ]
 
-    out_path.write_text("\n".join(header + ["\n\n".join(items), ""]))
+    _write_fragment(out_path, header, "\n\n".join(items))
 
 
 def main() -> int:

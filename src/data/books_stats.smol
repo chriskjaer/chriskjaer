@@ -1,0 +1,74 @@
+-# Generated file. Do not edit.
+-# Source: Goodreads read shelf cache.
+
+ul.chart
+  li.bar
+    span.year
+      | 2025
+    span.track
+      span.fill(style="width: 42%")
+    span.count
+      | 11
+  li.bar
+    span.year
+      | 2024
+    span.track
+      span.fill(style="width: 50%")
+    span.count
+      | 13
+  li.bar
+    span.year
+      | 2023
+    span.track
+      span.fill(style="width: 46%")
+    span.count
+      | 12
+  li.bar
+    span.year
+      | 2022
+    span.track
+      span.fill(style="width: 35%")
+    span.count
+      | 9
+  li.bar
+    span.year
+      | 2021
+    span.track
+      span.fill(style="width: 46%")
+    span.count
+      | 12
+  li.bar
+    span.year
+      | 2020
+    span.track
+      span.fill(style="width: 100%")
+    span.count
+      | 26
+  li.bar
+    span.year
+      | 2019
+    span.track
+      span.fill(style="width: 100%")
+    span.count
+      | 26
+  li.bar
+    span.year
+      | 2018
+    span.track
+      span.fill(style="width: 50%")
+    span.count
+      | 13
+  li.bar
+    span.year
+      | 2017
+    span.track
+      span.fill(style="width: 8%")
+    span.count
+      | 2
+  li.bar
+    span.year
+      | 2014
+    span.track
+      span.fill(style="width: 8%")
+    span.count
+      | 2

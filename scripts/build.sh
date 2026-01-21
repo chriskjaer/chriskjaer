@@ -17,6 +17,7 @@ build_one() {
 }
 
 python3 "$root/scripts/generate_books_from_goodreads.py" || true
+python3 "$root/scripts/generate_books_stats.py" || true
 
 build_one "$root/src/index.smol" "$out/index.html"
 build_one "$root/src/books.smol" "$out/books/index.html"
