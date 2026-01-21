@@ -1,0 +1,11 @@
+-# Generated file. Do not edit.
+-# Source: Goodreads shelf 'currently-reading' (user 32620052).
+-# Update: make build (or scripts/generate_books_from_goodreads.py).
+
+li
+  span.book
+    | Howling Dark (The Sun Eater, #2)
+  | 
+
+  span.author
+    | — Christopher Ruocchio

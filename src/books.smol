@@ -54,7 +54,7 @@
       font-size: .875rem
     @media (min-width: 52em)
       .grid
-        grid-template-columns: 1fr 1fr
+        grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr))
         gap: 3rem
 
 :body
@@ -65,8 +65,13 @@
       h1.title
         | Books
       p.hint
-        | Read + to-read. Data lives in src/data/.
+        | Read / to-read / currently-reading. Synced from Goodreads.
       .grid
+        section
+          h2.section_title
+            | Currently reading
+          ol.book_list
+            @include data/books_currently_reading.smol
         section
           h2.section_title
             | Read

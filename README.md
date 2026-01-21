@@ -4,16 +4,25 @@ This will probably always be a work in progress; I never stop bikeshedding and I
 somehow keep overengineering even the simplest things.
 
 Common tasks live behind `make`:
-- `make build` compiles `src/index.smol` into `public/index.html`.
+- `make build` compiles smol templates into `public/` (including `/books`).
 - `make dev` starts a local server, opens the page, and rebuilds on changes.
-- `make minify` shrinks `public/index.html`.
-- `make clean` removes `public/index.html`.
+- `make minify` shrinks the generated HTML.
+- `make clean` removes generated HTML.
 - `make test` runs a small sanity check for smol.
 - `make fmt` normalizes indentation and trims trailing whitespace in smol files.
 
+Books page:
+- Source: Goodreads shelves `read`, `to-read`, `currently-reading`.
+- Build step: `scripts/generate_books_from_goodreads.py` generates:
+  - `src/data/books_read.smol`
+  - `src/data/books_to_read.smol`
+  - `src/data/books_currently_reading.smol`
+- Cache: JSON snapshots in `src/data/goodreads_cache/` (used if network flakes).
+- Force refresh: `python3 scripts/generate_books_from_goodreads.py --refresh`
+
 Smol is a tiny HAML-ish markup language compiled by `scripts/smol.awk`. The
-entire site lives in `src/index.smol`, which becomes `public/index.html`. Shared
-partials live in `src/includes/`.
+site templates live in `src/` (for example `src/index.smol` and `src/books.smol`)
+and compile into `public/`. Shared partials live in `src/includes/`.
 If you want syntax highlighting in Neovim, grab the smol syntax file from my
 dotfiles here: https://github.com/chriskjaer/dotfiles/blob/master/common/config/nvim/syntax/smol.vim
 

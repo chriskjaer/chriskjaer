@@ -1,16 +1,1259 @@
--# Data file. Edit this to update the “Read” list on /books.
+-# Generated file. Do not edit.
+-# Source: Goodreads shelf 'read' (user 32620052).
+-# Update: make build (or scripts/generate_books_from_goodreads.py).
 
 li
   span.book
-    | The Pragmatic Programmer
+    | Empire of Silence (The Sun Eater, #1)
   | 
 
   span.author
-    | — Andrew Hunt, David Thomas
+    | — Christopher Ruocchio
+
 li
   span.book
-    | Working in Public
+    | Neuromancer (Sprawl #1)
   | 
 
   span.author
-    | — Nadia Eghbal
+    | — William Gibson
+
+li
+  span.book
+    | Ultra-Processed People: Why We Can&#x27;t Stop Eating Food That Isn&#x27;t Food
+  | 
+
+  span.author
+    | — Chris van Tulleken
+
+li
+  span.book
+    | Isles of the Emberdark
+  | 
+
+  span.author
+    | — Brandon Sanderson
+
+li
+  span.book
+    | Warbreaker
+  | 
+
+  span.author
+    | — Brandon Sanderson
+
+li
+  span.book
+    | A Little Hatred (The Age of Madness, #1)
+  | 
+
+  span.author
+    | — Joe Abercrombie
+
+li
+  span.book
+    | Children of Ruin (Children of Time, #2)
+  | 
+
+  span.author
+    | — Adrian Tchaikovsky
+
+li
+  span.book
+    | Children of Time (Children of Time, #1)
+  | 
+
+  span.author
+    | — Adrian Tchaikovsky
+
+li
+  span.book
+    | Alone on the Wall
+  | 
+
+  span.author
+    | — Alex Honnold
+
+li
+  span.book
+    | Livesuit (The Captive&#x27;s War, #1.5)
+  | 
+
+  span.author
+    | — James S.A. Corey
+
+li
+  span.book
+    | The Mercy of Gods (The Captive&#x27;s War, #1)
+  | 
+
+  span.author
+    | — James S.A. Corey
+
+li
+  span.book
+    | The Will of the Many (Hierarchy, #1)
+  | 
+
+  span.author
+    | — James  Islington
+
+li
+  span.book
+    | Play Nice: The Rise, Fall, and Future of Blizzard Entertainment
+  | 
+
+  span.author
+    | — Jason Schreier
+
+li
+  span.book
+    | Shape Up: Stop Running in Circles and Ship Work that Matters
+  | 
+
+  span.author
+    | — Ryan Singer
+
+li
+  span.book
+    | The Unfolding of Language: An Evolutionary Tour of Mankind&#x27;s Greatest Invention
+  | 
+
+  span.author
+    | — Guy Deutscher
+
+li
+  span.book
+    | The Republic of Thieves (Gentleman Bastard, #3)
+  | 
+
+  span.author
+    | — Scott Lynch
+
+li
+  span.book
+    | A Clash of Kings (A Song of Ice and Fire, #2)
+  | 
+
+  span.author
+    | — George R.R. Martin
+
+li
+  span.book
+    | Red Seas Under Red Skies (Gentleman Bastard, #2)
+  | 
+
+  span.author
+    | — Scott Lynch
+
+li
+  span.book
+    | The Lies of Locke Lamora (Gentleman Bastard, #1)
+  | 
+
+  span.author
+    | — Scott Lynch
+
+li
+  span.book
+    | The Children of the Sky (Zones of Thought, #3)
+  | 
+
+  span.author
+    | — Vernor Vinge
+
+li
+  span.book
+    | Udsigt fra en malkeskammel
+  | 
+
+  span.author
+    | — Frank Erichsen
+
+li
+  span.book
+    | A Fire Upon the Deep (Zones of Thought, #1)
+  | 
+
+  span.author
+    | — Vernor Vinge
+
+li
+  span.book
+    | Number Go Up: Inside Crypto&#x27;s Wild Rise and Staggering Fall
+  | 
+
+  span.author
+    | — Zeke Faux
+
+li
+  span.book
+    | Elon Musk
+  | 
+
+  span.author
+    | — Walter Isaacson
+
+li
+  span.book
+    | The Sunlit Man
+  | 
+
+  span.author
+    | — Brandon Sanderson
+
+li
+  span.book
+    | Light Bringer (Red Rising Saga, #6)
+  | 
+
+  span.author
+    | — Pierce Brown
+
+li
+  span.book
+    | Dark Age (Red Rising Saga, #5)
+  | 
+
+  span.author
+    | — Pierce Brown
+
+li
+  span.book
+    | Yumi and the Nightmare Painter (Hoid&#x27;s Travails, #2)
+  | 
+
+  span.author
+    | — Brandon Sanderson
+
+li
+  span.book
+    | Elantris (Elantris, #1)
+  | 
+
+  span.author
+    | — Brandon Sanderson
+
+li
+  span.book
+    | Tress of the Emerald Sea
+  | 
+
+  span.author
+    | — Brandon Sanderson
+
+li
+  span.book
+    | Invisible Women: Data Bias in a World Designed for Men
+  | 
+
+  span.author
+    | — Caroline Criado Pérez
+
+li
+  span.book
+    | Work Clean: The life-changing power of mise-en-place to organize your life, work, and mind
+  | 
+
+  span.author
+    | — Dan Charnas
+
+li
+  span.book
+    | Kitchen Confidential: Adventures in the Culinary Underbelly
+  | 
+
+  span.author
+    | — Anthony Bourdain
+
+li
+  span.book
+    | The Internet is a Playground
+  | 
+
+  span.author
+    | — David Thorne
+
+li
+  span.book
+    | I&#x27;ll Go Home Then, It&#x27;s Warm and Has Chairs. The Unpublished Emails.
+  | 
+
+  span.author
+    | — David Thorne
+
+li
+  span.book
+    | Project Hail Mary
+  | 
+
+  span.author
+    | — Andy Weir
+
+li
+  span.book
+    | The Lost Metal (Mistborn, #7)
+  | 
+
+  span.author
+    | — Brandon Sanderson
+
+li
+  span.book
+    | Best Served Cold
+  | 
+
+  span.author
+    | — Joe Abercrombie
+
+li
+  span.book
+    | Last Argument of Kings (The First Law, #3)
+  | 
+
+  span.author
+    | — Joe Abercrombie
+
+li
+  span.book
+    | Overcoming Gravity
+  | 
+
+  span.author
+    | — Steven Low
+
+li
+  span.book
+    | Before They Are Hanged (The First Law, #2)
+  | 
+
+  span.author
+    | — Joe Abercrombie
+
+li
+  span.book
+    | The Blade Itself (The First Law, #1)
+  | 
+
+  span.author
+    | — Joe Abercrombie
+
+li
+  span.book
+    | Monsters in the Dark: The Making of X-COM: UFO Defense
+  | 
+
+  span.author
+    | — David L. Craddock
+
+li
+  span.book
+    | The Psychology of Money: Timeless Lessons on Wealth, Greed, and Happiness
+  | 
+
+  span.author
+    | — Morgan Housel
+
+li
+  span.book
+    | The Sins of Our Fathers (The Expanse, #9.5)
+  | 
+
+  span.author
+    | — James S.A. Corey
+
+li
+  span.book
+    | Oathbringer (The Stormlight Archive, #3)
+  | 
+
+  span.author
+    | — Brandon Sanderson
+
+li
+  span.book
+    | Cytonic (Skyward, #3)
+  | 
+
+  span.author
+    | — Brandon Sanderson
+
+li
+  span.book
+    | Leviathan Falls (The Expanse, #9)
+  | 
+
+  span.author
+    | — James S.A. Corey
+
+li
+  span.book
+    | Steve Jobs
+  | 
+
+  span.author
+    | — Walter Isaacson
+
+li
+  span.book
+    | Creativity, Inc.: Overcoming the Unseen Forces That Stand in the Way of True Inspiration
+  | 
+
+  span.author
+    | — Ed Catmull
+
+li
+  span.book
+    | Starsight (Skyward, #2)
+  | 
+
+  span.author
+    | — Brandon Sanderson
+
+li
+  span.book
+    | Skyward (Skyward, #1)
+  | 
+
+  span.author
+    | — Brandon Sanderson
+
+li
+  span.book
+    | The Bands of Mourning (Mistborn, #6)
+  | 
+
+  span.author
+    | — Brandon Sanderson
+
+li
+  span.book
+    | Shadows of Self (Mistborn, #5)
+  | 
+
+  span.author
+    | — Brandon Sanderson
+
+li
+  span.book
+    | A Guide to the Good Life: The Ancient Art of Stoic Joy
+  | 
+
+  span.author
+    | — William B. Irvine
+
+li
+  span.book
+    | Blood, Sweat, and Pixels
+  | 
+
+  span.author
+    | — Jason Schreier
+
+li
+  span.book
+    | The Checklist Manifesto: How to Get Things Right
+  | 
+
+  span.author
+    | — Atul Gawande
+
+li
+  span.book
+    | The Great Mental Models: General Thinking Concepts
+  | 
+
+  span.author
+    | — Shane Parrish
+
+li
+  span.book
+    | Fluent Forever: How to Learn Any Language Fast and Never Forget It
+  | 
+
+  span.author
+    | — Gabriel Wyner
+
+li
+  span.book
+    | Buddha in Blue Jeans: An Extremely Short Simple Zen Guide to Sitting Quietly and Being Buddha
+  | 
+
+  span.author
+    | — Tai Sheridan
+
+li
+  span.book
+    | Man&#x27;s Search for Meaning
+  | 
+
+  span.author
+    | — Viktor E. Frankl
+
+li
+  span.book
+    | A Mind for Numbers: How to Excel at Math and Science (Even If You Flunked Algebra)
+  | 
+
+  span.author
+    | — Barbara Oakley
+
+li
+  span.book
+    | Make It Stick: The Science of Successful Learning
+  | 
+
+  span.author
+    | — Peter C. Brown
+
+li
+  span.book
+    | Production Ready GraphQL
+  | 
+
+  span.author
+    | — Marc-Andre Giroux
+
+li
+  span.book
+    | Managing Oneself (Harvard Business Review Classics)
+  | 
+
+  span.author
+    | — Peter F. Drucker
+
+li
+  span.book
+    | Rigtige sommerhuse
+  | 
+
+  span.author
+    | — Bente Lange
+
+li
+  span.book
+    | Shoe Dog: A Memoir by the Creator of Nike
+  | 
+
+  span.author
+    | — Phil Knight
+
+li
+  span.book
+    | Practical Programming for Strength Training
+  | 
+
+  span.author
+    | — Mark Rippetoe
+
+li
+  span.book
+    | Stay Awhile and Listen: Book II - Heaven, Hell, and Secret Cow Levels
+  | 
+
+  span.author
+    | — David L. Craddock
+
+li
+  span.book
+    | Why We Sleep: The New Science of Sleep and Dreams
+  | 
+
+  span.author
+    | — Matthew Walker
+
+li
+  span.book
+    | Stay Awhile and Listen: Book I - How Two Blizzards Unleashed Diablo and Forged a Video-Game Empire
+  | 
+
+  span.author
+    | — David L. Craddock
+
+li
+  span.book
+    | Persepolis Rising (The Expanse, #7)
+  | 
+
+  span.author
+    | — James S.A. Corey
+
+li
+  span.book
+    | Bloody Rose (The Band, #2)
+  | 
+
+  span.author
+    | — Nicholas Eames
+
+li
+  span.book
+    | Factfulness: Ten Reasons We&#x27;re Wrong About the World – and Why Things Are Better Than You Think
+  | 
+
+  span.author
+    | — Hans Rosling
+
+li
+  span.book
+    | The Enchiridion
+  | 
+
+  span.author
+    | — Epictetus
+
+li
+  span.book
+    | How to Take Smart Notes
+  | 
+
+  span.author
+    | — Sönke Ahrens
+
+li
+  span.book
+    | The Little Book of Stoicism: Timeless Wisdom to Gain Resilience, Confidence, and Calmness
+  | 
+
+  span.author
+    | — Jonas Salzgeber
+
+li
+  span.book
+    | The Right Stuff
+  | 
+
+  span.author
+    | — Tom Wolfe
+
+li
+  span.book
+    | How To: Absurd Scientific Advice for Common Real-World Problems
+  | 
+
+  span.author
+    | — Randall Munroe
+
+li
+  span.book
+    | Karma Cowboy
+  | 
+
+  span.author
+    | — Dan Turèll
+
+li
+  span.book
+    | The WoW Diary: A Journal of Computer Game Development
+  | 
+
+  span.author
+    | — John Staats
+
+li
+  span.book
+    | Words of Radiance (The Stormlight Archive, #2)
+  | 
+
+  span.author
+    | — Brandon Sanderson
+
+li
+  span.book
+    | Starting Strength
+  | 
+
+  span.author
+    | — Mark Rippetoe
+
+li
+  span.book
+    | Breakfast of Champions
+  | 
+
+  span.author
+    | — Kurt Vonnegut Jr.
+
+li
+  span.book
+    | Vigtigt at vide om Ludmilla
+  | 
+
+  span.author
+    | — Sissel-Jo Gazan
+
+li
+  span.book
+    | Ser du månen, Daniel
+  | 
+
+  span.author
+    | — Puk Damsgård
+
+li
+  span.book
+    | The Hard Thing About Hard Things: Building a Business When There Are No Easy Answers―Straight Talk on the Challenges of Entrepreneurship
+  | 
+
+  span.author
+    | — Ben Horowitz
+
+li
+  span.book
+    | Secret History (Mistborn, #3.5)
+  | 
+
+  span.author
+    | — Brandon Sanderson
+
+li
+  span.book
+    | The Slow Regard of Silent Things (The Kingkiller Chronicle, #2.5)
+  | 
+
+  span.author
+    | — Patrick Rothfuss
+
+li
+  span.book
+    | Kings of the Wyld (The Band, #1)
+  | 
+
+  span.author
+    | — Nicholas Eames
+
+li
+  span.book
+    | The Last Wish (The Witcher, #0.5)
+  | 
+
+  span.author
+    | — Andrzej Sapkowski
+
+li
+  span.book
+    | Fight Club
+  | 
+
+  span.author
+    | — Chuck Palahniuk
+
+li
+  span.book
+    | The Manager&#x27;s Path: A Guide for Tech Leaders Navigating Growth and Change
+  | 
+
+  span.author
+    | — Camille Fournier
+
+li
+  span.book
+    | American Psycho (Vintage Contemporaries)
+  | 
+
+  span.author
+    | — Bret Easton Ellis
+
+li
+  span.book
+    | The Hitchhiker’s Guide to the Galaxy (The Hitchhiker&#x27;s Guide to the Galaxy, #1)
+  | 
+
+  span.author
+    | — Douglas Adams
+
+li
+  span.book
+    | The Way of Kings (The Stormlight Archive, #1)
+  | 
+
+  span.author
+    | — Brandon Sanderson
+
+li
+  span.book
+    | The Metamorphosis
+  | 
+
+  span.author
+    | — Franz Kafka
+
+li
+  span.book
+    | Tiamat&#x27;s Wrath (The Expanse, #8)
+  | 
+
+  span.author
+    | — James S.A. Corey
+
+li
+  span.book
+    | Bad Blood: Secrets and Lies in a Silicon Valley Startup
+  | 
+
+  span.author
+    | — John Carreyrou
+
+li
+  span.book
+    | The Bogleheads&#x27; Guide to Investing
+  | 
+
+  span.author
+    | — Mel Lindauer
+
+li
+  span.book
+    | The Prince
+  | 
+
+  span.author
+    | — Niccolò Machiavelli
+
+li
+  span.book
+    | The Lean Startup
+  | 
+
+  span.author
+    | — Eric Ries
+
+li
+  span.book
+    | Iron Gold (Red Rising Saga, #4)
+  | 
+
+  span.author
+    | — Pierce Brown
+
+li
+  span.book
+    | 1491: New Revelations of the Americas Before Columbus
+  | 
+
+  span.author
+    | — Charles C. Mann
+
+li
+  span.book
+    | Den rationelle investor
+  | 
+
+  span.author
+    | — Kurt Kara
+
+li
+  span.book
+    | Small Green Roofs: Low-Tech Options for Greener Living
+  | 
+
+  span.author
+    | — Nigel Dunnett
+
+li
+  span.book
+    | The New Self-Sufficient Gardener
+  | 
+
+  span.author
+    | — John Seymour
+
+li
+  span.book
+    | Morning Star (Red Rising Saga, #3)
+  | 
+
+  span.author
+    | — Pierce Brown
+
+li
+  span.book
+    | Golden Son (Red Rising Saga, #2)
+  | 
+
+  span.author
+    | — Pierce Brown
+
+li
+  span.book
+    | Red Rising (Red Rising Saga, #1)
+  | 
+
+  span.author
+    | — Pierce Brown
+
+li
+  span.book
+    | The Alloy of Law (Mistborn, #4)
+  | 
+
+  span.author
+    | — Brandon Sanderson
+
+li
+  span.book
+    | The 8-Minute Writing Habit: Create a Consistent Writing Habit That Works With Your Busy Lifestyle (Growth Hacking For Storytellers #3)
+  | 
+
+  span.author
+    | — Monica Leonelle
+
+li
+  span.book
+    | The Wise Man&#x27;s Fear (The Kingkiller Chronicle, #2)
+  | 
+
+  span.author
+    | — Patrick Rothfuss
+
+li
+  span.book
+    | The Veldt
+  | 
+
+  span.author
+    | — Ray Bradbury
+
+li
+  span.book
+    | Artemis
+  | 
+
+  span.author
+    | — Andy Weir
+
+li
+  span.book
+    | The Name of the Wind (The Kingkiller Chronicle, #1)
+  | 
+
+  span.author
+    | — Patrick Rothfuss
+
+li
+  span.book
+    | Linux for Beginners
+  | 
+
+  span.author
+    | — Jason Cannon
+
+li
+  span.book
+    | The Three-Body Problem (Remembrance of Earth’s Past, #1)
+  | 
+
+  span.author
+    | — Liu Cixin
+
+li
+  span.book
+    | Leviathan Wakes (The Expanse, #1)
+  | 
+
+  span.author
+    | — James S.A. Corey
+
+li
+  span.book
+    | The Hero of Ages (Mistborn, #3)
+  | 
+
+  span.author
+    | — Brandon Sanderson
+
+li
+  span.book
+    | Brave New World
+  | 
+
+  span.author
+    | — Aldous Huxley
+
+li
+  span.book
+    | ReWork
+  | 
+
+  span.author
+    | — Jason Fried
+
+li
+  span.book
+    | Mistborn: The Final Empire (Mistborn, #1)
+  | 
+
+  span.author
+    | — Brandon Sanderson
+
+li
+  span.book
+    | Elon Musk: Tesla, SpaceX, and the Quest for a Fantastic Future
+  | 
+
+  span.author
+    | — Ashlee Vance
+
+li
+  span.book
+    | Masters of Doom: How Two Guys Created an Empire and Transformed Pop Culture
+  | 
+
+  span.author
+    | — David Kushner
+
+li
+  span.book
+    | The Martian
+  | 
+
+  span.author
+    | — Andy Weir
+
+li
+  span.book
+    | The Well of Ascension (Mistborn, #2)
+  | 
+
+  span.author
+    | — Brandon Sanderson
+
+li
+  span.book
+    | Sapiens: A Brief History of Humankind
+  | 
+
+  span.author
+    | — Yuval Noah Harari
+
+li
+  span.book
+    | The Churn (The Expanse, #3.5)
+  | 
+
+  span.author
+    | — James S.A. Corey
+
+li
+  span.book
+    | Babylon’s Ashes (The Expanse, #6)
+  | 
+
+  span.author
+    | — James S.A. Corey
+
+li
+  span.book
+    | Nemesis Games (The Expanse, #5)
+  | 
+
+  span.author
+    | — James S.A. Corey
+
+li
+  span.book
+    | Drive (The Expanse, #2.7)
+  | 
+
+  span.author
+    | — James S.A. Corey
+
+li
+  span.book
+    | The Butcher of Anderson Station (The Expanse, #1.5)
+  | 
+
+  span.author
+    | — James S.A. Corey
+
+li
+  span.book
+    | Cibola Burn (The Expanse, #4)
+  | 
+
+  span.author
+    | — James S.A. Corey
+
+li
+  span.book
+    | Abaddon’s Gate (The Expanse, #3)
+  | 
+
+  span.author
+    | — James S.A. Corey
+
+li
+  span.book
+    | Caliban’s War (The Expanse, #2)
+  | 
+
+  span.author
+    | — James S.A. Corey
+
+li
+  span.book
+    | Foundation (Foundation, #1)
+  | 
+
+  span.author
+    | — Isaac Asimov
+
+li
+  span.book
+    | Children of Dune (Dune #3)
+  | 
+
+  span.author
+    | — Frank Herbert
+
+li
+  span.book
+    | Thinking, Fast and Slow
+  | 
+
+  span.author
+    | — Daniel Kahneman
+
+li
+  span.book
+    | Hyperion (Hyperion Cantos, #1)
+  | 
+
+  span.author
+    | — Dan Simmons
+
+li
+  span.book
+    | Animal Farm
+  | 
+
+  span.author
+    | — George Orwell
+
+li
+  span.book
+    | Dune (Dune #1)
+  | 
+
+  span.author
+    | — Frank Herbert
+
+li
+  span.book
+    | Dune Messiah (Dune #2)
+  | 
+
+  span.author
+    | — Frank Herbert
+
+li
+  span.book
+    | Guns, Germs, and Steel: The Fates of Human Societies
+  | 
+
+  span.author
+    | — Jared Diamond
+
+li
+  span.book
+    | The Etymologicon: A Circular Stroll through the Hidden Connections of the English Language
+  | 
+
+  span.author
+    | — Mark Forsyth
+
+li
+  span.book
+    | A Feast for Crows (A Song of Ice and Fire, #4)
+  | 
+
+  span.author
+    | — George R.R. Martin
+
+li
+  span.book
+    | A Dance with Dragons (A Song of Ice and Fire, #5)
+  | 
+
+  span.author
+    | — George R.R. Martin
+
+li
+  span.book
+    | Born to Run: A Hidden Tribe, Superathletes, and the Greatest Race the World Has Never Seen
+  | 
+
+  span.author
+    | — Christopher McDougall
+
+li
+  span.book
+    | Roots
+  | 
+
+  span.author
+    | — Alex Haley
+
+li
+  span.book
+    | The Eye of the World (The Wheel of Time, #1)
+  | 
+
+  span.author
+    | — Robert Jordan
+
+li
+  span.book
+    | The Great Hunt (Wheel of Time, #2)
+  | 
+
+  span.author
+    | — Robert Jordan
+
+li
+  span.book
+    | A Game of Thrones (A Song of Ice and Fire, #1)
+  | 
+
+  span.author
+    | — George R.R. Martin
+
+li
+  span.book
+    | Catch-22
+  | 
+
+  span.author
+    | — Joseph Heller
+
+li
+  span.book
+    | The Dragon Reborn (The Wheel of Time #3)
+  | 
+
+  span.author
+    | — Robert Jordan
+
+li
+  span.book
+    | 1984
+  | 
+
+  span.author
+    | — George Orwell
+
+li
+  span.book
+    | A Storm of Swords (A Song of Ice and Fire, #3)
+  | 
+
+  span.author
+    | — George R.R. Martin
+
+li
+  span.book
+    | To Kill a Mockingbird
+  | 
+
+  span.author
+    | — Harper Lee

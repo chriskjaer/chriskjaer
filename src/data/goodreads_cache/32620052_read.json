@@ -1,0 +1,787 @@
+[
+  {
+    "title": "Empire of Silence (The Sun Eater, #1)",
+    "author": "Christopher Ruocchio",
+    "link": "https://www.goodreads.com/review/show/7100337673?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "Neuromancer (Sprawl #1)",
+    "author": "William Gibson",
+    "link": "https://www.goodreads.com/review/show/2514073089?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "Ultra-Processed People: Why We Can't Stop Eating Food That Isn't Food",
+    "author": "Chris van Tulleken",
+    "link": "https://www.goodreads.com/review/show/7791175663?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "Isles of the Emberdark",
+    "author": "Brandon Sanderson",
+    "link": "https://www.goodreads.com/review/show/7769788183?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "Warbreaker",
+    "author": "Brandon Sanderson",
+    "link": "https://www.goodreads.com/review/show/6684001785?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "A Little Hatred (The Age of Madness, #1)",
+    "author": "Joe Abercrombie",
+    "link": "https://www.goodreads.com/review/show/6729030397?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "Children of Ruin (Children of Time, #2)",
+    "author": "Adrian Tchaikovsky",
+    "link": "https://www.goodreads.com/review/show/7548164239?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "Children of Time (Children of Time, #1)",
+    "author": "Adrian Tchaikovsky",
+    "link": "https://www.goodreads.com/review/show/7167055398?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "Alone on the Wall",
+    "author": "Alex Honnold",
+    "link": "https://www.goodreads.com/review/show/5049239635?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "Livesuit (The Captive's War, #1.5)",
+    "author": "James S.A. Corey",
+    "link": "https://www.goodreads.com/review/show/7167047216?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "The Mercy of Gods (The Captive's War, #1)",
+    "author": "James S.A. Corey",
+    "link": "https://www.goodreads.com/review/show/7167047184?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "The Will of the Many (Hierarchy, #1)",
+    "author": "James  Islington",
+    "link": "https://www.goodreads.com/review/show/7109471544?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "Play Nice: The Rise, Fall, and Future of Blizzard Entertainment",
+    "author": "Jason Schreier",
+    "link": "https://www.goodreads.com/review/show/6653935783?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "Shape Up: Stop Running in Circles and Ship Work that Matters",
+    "author": "Ryan Singer",
+    "link": "https://www.goodreads.com/review/show/7058564099?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "The Unfolding of Language: An Evolutionary Tour of Mankind's Greatest Invention",
+    "author": "Guy Deutscher",
+    "link": "https://www.goodreads.com/review/show/6913754864?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "The Republic of Thieves (Gentleman Bastard, #3)",
+    "author": "Scott Lynch",
+    "link": "https://www.goodreads.com/review/show/6737697899?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "A Clash of Kings (A Song of Ice and Fire, #2)",
+    "author": "George R.R. Martin",
+    "link": "https://www.goodreads.com/review/show/980001297?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "Red Seas Under Red Skies (Gentleman Bastard, #2)",
+    "author": "Scott Lynch",
+    "link": "https://www.goodreads.com/review/show/6737697683?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "The Lies of Locke Lamora (Gentleman Bastard, #1)",
+    "author": "Scott Lynch",
+    "link": "https://www.goodreads.com/review/show/4885103911?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "The Children of the Sky (Zones of Thought, #3)",
+    "author": "Vernor Vinge",
+    "link": "https://www.goodreads.com/review/show/6523345743?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "Udsigt fra en malkeskammel",
+    "author": "Frank Erichsen",
+    "link": "https://www.goodreads.com/review/show/5107770703?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "A Fire Upon the Deep (Zones of Thought, #1)",
+    "author": "Vernor Vinge",
+    "link": "https://www.goodreads.com/review/show/5468620264?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "Number Go Up: Inside Crypto's Wild Rise and Staggering Fall",
+    "author": "Zeke Faux",
+    "link": "https://www.goodreads.com/review/show/6209279945?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "Elon Musk",
+    "author": "Walter Isaacson",
+    "link": "https://www.goodreads.com/review/show/6301411885?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "The Sunlit Man",
+    "author": "Brandon Sanderson",
+    "link": "https://www.goodreads.com/review/show/6167818481?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "Light Bringer (Red Rising Saga, #6)",
+    "author": "Pierce Brown",
+    "link": "https://www.goodreads.com/review/show/6167818633?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "Dark Age (Red Rising Saga, #5)",
+    "author": "Pierce Brown",
+    "link": "https://www.goodreads.com/review/show/2792086496?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "Yumi and the Nightmare Painter (Hoid's Travails, #2)",
+    "author": "Brandon Sanderson",
+    "link": "https://www.goodreads.com/review/show/5690354552?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "Elantris (Elantris, #1)",
+    "author": "Brandon Sanderson",
+    "link": "https://www.goodreads.com/review/show/2394309990?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "Tress of the Emerald Sea",
+    "author": "Brandon Sanderson",
+    "link": "https://www.goodreads.com/review/show/4735548617?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "Invisible Women: Data Bias in a World Designed for Men",
+    "author": "Caroline Criado P\u00e9rez",
+    "link": "https://www.goodreads.com/review/show/3428253312?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "Work Clean: The life-changing power of mise-en-place to organize your life, work, and mind",
+    "author": "Dan Charnas",
+    "link": "https://www.goodreads.com/review/show/2666272499?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "Kitchen Confidential: Adventures in the Culinary Underbelly",
+    "author": "Anthony Bourdain",
+    "link": "https://www.goodreads.com/review/show/5464625507?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "The Internet is a Playground",
+    "author": "David Thorne",
+    "link": "https://www.goodreads.com/review/show/3964991386?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "I'll Go Home Then, It's Warm and Has Chairs. The Unpublished Emails.",
+    "author": "David Thorne",
+    "link": "https://www.goodreads.com/review/show/3964991843?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "Project Hail Mary",
+    "author": "Andy Weir",
+    "link": "https://www.goodreads.com/review/show/4451513219?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "The Lost Metal (Mistborn, #7)",
+    "author": "Brandon Sanderson",
+    "link": "https://www.goodreads.com/review/show/4735537447?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "Best Served Cold",
+    "author": "Joe Abercrombie",
+    "link": "https://www.goodreads.com/review/show/4885099608?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "Last Argument of Kings (The First Law, #3)",
+    "author": "Joe Abercrombie",
+    "link": "https://www.goodreads.com/review/show/4885099592?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "Overcoming Gravity",
+    "author": "Steven Low",
+    "link": "https://www.goodreads.com/review/show/4739069765?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "Before They Are Hanged (The First Law, #2)",
+    "author": "Joe Abercrombie",
+    "link": "https://www.goodreads.com/review/show/4885099568?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "The Blade Itself (The First Law, #1)",
+    "author": "Joe Abercrombie",
+    "link": "https://www.goodreads.com/review/show/4353826300?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "Monsters in the Dark: The Making of X-COM: UFO Defense",
+    "author": "David L. Craddock",
+    "link": "https://www.goodreads.com/review/show/4765944984?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "The Psychology of Money: Timeless Lessons on Wealth, Greed, and Happiness",
+    "author": "Morgan Housel",
+    "link": "https://www.goodreads.com/review/show/4508655547?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "The Sins of Our Fathers (The Expanse, #9.5)",
+    "author": "James S.A. Corey",
+    "link": "https://www.goodreads.com/review/show/4424560036?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "Oathbringer (The Stormlight Archive, #3)",
+    "author": "Brandon Sanderson",
+    "link": "https://www.goodreads.com/review/show/4484194474?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "Cytonic (Skyward, #3)",
+    "author": "Brandon Sanderson",
+    "link": "https://www.goodreads.com/review/show/4158959602?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "Leviathan Falls (The Expanse, #9)",
+    "author": "James S.A. Corey",
+    "link": "https://www.goodreads.com/review/show/4424560613?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "Steve Jobs",
+    "author": "Walter Isaacson",
+    "link": "https://www.goodreads.com/review/show/4355889221?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "Creativity, Inc.: Overcoming the Unseen Forces That Stand in the Way of True Inspiration",
+    "author": "Ed Catmull",
+    "link": "https://www.goodreads.com/review/show/4098870231?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "Starsight (Skyward, #2)",
+    "author": "Brandon Sanderson",
+    "link": "https://www.goodreads.com/review/show/3094856623?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "Skyward (Skyward, #1)",
+    "author": "Brandon Sanderson",
+    "link": "https://www.goodreads.com/review/show/2951557956?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "The Bands of Mourning (Mistborn, #6)",
+    "author": "Brandon Sanderson",
+    "link": "https://www.goodreads.com/review/show/2587995445?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "Shadows of Self (Mistborn, #5)",
+    "author": "Brandon Sanderson",
+    "link": "https://www.goodreads.com/review/show/2587995395?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "A Guide to the Good Life: The Ancient Art of Stoic Joy",
+    "author": "William B. Irvine",
+    "link": "https://www.goodreads.com/review/show/2890878919?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "Blood, Sweat, and Pixels",
+    "author": "Jason Schreier",
+    "link": "https://www.goodreads.com/review/show/3408999544?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "The Checklist Manifesto: How to Get Things Right",
+    "author": "Atul Gawande",
+    "link": "https://www.goodreads.com/review/show/3884094610?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "The Great Mental Models: General Thinking Concepts",
+    "author": "Shane Parrish",
+    "link": "https://www.goodreads.com/review/show/3622486181?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "Fluent Forever: How to Learn Any Language Fast and Never Forget It",
+    "author": "Gabriel Wyner",
+    "link": "https://www.goodreads.com/review/show/3608926513?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "Buddha in Blue Jeans: An Extremely Short Simple Zen Guide to Sitting Quietly and Being Buddha",
+    "author": "Tai Sheridan",
+    "link": "https://www.goodreads.com/review/show/3698825421?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "Man's Search for Meaning",
+    "author": "Viktor E. Frankl",
+    "link": "https://www.goodreads.com/review/show/3325633975?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "A Mind for Numbers: How to Excel at Math and Science (Even If You Flunked Algebra)",
+    "author": "Barbara Oakley",
+    "link": "https://www.goodreads.com/review/show/3608863923?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "Make It Stick: The Science of Successful Learning",
+    "author": "Peter C. Brown",
+    "link": "https://www.goodreads.com/review/show/2565099479?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "Production Ready GraphQL",
+    "author": "Marc-Andre Giroux",
+    "link": "https://www.goodreads.com/review/show/3588997901?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "Managing Oneself (Harvard Business Review Classics)",
+    "author": "Peter F. Drucker",
+    "link": "https://www.goodreads.com/review/show/2890877749?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "Rigtige sommerhuse",
+    "author": "Bente Lange",
+    "link": "https://www.goodreads.com/review/show/3563923266?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "Shoe Dog: A Memoir by the Creator of Nike",
+    "author": "Phil Knight",
+    "link": "https://www.goodreads.com/review/show/3483649700?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "Practical Programming for Strength Training",
+    "author": "Mark Rippetoe",
+    "link": "https://www.goodreads.com/review/show/3194340045?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "Stay Awhile and Listen: Book II - Heaven, Hell, and Secret Cow Levels",
+    "author": "David L. Craddock",
+    "link": "https://www.goodreads.com/review/show/3408998570?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "Why We Sleep: The New Science of Sleep and Dreams",
+    "author": "Matthew Walker",
+    "link": "https://www.goodreads.com/review/show/3354459423?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "Stay Awhile and Listen: Book I - How Two Blizzards Unleashed Diablo and Forged a Video-Game Empire",
+    "author": "David L. Craddock",
+    "link": "https://www.goodreads.com/review/show/3408648835?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "Persepolis Rising (The Expanse, #7)",
+    "author": "James S.A. Corey",
+    "link": "https://www.goodreads.com/review/show/3445678916?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "Bloody Rose (The Band, #2)",
+    "author": "Nicholas Eames",
+    "link": "https://www.goodreads.com/review/show/3403535936?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "Factfulness: Ten Reasons We're Wrong About the World \u2013 and Why Things Are Better Than You Think",
+    "author": "Hans Rosling",
+    "link": "https://www.goodreads.com/review/show/3011963918?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "The Enchiridion",
+    "author": "Epictetus",
+    "link": "https://www.goodreads.com/review/show/2569225884?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "How to Take Smart Notes",
+    "author": "S\u00f6nke Ahrens",
+    "link": "https://www.goodreads.com/review/show/2570157581?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "The Little Book of Stoicism: Timeless Wisdom to Gain Resilience, Confidence, and Calmness",
+    "author": "Jonas Salzgeber",
+    "link": "https://www.goodreads.com/review/show/2951642579?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "The Right Stuff",
+    "author": "Tom Wolfe",
+    "link": "https://www.goodreads.com/review/show/2550763838?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "How To: Absurd Scientific Advice for Common Real-World Problems",
+    "author": "Randall Munroe",
+    "link": "https://www.goodreads.com/review/show/3006557605?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "Karma Cowboy",
+    "author": "Dan Tur\u00e8ll",
+    "link": "https://www.goodreads.com/review/show/3262811303?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "The WoW Diary: A Journal of Computer Game Development",
+    "author": "John Staats",
+    "link": "https://www.goodreads.com/review/show/2956995726?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "Words of Radiance (The Stormlight Archive, #2)",
+    "author": "Brandon Sanderson",
+    "link": "https://www.goodreads.com/review/show/3062132790?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "Starting Strength",
+    "author": "Mark Rippetoe",
+    "link": "https://www.goodreads.com/review/show/3181940494?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "Breakfast of Champions",
+    "author": "Kurt Vonnegut Jr.",
+    "link": "https://www.goodreads.com/review/show/3047184273?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "Vigtigt at vide om Ludmilla",
+    "author": "Sissel-Jo Gazan",
+    "link": "https://www.goodreads.com/review/show/3134001420?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "Ser du m\u00e5nen, Daniel",
+    "author": "Puk Damsg\u00e5rd",
+    "link": "https://www.goodreads.com/review/show/3109395862?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "The Hard Thing About Hard Things: Building a Business When There Are No Easy Answers\u2015Straight Talk on the Challenges of Entrepreneurship",
+    "author": "Ben Horowitz",
+    "link": "https://www.goodreads.com/review/show/2908970981?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "Secret History (Mistborn, #3.5)",
+    "author": "Brandon Sanderson",
+    "link": "https://www.goodreads.com/review/show/3050381144?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "The Slow Regard of Silent Things (The Kingkiller Chronicle, #2.5)",
+    "author": "Patrick Rothfuss",
+    "link": "https://www.goodreads.com/review/show/3004101212?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "Kings of the Wyld (The Band, #1)",
+    "author": "Nicholas Eames",
+    "link": "https://www.goodreads.com/review/show/2646382029?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "The Last Wish (The Witcher, #0.5)",
+    "author": "Andrzej Sapkowski",
+    "link": "https://www.goodreads.com/review/show/3040886425?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "Fight Club",
+    "author": "Chuck Palahniuk",
+    "link": "https://www.goodreads.com/review/show/2929011190?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "The Manager's Path: A Guide for Tech Leaders Navigating Growth and Change",
+    "author": "Camille Fournier",
+    "link": "https://www.goodreads.com/review/show/2672037203?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "American Psycho (Vintage Contemporaries)",
+    "author": "Bret Easton Ellis",
+    "link": "https://www.goodreads.com/review/show/2988577856?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "The Hitchhiker\u2019s Guide to the Galaxy (The Hitchhiker's Guide to the Galaxy, #1)",
+    "author": "Douglas Adams",
+    "link": "https://www.goodreads.com/review/show/2581150151?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "The Way of Kings (The Stormlight Archive, #1)",
+    "author": "Brandon Sanderson",
+    "link": "https://www.goodreads.com/review/show/2394309777?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "The Metamorphosis",
+    "author": "Franz Kafka",
+    "link": "https://www.goodreads.com/review/show/2255073008?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "Tiamat's Wrath (The Expanse, #8)",
+    "author": "James S.A. Corey",
+    "link": "https://www.goodreads.com/review/show/2577287852?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "Bad Blood: Secrets and Lies in a Silicon Valley Startup",
+    "author": "John Carreyrou",
+    "link": "https://www.goodreads.com/review/show/2644342151?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "The Bogleheads' Guide to Investing",
+    "author": "Mel Lindauer",
+    "link": "https://www.goodreads.com/review/show/2871876766?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "The Prince",
+    "author": "Niccol\u00f2 Machiavelli",
+    "link": "https://www.goodreads.com/review/show/2562132208?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "The Lean Startup",
+    "author": "Eric Ries",
+    "link": "https://www.goodreads.com/review/show/2889578376?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "Iron Gold (Red Rising Saga, #4)",
+    "author": "Pierce Brown",
+    "link": "https://www.goodreads.com/review/show/2792086424?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "1491: New Revelations of the Americas Before Columbus",
+    "author": "Charles C. Mann",
+    "link": "https://www.goodreads.com/review/show/2822954916?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "Den rationelle investor",
+    "author": "Kurt Kara",
+    "link": "https://www.goodreads.com/review/show/2851842215?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "Small Green Roofs: Low-Tech Options for Greener Living",
+    "author": "Nigel Dunnett",
+    "link": "https://www.goodreads.com/review/show/2844423489?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "The New Self-Sufficient Gardener",
+    "author": "John Seymour",
+    "link": "https://www.goodreads.com/review/show/2649449822?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "Morning Star (Red Rising Saga, #3)",
+    "author": "Pierce Brown",
+    "link": "https://www.goodreads.com/review/show/2776197209?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "Golden Son (Red Rising Saga, #2)",
+    "author": "Pierce Brown",
+    "link": "https://www.goodreads.com/review/show/2765850966?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "Red Rising (Red Rising Saga, #1)",
+    "author": "Pierce Brown",
+    "link": "https://www.goodreads.com/review/show/2394300542?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "The Alloy of Law (Mistborn, #4)",
+    "author": "Brandon Sanderson",
+    "link": "https://www.goodreads.com/review/show/2718666794?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "The 8-Minute Writing Habit: Create a Consistent Writing Habit That Works With Your Busy Lifestyle (Growth Hacking For Storytellers #3)",
+    "author": "Monica Leonelle",
+    "link": "https://www.goodreads.com/review/show/2651717397?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "The Wise Man's Fear (The Kingkiller Chronicle, #2)",
+    "author": "Patrick Rothfuss",
+    "link": "https://www.goodreads.com/review/show/2646473087?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "The Veldt",
+    "author": "Ray Bradbury",
+    "link": "https://www.goodreads.com/review/show/2517597904?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "Artemis",
+    "author": "Andy Weir",
+    "link": "https://www.goodreads.com/review/show/2559891093?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "The Name of the Wind (The Kingkiller Chronicle, #1)",
+    "author": "Patrick Rothfuss",
+    "link": "https://www.goodreads.com/review/show/2527602728?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "Linux for Beginners",
+    "author": "Jason Cannon",
+    "link": "https://www.goodreads.com/review/show/2594421135?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "The Three-Body Problem (Remembrance of Earth\u2019s Past, #1)",
+    "author": "Liu Cixin",
+    "link": "https://www.goodreads.com/review/show/2585883186?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "Leviathan Wakes (The Expanse, #1)",
+    "author": "James S.A. Corey",
+    "link": "https://www.goodreads.com/review/show/2188741560?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "The Hero of Ages (Mistborn, #3)",
+    "author": "Brandon Sanderson",
+    "link": "https://www.goodreads.com/review/show/2483914647?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "Brave New World",
+    "author": "Aldous Huxley",
+    "link": "https://www.goodreads.com/review/show/2394299761?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "ReWork",
+    "author": "Jason Fried",
+    "link": "https://www.goodreads.com/review/show/2559633985?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "Mistborn: The Final Empire (Mistborn, #1)",
+    "author": "Brandon Sanderson",
+    "link": "https://www.goodreads.com/review/show/2479832987?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "Elon Musk: Tesla, SpaceX, and the Quest for a Fantastic Future",
+    "author": "Ashlee Vance",
+    "link": "https://www.goodreads.com/review/show/2514080008?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "Masters of Doom: How Two Guys Created an Empire and Transformed Pop Culture",
+    "author": "David Kushner",
+    "link": "https://www.goodreads.com/review/show/2514061757?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "The Martian",
+    "author": "Andy Weir",
+    "link": "https://www.goodreads.com/review/show/2503208927?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "The Well of Ascension (Mistborn, #2)",
+    "author": "Brandon Sanderson",
+    "link": "https://www.goodreads.com/review/show/2483914498?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "Sapiens: A Brief History of Humankind",
+    "author": "Yuval Noah Harari",
+    "link": "https://www.goodreads.com/review/show/2242072881?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "The Churn (The Expanse, #3.5)",
+    "author": "James S.A. Corey",
+    "link": "https://www.goodreads.com/review/show/2188742263?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "Babylon\u2019s Ashes (The Expanse, #6)",
+    "author": "James S.A. Corey",
+    "link": "https://www.goodreads.com/review/show/2188742081?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "Nemesis Games (The Expanse, #5)",
+    "author": "James S.A. Corey",
+    "link": "https://www.goodreads.com/review/show/2188742028?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "Drive (The Expanse, #2.7)",
+    "author": "James S.A. Corey",
+    "link": "https://www.goodreads.com/review/show/2188742360?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "The Butcher of Anderson Station (The Expanse, #1.5)",
+    "author": "James S.A. Corey",
+    "link": "https://www.goodreads.com/review/show/2188742123?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "Cibola Burn (The Expanse, #4)",
+    "author": "James S.A. Corey",
+    "link": "https://www.goodreads.com/review/show/2188741979?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "Abaddon\u2019s Gate (The Expanse, #3)",
+    "author": "James S.A. Corey",
+    "link": "https://www.goodreads.com/review/show/2188741937?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "Caliban\u2019s War (The Expanse, #2)",
+    "author": "James S.A. Corey",
+    "link": "https://www.goodreads.com/review/show/2188741881?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "Foundation (Foundation, #1)",
+    "author": "Isaac Asimov",
+    "link": "https://www.goodreads.com/review/show/1018308131?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "Children of Dune (Dune #3)",
+    "author": "Frank Herbert",
+    "link": "https://www.goodreads.com/review/show/1018307520?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "Thinking, Fast and Slow",
+    "author": "Daniel Kahneman",
+    "link": "https://www.goodreads.com/review/show/1018305499?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "Hyperion (Hyperion Cantos, #1)",
+    "author": "Dan Simmons",
+    "link": "https://www.goodreads.com/review/show/1018305223?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "Animal Farm",
+    "author": "George Orwell",
+    "link": "https://www.goodreads.com/review/show/1018303741?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "Dune (Dune #1)",
+    "author": "Frank Herbert",
+    "link": "https://www.goodreads.com/review/show/980001298?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "Dune Messiah (Dune #2)",
+    "author": "Frank Herbert",
+    "link": "https://www.goodreads.com/review/show/1018303307?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "Guns, Germs, and Steel: The Fates of Human Societies",
+    "author": "Jared Diamond",
+    "link": "https://www.goodreads.com/review/show/980008098?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "The Etymologicon: A Circular Stroll through the Hidden Connections of the English Language",
+    "author": "Mark Forsyth",
+    "link": "https://www.goodreads.com/review/show/980009676?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "A Feast for Crows (A Song of Ice and Fire, #4)",
+    "author": "George R.R. Martin",
+    "link": "https://www.goodreads.com/review/show/980008581?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "A Dance with Dragons (A Song of Ice and Fire, #5)",
+    "author": "George R.R. Martin",
+    "link": "https://www.goodreads.com/review/show/980008423?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "Born to Run: A Hidden Tribe, Superathletes, and the Greatest Race the World Has Never Seen",
+    "author": "Christopher McDougall",
+    "link": "https://www.goodreads.com/review/show/980007849?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "Roots",
+    "author": "Alex Haley",
+    "link": "https://www.goodreads.com/review/show/980001281?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "The Eye of the World (The Wheel of Time, #1)",
+    "author": "Robert Jordan",
+    "link": "https://www.goodreads.com/review/show/980001291?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "The Great Hunt (Wheel of Time, #2)",
+    "author": "Robert Jordan",
+    "link": "https://www.goodreads.com/review/show/980001277?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "A Game of Thrones (A Song of Ice and Fire, #1)",
+    "author": "George R.R. Martin",
+    "link": "https://www.goodreads.com/review/show/980001290?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "Catch-22",
+    "author": "Joseph Heller",
+    "link": "https://www.goodreads.com/review/show/980001292?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "The Dragon Reborn (The Wheel of Time #3)",
+    "author": "Robert Jordan",
+    "link": "https://www.goodreads.com/review/show/980001287?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "1984",
+    "author": "George Orwell",
+    "link": "https://www.goodreads.com/review/show/980001289?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "A Storm of Swords (A Song of Ice and Fire, #3)",
+    "author": "George R.R. Martin",
+    "link": "https://www.goodreads.com/review/show/980001528?utm_medium=api&utm_source=rss"
+  },
+  {
+    "title": "To Kill a Mockingbird",
+    "author": "Harper Lee",
+    "link": "https://www.goodreads.com/review/show/979535588?utm_medium=api&utm_source=rss"
+  }
+]

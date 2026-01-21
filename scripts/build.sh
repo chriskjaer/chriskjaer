@@ -16,5 +16,7 @@ build_one() {
   printf '%s\n' "built $(basename "$target")"
 }
 
+python3 "$root/scripts/generate_books_from_goodreads.py" || true
+
 build_one "$root/src/index.smol" "$out/index.html"
 build_one "$root/src/books.smol" "$out/books/index.html"
