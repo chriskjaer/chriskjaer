@@ -1,1258 +1,159 @@
 [
-  {
-    "title": "Empire of Silence (The Sun Eater, #1)",
-    "author": "Christopher Ruocchio",
-    "link": "https://www.goodreads.com/review/show/7100337673?utm_medium=api&utm_source=rss",
-    "rating": "4",
-    "date_read": "2025-11-10T00:00:00+00:00",
-    "date_added": "2024-12-19T20:11:17+00:00"
-  },
-  {
-    "title": "Neuromancer (Sprawl #1)",
-    "author": "William Gibson",
-    "link": "https://www.goodreads.com/review/show/2514073089?utm_medium=api&utm_source=rss",
-    "rating": "1",
-    "date_read": "2018-10-19T00:00:00+00:00",
-    "date_added": "2018-08-31T15:23:40+00:00"
-  },
-  {
-    "title": "Ultra-Processed People: Why We Can't Stop Eating Food That Isn't Food",
-    "author": "Chris van Tulleken",
-    "link": "https://www.goodreads.com/review/show/7791175663?utm_medium=api&utm_source=rss",
-    "rating": "5",
-    "date_read": "2025-09-06T00:00:00+00:00",
-    "date_added": "2025-08-01T15:20:22+00:00"
-  },
-  {
-    "title": "Isles of the Emberdark",
-    "author": "Brandon Sanderson",
-    "link": "https://www.goodreads.com/review/show/7769788183?utm_medium=api&utm_source=rss",
-    "rating": "5",
-    "date_read": "2025-08-17T00:00:00+00:00",
-    "date_added": "2025-07-25T09:54:01+00:00"
-  },
-  {
-    "title": "Warbreaker",
-    "author": "Brandon Sanderson",
-    "link": "https://www.goodreads.com/review/show/6684001785?utm_medium=api&utm_source=rss",
-    "rating": "4",
-    "date_read": "2025-07-25T00:00:00+00:00",
-    "date_added": "2024-07-19T20:28:04+00:00"
-  },
-  {
-    "title": "A Little Hatred (The Age of Madness, #1)",
-    "author": "Joe Abercrombie",
-    "link": "https://www.goodreads.com/review/show/6729030397?utm_medium=api&utm_source=rss",
-    "rating": "2",
-    "date_read": "2025-06-07T00:00:00+00:00",
-    "date_added": "2024-08-04T18:13:20+00:00"
-  },
-  {
-    "title": "Children of Ruin (Children of Time, #2)",
-    "author": "Adrian Tchaikovsky",
-    "link": "https://www.goodreads.com/review/show/7548164239?utm_medium=api&utm_source=rss",
-    "rating": "3",
-    "date_read": "2025-05-31T00:00:00+00:00",
-    "date_added": "2025-05-06T18:30:54+00:00"
-  },
-  {
-    "title": "Children of Time (Children of Time, #1)",
-    "author": "Adrian Tchaikovsky",
-    "link": "https://www.goodreads.com/review/show/7167055398?utm_medium=api&utm_source=rss",
-    "rating": "5",
-    "date_read": "2025-04-23T00:00:00+00:00",
-    "date_added": "2025-01-03T21:39:54+00:00"
-  },
-  {
-    "title": "Alone on the Wall",
-    "author": "Alex Honnold",
-    "link": "https://www.goodreads.com/review/show/5049239635?utm_medium=api&utm_source=rss",
-    "rating": "4",
-    "date_read": "2025-04-09T00:00:00+00:00",
-    "date_added": "2022-10-16T20:05:31+00:00"
-  },
-  {
-    "title": "Livesuit (The Captive's War, #1.5)",
-    "author": "James S.A. Corey",
-    "link": "https://www.goodreads.com/review/show/7167047216?utm_medium=api&utm_source=rss",
-    "rating": "4",
-    "date_read": "2025-01-26T00:00:00+00:00",
-    "date_added": "2025-01-03T21:38:20+00:00"
-  },
-  {
-    "title": "The Mercy of Gods (The Captive's War, #1)",
-    "author": "James S.A. Corey",
-    "link": "https://www.goodreads.com/review/show/7167047184?utm_medium=api&utm_source=rss",
-    "rating": "4",
-    "date_read": "2025-01-22T00:00:00+00:00",
-    "date_added": "2025-01-03T21:38:20+00:00"
-  },
-  {
-    "title": "The Will of the Many (Hierarchy, #1)",
-    "author": "James  Islington",
-    "link": "https://www.goodreads.com/review/show/7109471544?utm_medium=api&utm_source=rss",
-    "rating": "5",
-    "date_read": "2025-01-02T00:00:00+00:00",
-    "date_added": "2024-12-22T22:08:31+00:00"
-  },
-  {
-    "title": "Play Nice: The Rise, Fall, and Future of Blizzard Entertainment",
-    "author": "Jason Schreier",
-    "link": "https://www.goodreads.com/review/show/6653935783?utm_medium=api&utm_source=rss",
-    "rating": "5",
-    "date_read": "2024-12-22T00:00:00+00:00",
-    "date_added": "2024-07-09T06:36:24+00:00"
-  },
-  {
-    "title": "Shape Up: Stop Running in Circles and Ship Work that Matters",
-    "author": "Ryan Singer",
-    "link": "https://www.goodreads.com/review/show/7058564099?utm_medium=api&utm_source=rss",
-    "rating": "5",
-    "date_read": "2024-11-28T00:00:00+00:00",
-    "date_added": "2024-12-05T07:54:01+00:00"
-  },
-  {
-    "title": "The Unfolding of Language: An Evolutionary Tour of Mankind's Greatest Invention",
-    "author": "Guy Deutscher",
-    "link": "https://www.goodreads.com/review/show/6913754864?utm_medium=api&utm_source=rss",
-    "rating": "2",
-    "date_read": "2024-12-01T00:00:00+00:00",
-    "date_added": "2024-10-09T17:34:01+00:00"
-  },
-  {
-    "title": "The Republic of Thieves (Gentleman Bastard, #3)",
-    "author": "Scott Lynch",
-    "link": "https://www.goodreads.com/review/show/6737697899?utm_medium=api&utm_source=rss",
-    "rating": "3",
-    "date_read": "2024-10-13T00:00:00+00:00",
-    "date_added": "2024-08-07T14:54:27+00:00"
-  },
-  {
-    "title": "A Clash of Kings (A Song of Ice and Fire, #2)",
-    "author": "George R.R. Martin",
-    "link": "https://www.goodreads.com/review/show/980001297?utm_medium=api&utm_source=rss",
-    "rating": "5",
-    "date_read": null,
-    "date_added": "2014-06-28T11:26:47+00:00"
-  },
-  {
-    "title": "Red Seas Under Red Skies (Gentleman Bastard, #2)",
-    "author": "Scott Lynch",
-    "link": "https://www.goodreads.com/review/show/6737697683?utm_medium=api&utm_source=rss",
-    "rating": "4",
-    "date_read": "2024-09-15T00:00:00+00:00",
-    "date_added": "2024-08-07T14:54:22+00:00"
-  },
-  {
-    "title": "The Lies of Locke Lamora (Gentleman Bastard, #1)",
-    "author": "Scott Lynch",
-    "link": "https://www.goodreads.com/review/show/4885103911?utm_medium=api&utm_source=rss",
-    "rating": "5",
-    "date_read": "2024-08-07T00:00:00+00:00",
-    "date_added": "2022-07-31T09:53:40+00:00"
-  },
-  {
-    "title": "The Children of the Sky (Zones of Thought, #3)",
-    "author": "Vernor Vinge",
-    "link": "https://www.goodreads.com/review/show/6523345743?utm_medium=api&utm_source=rss",
-    "rating": "2",
-    "date_read": "2024-07-16T00:00:00+00:00",
-    "date_added": "2024-05-21T20:20:53+00:00"
-  },
-  {
-    "title": "Udsigt fra en malkeskammel",
-    "author": "Frank Erichsen",
-    "link": "https://www.goodreads.com/review/show/5107770703?utm_medium=api&utm_source=rss",
-    "rating": "5",
-    "date_read": "2023-08-10T00:00:00+00:00",
-    "date_added": "2022-11-16T13:05:48+00:00"
-  },
-  {
-    "title": "A Fire Upon the Deep (Zones of Thought, #1)",
-    "author": "Vernor Vinge",
-    "link": "https://www.goodreads.com/review/show/5468620264?utm_medium=api&utm_source=rss",
-    "rating": "4",
-    "date_read": "2024-05-21T00:00:00+00:00",
-    "date_added": "2023-04-07T06:16:04+00:00"
-  },
-  {
-    "title": "Number Go Up: Inside Crypto's Wild Rise and Staggering Fall",
-    "author": "Zeke Faux",
-    "link": "https://www.goodreads.com/review/show/6209279945?utm_medium=api&utm_source=rss",
-    "rating": "4",
-    "date_read": "2024-03-20T00:00:00+00:00",
-    "date_added": "2024-01-27T13:43:46+00:00"
-  },
-  {
-    "title": "Elon Musk",
-    "author": "Walter Isaacson",
-    "link": "https://www.goodreads.com/review/show/6301411885?utm_medium=api&utm_source=rss",
-    "rating": "5",
-    "date_read": "2024-03-06T00:00:00+00:00",
-    "date_added": "2024-02-28T15:04:37+00:00"
-  },
-  {
-    "title": "The Sunlit Man",
-    "author": "Brandon Sanderson",
-    "link": "https://www.goodreads.com/review/show/6167818481?utm_medium=api&utm_source=rss",
-    "rating": "5",
-    "date_read": "2024-02-26T00:00:00+00:00",
-    "date_added": "2024-01-14T20:34:58+00:00"
-  },
-  {
-    "title": "Light Bringer (Red Rising Saga, #6)",
-    "author": "Pierce Brown",
-    "link": "https://www.goodreads.com/review/show/6167818633?utm_medium=api&utm_source=rss",
-    "rating": "5",
-    "date_read": "2024-02-21T00:00:00+00:00",
-    "date_added": "2024-01-14T20:35:00+00:00"
-  },
-  {
-    "title": "Dark Age (Red Rising Saga, #5)",
-    "author": "Pierce Brown",
-    "link": "https://www.goodreads.com/review/show/2792086496?utm_medium=api&utm_source=rss",
-    "rating": "4",
-    "date_read": "2024-01-14T00:00:00+00:00",
-    "date_added": "2019-04-19T20:26:28+00:00"
-  },
-  {
-    "title": "Yumi and the Nightmare Painter (Hoid's Travails, #2)",
-    "author": "Brandon Sanderson",
-    "link": "https://www.goodreads.com/review/show/5690354552?utm_medium=api&utm_source=rss",
-    "rating": "5",
-    "date_read": "2023-10-18T00:00:00+00:00",
-    "date_added": "2023-07-13T20:36:48+00:00"
-  },
-  {
-    "title": "Elantris (Elantris, #1)",
-    "author": "Brandon Sanderson",
-    "link": "https://www.goodreads.com/review/show/2394309990?utm_medium=api&utm_source=rss",
-    "rating": "5",
-    "date_read": "2023-09-14T00:00:00+00:00",
-    "date_added": "2018-05-17T14:38:09+00:00"
-  },
-  {
-    "title": "Tress of the Emerald Sea",
-    "author": "Brandon Sanderson",
-    "link": "https://www.goodreads.com/review/show/4735548617?utm_medium=api&utm_source=rss",
-    "rating": "5",
-    "date_read": "2023-07-13T00:00:00+00:00",
-    "date_added": "2022-05-20T21:54:05+00:00"
-  },
-  {
-    "title": "Invisible Women: Data Bias in a World Designed for Men",
-    "author": "Caroline Criado P\u00e9rez",
-    "link": "https://www.goodreads.com/review/show/3428253312?utm_medium=api&utm_source=rss",
-    "rating": "3",
-    "date_read": "2023-06-24T00:00:00+00:00",
-    "date_added": "2020-07-06T07:18:25+00:00"
-  },
-  {
-    "title": "Work Clean: The life-changing power of mise-en-place to organize your life, work, and mind",
-    "author": "Dan Charnas",
-    "link": "https://www.goodreads.com/review/show/2666272499?utm_medium=api&utm_source=rss",
-    "rating": "3",
-    "date_read": "2023-06-24T00:00:00+00:00",
-    "date_added": "2019-01-09T20:28:40+00:00"
-  },
-  {
-    "title": "Kitchen Confidential: Adventures in the Culinary Underbelly",
-    "author": "Anthony Bourdain",
-    "link": "https://www.goodreads.com/review/show/5464625507?utm_medium=api&utm_source=rss",
-    "rating": "4",
-    "date_read": "2023-04-30T00:00:00+00:00",
-    "date_added": "2023-04-05T13:34:44+00:00"
-  },
-  {
-    "title": "The Internet is a Playground",
-    "author": "David Thorne",
-    "link": "https://www.goodreads.com/review/show/3964991386?utm_medium=api&utm_source=rss",
-    "rating": "4",
-    "date_read": "2023-04-12T00:00:00+00:00",
-    "date_added": "2021-04-25T11:23:18+00:00"
-  },
-  {
-    "title": "I'll Go Home Then, It's Warm and Has Chairs. The Unpublished Emails.",
-    "author": "David Thorne",
-    "link": "https://www.goodreads.com/review/show/3964991843?utm_medium=api&utm_source=rss",
-    "rating": "3",
-    "date_read": "2023-03-13T00:00:00+00:00",
-    "date_added": "2021-04-25T11:23:46+00:00"
-  },
-  {
-    "title": "Project Hail Mary",
-    "author": "Andy Weir",
-    "link": "https://www.goodreads.com/review/show/4451513219?utm_medium=api&utm_source=rss",
-    "rating": "5",
-    "date_read": "2023-03-06T00:00:00+00:00",
-    "date_added": "2022-01-06T07:22:26+00:00"
-  },
-  {
-    "title": "The Lost Metal (Mistborn, #7)",
-    "author": "Brandon Sanderson",
-    "link": "https://www.goodreads.com/review/show/4735537447?utm_medium=api&utm_source=rss",
-    "rating": "5",
-    "date_read": "2023-02-23T00:00:00+00:00",
-    "date_added": "2022-05-20T21:45:53+00:00"
-  },
-  {
-    "title": "Best Served Cold",
-    "author": "Joe Abercrombie",
-    "link": "https://www.goodreads.com/review/show/4885099608?utm_medium=api&utm_source=rss",
-    "rating": "3",
-    "date_read": "2023-01-30T00:00:00+00:00",
-    "date_added": "2022-07-31T09:49:27+00:00"
-  },
-  {
-    "title": "Last Argument of Kings (The First Law, #3)",
-    "author": "Joe Abercrombie",
-    "link": "https://www.goodreads.com/review/show/4885099592?utm_medium=api&utm_source=rss",
-    "rating": "0",
-    "date_read": "2022-11-25T00:00:00+00:00",
-    "date_added": "2022-07-31T09:49:26+00:00"
-  },
-  {
-    "title": "Overcoming Gravity",
-    "author": "Steven Low",
-    "link": "https://www.goodreads.com/review/show/4739069765?utm_medium=api&utm_source=rss",
-    "rating": "3",
-    "date_read": "2022-11-05T00:00:00+00:00",
-    "date_added": "2022-05-22T20:56:50+00:00"
-  },
-  {
-    "title": "Before They Are Hanged (The First Law, #2)",
-    "author": "Joe Abercrombie",
-    "link": "https://www.goodreads.com/review/show/4885099568?utm_medium=api&utm_source=rss",
-    "rating": "4",
-    "date_read": "2022-09-07T00:00:00+00:00",
-    "date_added": "2022-07-31T09:49:25+00:00"
-  },
-  {
-    "title": "The Blade Itself (The First Law, #1)",
-    "author": "Joe Abercrombie",
-    "link": "https://www.goodreads.com/review/show/4353826300?utm_medium=api&utm_source=rss",
-    "rating": "5",
-    "date_read": "2022-07-31T00:00:00+00:00",
-    "date_added": "2021-11-24T09:50:55+00:00"
-  },
-  {
-    "title": "Monsters in the Dark: The Making of X-COM: UFO Defense",
-    "author": "David L. Craddock",
-    "link": "https://www.goodreads.com/review/show/4765944984?utm_medium=api&utm_source=rss",
-    "rating": "3",
-    "date_read": "2022-06-13T00:00:00+00:00",
-    "date_added": "2022-06-05T21:35:55+00:00"
-  },
-  {
-    "title": "The Psychology of Money: Timeless Lessons on Wealth, Greed, and Happiness",
-    "author": "Morgan Housel",
-    "link": "https://www.goodreads.com/review/show/4508655547?utm_medium=api&utm_source=rss",
-    "rating": "3",
-    "date_read": "2022-06-05T00:00:00+00:00",
-    "date_added": "2022-01-27T11:03:34+00:00"
-  },
-  {
-    "title": "The Sins of Our Fathers (The Expanse, #9.5)",
-    "author": "James S.A. Corey",
-    "link": "https://www.goodreads.com/review/show/4424560036?utm_medium=api&utm_source=rss",
-    "rating": "5",
-    "date_read": "2022-05-20T00:00:00+00:00",
-    "date_added": "2021-12-30T22:17:29+00:00"
-  },
-  {
-    "title": "Oathbringer (The Stormlight Archive, #3)",
-    "author": "Brandon Sanderson",
-    "link": "https://www.goodreads.com/review/show/4484194474?utm_medium=api&utm_source=rss",
-    "rating": "3",
-    "date_read": "2022-05-20T00:00:00+00:00",
-    "date_added": "2022-01-17T21:30:00+00:00"
-  },
-  {
-    "title": "Cytonic (Skyward, #3)",
-    "author": "Brandon Sanderson",
-    "link": "https://www.goodreads.com/review/show/4158959602?utm_medium=api&utm_source=rss",
-    "rating": "3",
-    "date_read": "2022-01-17T00:00:00+00:00",
-    "date_added": "2021-08-06T20:19:39+00:00"
-  },
-  {
-    "title": "Leviathan Falls (The Expanse, #9)",
-    "author": "James S.A. Corey",
-    "link": "https://www.goodreads.com/review/show/4424560613?utm_medium=api&utm_source=rss",
-    "rating": "5",
-    "date_read": "2021-12-30T00:00:00+00:00",
-    "date_added": "2021-12-30T22:17:40+00:00"
-  },
-  {
-    "title": "Steve Jobs",
-    "author": "Walter Isaacson",
-    "link": "https://www.goodreads.com/review/show/4355889221?utm_medium=api&utm_source=rss",
-    "rating": "5",
-    "date_read": "2021-12-13T00:00:00+00:00",
-    "date_added": "2021-11-25T19:00:23+00:00"
-  },
-  {
-    "title": "Creativity, Inc.: Overcoming the Unseen Forces That Stand in the Way of True Inspiration",
-    "author": "Ed Catmull",
-    "link": "https://www.goodreads.com/review/show/4098870231?utm_medium=api&utm_source=rss",
-    "rating": "2",
-    "date_read": "2021-11-23T00:00:00+00:00",
-    "date_added": "2021-07-06T20:06:43+00:00"
-  },
-  {
-    "title": "Starsight (Skyward, #2)",
-    "author": "Brandon Sanderson",
-    "link": "https://www.goodreads.com/review/show/3094856623?utm_medium=api&utm_source=rss",
-    "rating": "5",
-    "date_read": "2021-08-06T00:00:00+00:00",
-    "date_added": "2019-12-22T07:01:42+00:00"
-  },
-  {
-    "title": "Skyward (Skyward, #1)",
-    "author": "Brandon Sanderson",
-    "link": "https://www.goodreads.com/review/show/2951557956?utm_medium=api&utm_source=rss",
-    "rating": "5",
-    "date_read": "2021-07-28T00:00:00+00:00",
-    "date_added": "2019-08-25T18:50:25+00:00"
-  },
-  {
-    "title": "The Bands of Mourning (Mistborn, #6)",
-    "author": "Brandon Sanderson",
-    "link": "https://www.goodreads.com/review/show/2587995445?utm_medium=api&utm_source=rss",
-    "rating": "5",
-    "date_read": "2021-07-21T00:00:00+00:00",
-    "date_added": "2018-11-08T19:33:35+00:00"
-  },
-  {
-    "title": "Shadows of Self (Mistborn, #5)",
-    "author": "Brandon Sanderson",
-    "link": "https://www.goodreads.com/review/show/2587995395?utm_medium=api&utm_source=rss",
-    "rating": "5",
-    "date_read": "2021-07-04T00:00:00+00:00",
-    "date_added": "2018-11-08T19:33:32+00:00"
-  },
-  {
-    "title": "A Guide to the Good Life: The Ancient Art of Stoic Joy",
-    "author": "William B. Irvine",
-    "link": "https://www.goodreads.com/review/show/2890878919?utm_medium=api&utm_source=rss",
-    "rating": "3",
-    "date_read": "2021-06-13T00:00:00+00:00",
-    "date_added": "2019-07-10T20:00:24+00:00"
-  },
-  {
-    "title": "Blood, Sweat, and Pixels",
-    "author": "Jason Schreier",
-    "link": "https://www.goodreads.com/review/show/3408999544?utm_medium=api&utm_source=rss",
-    "rating": "3",
-    "date_read": "2021-04-27T00:00:00+00:00",
-    "date_added": "2020-06-24T19:12:16+00:00"
-  },
-  {
-    "title": "The Checklist Manifesto: How to Get Things Right",
-    "author": "Atul Gawande",
-    "link": "https://www.goodreads.com/review/show/3884094610?utm_medium=api&utm_source=rss",
-    "rating": "3",
-    "date_read": "2021-04-09T00:00:00+00:00",
-    "date_added": "2021-03-11T08:36:08+00:00"
-  },
-  {
-    "title": "The Great Mental Models: General Thinking Concepts",
-    "author": "Shane Parrish",
-    "link": "https://www.goodreads.com/review/show/3622486181?utm_medium=api&utm_source=rss",
-    "rating": "4",
-    "date_read": "2021-03-02T00:00:00+00:00",
-    "date_added": "2020-10-31T18:52:01+00:00"
-  },
-  {
-    "title": "Fluent Forever: How to Learn Any Language Fast and Never Forget It",
-    "author": "Gabriel Wyner",
-    "link": "https://www.goodreads.com/review/show/3608926513?utm_medium=api&utm_source=rss",
-    "rating": "4",
-    "date_read": "2021-01-13T00:00:00+00:00",
-    "date_added": "2020-10-23T08:45:11+00:00"
-  },
-  {
-    "title": "Buddha in Blue Jeans: An Extremely Short Simple Zen Guide to Sitting Quietly and Being Buddha",
-    "author": "Tai Sheridan",
-    "link": "https://www.goodreads.com/review/show/3698825421?utm_medium=api&utm_source=rss",
-    "rating": "4",
-    "date_read": "2020-12-29T00:00:00+00:00",
-    "date_added": "2020-12-16T21:03:16+00:00"
-  },
-  {
-    "title": "Man's Search for Meaning",
-    "author": "Viktor E. Frankl",
-    "link": "https://www.goodreads.com/review/show/3325633975?utm_medium=api&utm_source=rss",
-    "rating": "4",
-    "date_read": "2020-12-24T00:00:00+00:00",
-    "date_added": "2020-05-08T20:18:07+00:00"
-  },
-  {
-    "title": "A Mind for Numbers: How to Excel at Math and Science (Even If You Flunked Algebra)",
-    "author": "Barbara Oakley",
-    "link": "https://www.goodreads.com/review/show/3608863923?utm_medium=api&utm_source=rss",
-    "rating": "3",
-    "date_read": "2020-11-24T00:00:00+00:00",
-    "date_added": "2020-10-23T07:04:15+00:00"
-  },
-  {
-    "title": "Make It Stick: The Science of Successful Learning",
-    "author": "Peter C. Brown",
-    "link": "https://www.goodreads.com/review/show/2565099479?utm_medium=api&utm_source=rss",
-    "rating": "4",
-    "date_read": "2020-11-03T00:00:00+00:00",
-    "date_added": "2018-10-17T17:55:29+00:00"
-  },
-  {
-    "title": "Production Ready GraphQL",
-    "author": "Marc-Andre Giroux",
-    "link": "https://www.goodreads.com/review/show/3588997901?utm_medium=api&utm_source=rss",
-    "rating": "5",
-    "date_read": "2020-10-16T00:00:00+00:00",
-    "date_added": "2020-10-10T11:23:50+00:00"
-  },
-  {
-    "title": "Managing Oneself (Harvard Business Review Classics)",
-    "author": "Peter F. Drucker",
-    "link": "https://www.goodreads.com/review/show/2890877749?utm_medium=api&utm_source=rss",
-    "rating": "4",
-    "date_read": "2020-09-28T00:00:00+00:00",
-    "date_added": "2019-07-10T19:59:24+00:00"
-  },
-  {
-    "title": "Rigtige sommerhuse",
-    "author": "Bente Lange",
-    "link": "https://www.goodreads.com/review/show/3563923266?utm_medium=api&utm_source=rss",
-    "rating": "5",
-    "date_read": "2020-09-24T00:00:00+00:00",
-    "date_added": "2020-09-24T06:41:45+00:00"
-  },
-  {
-    "title": "Shoe Dog: A Memoir by the Creator of Nike",
-    "author": "Phil Knight",
-    "link": "https://www.goodreads.com/review/show/3483649700?utm_medium=api&utm_source=rss",
-    "rating": "4",
-    "date_read": "2020-09-23T00:00:00+00:00",
-    "date_added": "2020-08-07T15:08:34+00:00"
-  },
-  {
-    "title": "Practical Programming for Strength Training",
-    "author": "Mark Rippetoe",
-    "link": "https://www.goodreads.com/review/show/3194340045?utm_medium=api&utm_source=rss",
-    "rating": "5",
-    "date_read": "2020-09-06T00:00:00+00:00",
-    "date_added": "2020-02-17T12:45:25+00:00"
-  },
-  {
-    "title": "Stay Awhile and Listen: Book II - Heaven, Hell, and Secret Cow Levels",
-    "author": "David L. Craddock",
-    "link": "https://www.goodreads.com/review/show/3408998570?utm_medium=api&utm_source=rss",
-    "rating": "4",
-    "date_read": "2020-08-02T00:00:00+00:00",
-    "date_added": "2020-06-24T19:11:34+00:00"
-  },
-  {
-    "title": "Why We Sleep: The New Science of Sleep and Dreams",
-    "author": "Matthew Walker",
-    "link": "https://www.goodreads.com/review/show/3354459423?utm_medium=api&utm_source=rss",
-    "rating": "5",
-    "date_read": "2020-08-10T00:00:00+00:00",
-    "date_added": "2020-05-24T21:22:55+00:00"
-  },
-  {
-    "title": "Stay Awhile and Listen: Book I - How Two Blizzards Unleashed Diablo and Forged a Video-Game Empire",
-    "author": "David L. Craddock",
-    "link": "https://www.goodreads.com/review/show/3408648835?utm_medium=api&utm_source=rss",
-    "rating": "4",
-    "date_read": "2020-07-26T00:00:00+00:00",
-    "date_added": "2020-06-24T14:55:35+00:00"
-  },
-  {
-    "title": "Persepolis Rising (The Expanse, #7)",
-    "author": "James S.A. Corey",
-    "link": "https://www.goodreads.com/review/show/3445678916?utm_medium=api&utm_source=rss",
-    "rating": "0",
-    "date_read": null,
-    "date_added": "2020-07-16T12:57:47+00:00"
-  },
-  {
-    "title": "Bloody Rose (The Band, #2)",
-    "author": "Nicholas Eames",
-    "link": "https://www.goodreads.com/review/show/3403535936?utm_medium=api&utm_source=rss",
-    "rating": "5",
-    "date_read": "2020-07-11T00:00:00+00:00",
-    "date_added": "2020-06-21T16:02:37+00:00"
-  },
-  {
-    "title": "Factfulness: Ten Reasons We're Wrong About the World \u2013 and Why Things Are Better Than You Think",
-    "author": "Hans Rosling",
-    "link": "https://www.goodreads.com/review/show/3011963918?utm_medium=api&utm_source=rss",
-    "rating": "5",
-    "date_read": "2020-06-08T00:00:00+00:00",
-    "date_added": "2019-10-14T10:27:32+00:00"
-  },
-  {
-    "title": "The Enchiridion",
-    "author": "Epictetus",
-    "link": "https://www.goodreads.com/review/show/2569225884?utm_medium=api&utm_source=rss",
-    "rating": "5",
-    "date_read": "2020-05-17T00:00:00+00:00",
-    "date_added": "2018-10-21T20:32:41+00:00"
-  },
-  {
-    "title": "How to Take Smart Notes",
-    "author": "S\u00f6nke Ahrens",
-    "link": "https://www.goodreads.com/review/show/2570157581?utm_medium=api&utm_source=rss",
-    "rating": "5",
-    "date_read": "2020-05-23T00:00:00+00:00",
-    "date_added": "2018-10-22T17:49:05+00:00"
-  },
-  {
-    "title": "The Little Book of Stoicism: Timeless Wisdom to Gain Resilience, Confidence, and Calmness",
-    "author": "Jonas Salzgeber",
-    "link": "https://www.goodreads.com/review/show/2951642579?utm_medium=api&utm_source=rss",
-    "rating": "5",
-    "date_read": "2020-05-15T00:00:00+00:00",
-    "date_added": "2019-08-25T20:01:36+00:00"
-  },
-  {
-    "title": "The Right Stuff",
-    "author": "Tom Wolfe",
-    "link": "https://www.goodreads.com/review/show/2550763838?utm_medium=api&utm_source=rss",
-    "rating": "2",
-    "date_read": "2020-04-28T00:00:00+00:00",
-    "date_added": "2018-10-03T19:22:43+00:00"
-  },
-  {
-    "title": "How To: Absurd Scientific Advice for Common Real-World Problems",
-    "author": "Randall Munroe",
-    "link": "https://www.goodreads.com/review/show/3006557605?utm_medium=api&utm_source=rss",
-    "rating": "3",
-    "date_read": "2020-04-07T00:00:00+00:00",
-    "date_added": "2019-10-09T13:09:07+00:00"
-  },
-  {
-    "title": "Karma Cowboy",
-    "author": "Dan Tur\u00e8ll",
-    "link": "https://www.goodreads.com/review/show/3262811303?utm_medium=api&utm_source=rss",
-    "rating": "2",
-    "date_read": "2020-04-04T00:00:00+00:00",
-    "date_added": "2020-04-04T18:11:34+00:00"
-  },
-  {
-    "title": "The WoW Diary: A Journal of Computer Game Development",
-    "author": "John Staats",
-    "link": "https://www.goodreads.com/review/show/2956995726?utm_medium=api&utm_source=rss",
-    "rating": "4",
-    "date_read": "2020-04-03T00:00:00+00:00",
-    "date_added": "2019-08-29T19:42:00+00:00"
-  },
-  {
-    "title": "Words of Radiance (The Stormlight Archive, #2)",
-    "author": "Brandon Sanderson",
-    "link": "https://www.goodreads.com/review/show/3062132790?utm_medium=api&utm_source=rss",
-    "rating": "4",
-    "date_read": "2020-03-25T00:00:00+00:00",
-    "date_added": "2019-11-25T22:10:41+00:00"
-  },
-  {
-    "title": "Starting Strength",
-    "author": "Mark Rippetoe",
-    "link": "https://www.goodreads.com/review/show/3181940494?utm_medium=api&utm_source=rss",
-    "rating": "5",
-    "date_read": "2020-03-07T00:00:00+00:00",
-    "date_added": "2020-02-08T21:14:03+00:00"
-  },
-  {
-    "title": "Breakfast of Champions",
-    "author": "Kurt Vonnegut Jr.",
-    "link": "https://www.goodreads.com/review/show/3047184273?utm_medium=api&utm_source=rss",
-    "rating": "3",
-    "date_read": "2020-01-24T00:00:00+00:00",
-    "date_added": "2019-11-13T05:39:59+00:00"
-  },
-  {
-    "title": "Vigtigt at vide om Ludmilla",
-    "author": "Sissel-Jo Gazan",
-    "link": "https://www.goodreads.com/review/show/3134001420?utm_medium=api&utm_source=rss",
-    "rating": "3",
-    "date_read": "2020-01-11T00:00:00+00:00",
-    "date_added": "2020-01-10T07:56:02+00:00"
-  },
-  {
-    "title": "Ser du m\u00e5nen, Daniel",
-    "author": "Puk Damsg\u00e5rd",
-    "link": "https://www.goodreads.com/review/show/3109395862?utm_medium=api&utm_source=rss",
-    "rating": "4",
-    "date_read": "2020-01-08T00:00:00+00:00",
-    "date_added": "2019-12-30T20:52:17+00:00"
-  },
-  {
-    "title": "The Hard Thing About Hard Things: Building a Business When There Are No Easy Answers\u2015Straight Talk on the Challenges of Entrepreneurship",
-    "author": "Ben Horowitz",
-    "link": "https://www.goodreads.com/review/show/2908970981?utm_medium=api&utm_source=rss",
-    "rating": "4",
-    "date_read": "2019-12-29T00:00:00+00:00",
-    "date_added": "2019-07-24T10:04:38+00:00"
-  },
-  {
-    "title": "Secret History (Mistborn, #3.5)",
-    "author": "Brandon Sanderson",
-    "link": "https://www.goodreads.com/review/show/3050381144?utm_medium=api&utm_source=rss",
-    "rating": "4",
-    "date_read": "2019-12-28T00:00:00+00:00",
-    "date_added": "2019-11-16T00:15:28+00:00"
-  },
-  {
-    "title": "The Slow Regard of Silent Things (The Kingkiller Chronicle, #2.5)",
-    "author": "Patrick Rothfuss",
-    "link": "https://www.goodreads.com/review/show/3004101212?utm_medium=api&utm_source=rss",
-    "rating": "3",
-    "date_read": "2019-12-19T00:00:00+00:00",
-    "date_added": "2019-10-07T12:01:21+00:00"
-  },
-  {
-    "title": "Kings of the Wyld (The Band, #1)",
-    "author": "Nicholas Eames",
-    "link": "https://www.goodreads.com/review/show/2646382029?utm_medium=api&utm_source=rss",
-    "rating": "4",
-    "date_read": "2019-12-07T00:00:00+00:00",
-    "date_added": "2018-12-30T19:15:09+00:00"
-  },
-  {
-    "title": "The Last Wish (The Witcher, #0.5)",
-    "author": "Andrzej Sapkowski",
-    "link": "https://www.goodreads.com/review/show/3040886425?utm_medium=api&utm_source=rss",
-    "rating": "2",
-    "date_read": "2019-11-22T00:00:00+00:00",
-    "date_added": "2019-11-08T01:13:08+00:00"
-  },
-  {
-    "title": "Fight Club",
-    "author": "Chuck Palahniuk",
-    "link": "https://www.goodreads.com/review/show/2929011190?utm_medium=api&utm_source=rss",
-    "rating": "5",
-    "date_read": "2019-11-10T00:00:00+00:00",
-    "date_added": "2019-08-08T11:21:22+00:00"
-  },
-  {
-    "title": "The Manager's Path: A Guide for Tech Leaders Navigating Growth and Change",
-    "author": "Camille Fournier",
-    "link": "https://www.goodreads.com/review/show/2672037203?utm_medium=api&utm_source=rss",
-    "rating": "4",
-    "date_read": "2019-10-31T00:00:00+00:00",
-    "date_added": "2019-01-13T18:26:38+00:00"
-  },
-  {
-    "title": "American Psycho (Vintage Contemporaries)",
-    "author": "Bret Easton Ellis",
-    "link": "https://www.goodreads.com/review/show/2988577856?utm_medium=api&utm_source=rss",
-    "rating": "5",
-    "date_read": "2019-10-22T00:00:00+00:00",
-    "date_added": "2019-09-24T08:17:48+00:00"
-  },
-  {
-    "title": "The Hitchhiker\u2019s Guide to the Galaxy (The Hitchhiker's Guide to the Galaxy, #1)",
-    "author": "Douglas Adams",
-    "link": "https://www.goodreads.com/review/show/2581150151?utm_medium=api&utm_source=rss",
-    "rating": "3",
-    "date_read": "2019-10-17T00:00:00+00:00",
-    "date_added": "2018-11-02T09:29:57+00:00"
-  },
-  {
-    "title": "The Way of Kings (The Stormlight Archive, #1)",
-    "author": "Brandon Sanderson",
-    "link": "https://www.goodreads.com/review/show/2394309777?utm_medium=api&utm_source=rss",
-    "rating": "4",
-    "date_read": "2019-10-09T00:00:00+00:00",
-    "date_added": "2018-05-17T14:37:53+00:00"
-  },
-  {
-    "title": "The Metamorphosis",
-    "author": "Franz Kafka",
-    "link": "https://www.goodreads.com/review/show/2255073008?utm_medium=api&utm_source=rss",
-    "rating": "3",
-    "date_read": "2019-09-13T00:00:00+00:00",
-    "date_added": "2018-01-12T20:47:52+00:00"
-  },
-  {
-    "title": "Tiamat's Wrath (The Expanse, #8)",
-    "author": "James S.A. Corey",
-    "link": "https://www.goodreads.com/review/show/2577287852?utm_medium=api&utm_source=rss",
-    "rating": "5",
-    "date_read": "2019-08-23T00:00:00+00:00",
-    "date_added": "2018-10-29T21:10:19+00:00"
-  },
-  {
-    "title": "Bad Blood: Secrets and Lies in a Silicon Valley Startup",
-    "author": "John Carreyrou",
-    "link": "https://www.goodreads.com/review/show/2644342151?utm_medium=api&utm_source=rss",
-    "rating": "4",
-    "date_read": "2019-07-30T00:00:00+00:00",
-    "date_added": "2018-12-29T15:13:20+00:00"
-  },
-  {
-    "title": "The Bogleheads' Guide to Investing",
-    "author": "Mel Lindauer",
-    "link": "https://www.goodreads.com/review/show/2871876766?utm_medium=api&utm_source=rss",
-    "rating": "4",
-    "date_read": "2019-07-23T00:00:00+00:00",
-    "date_added": "2019-06-25T22:30:04+00:00"
-  },
-  {
-    "title": "The Prince",
-    "author": "Niccol\u00f2 Machiavelli",
-    "link": "https://www.goodreads.com/review/show/2562132208?utm_medium=api&utm_source=rss",
-    "rating": "3",
-    "date_read": "2019-07-12T00:00:00+00:00",
-    "date_added": "2018-10-14T21:40:50+00:00"
-  },
-  {
-    "title": "The Lean Startup",
-    "author": "Eric Ries",
-    "link": "https://www.goodreads.com/review/show/2889578376?utm_medium=api&utm_source=rss",
-    "rating": "0",
-    "date_read": null,
-    "date_added": "2019-07-09T19:56:12+00:00"
-  },
-  {
-    "title": "Iron Gold (Red Rising Saga, #4)",
-    "author": "Pierce Brown",
-    "link": "https://www.goodreads.com/review/show/2792086424?utm_medium=api&utm_source=rss",
-    "rating": "4",
-    "date_read": "2019-07-09T00:00:00+00:00",
-    "date_added": "2019-04-19T20:26:24+00:00"
-  },
-  {
-    "title": "1491: New Revelations of the Americas Before Columbus",
-    "author": "Charles C. Mann",
-    "link": "https://www.goodreads.com/review/show/2822954916?utm_medium=api&utm_source=rss",
-    "rating": "4",
-    "date_read": "2019-06-21T00:00:00+00:00",
-    "date_added": "2019-05-16T10:56:41+00:00"
-  },
-  {
-    "title": "Den rationelle investor",
-    "author": "Kurt Kara",
-    "link": "https://www.goodreads.com/review/show/2851842215?utm_medium=api&utm_source=rss",
-    "rating": "5",
-    "date_read": "2019-06-16T00:00:00+00:00",
-    "date_added": "2019-06-09T14:59:07+00:00"
-  },
-  {
-    "title": "Small Green Roofs: Low-Tech Options for Greener Living",
-    "author": "Nigel Dunnett",
-    "link": "https://www.goodreads.com/review/show/2844423489?utm_medium=api&utm_source=rss",
-    "rating": "2",
-    "date_read": "2019-06-02T00:00:00+00:00",
-    "date_added": "2019-06-03T07:37:49+00:00"
-  },
-  {
-    "title": "The New Self-Sufficient Gardener",
-    "author": "John Seymour",
-    "link": "https://www.goodreads.com/review/show/2649449822?utm_medium=api&utm_source=rss",
-    "rating": "5",
-    "date_read": "2019-05-12T00:00:00+00:00",
-    "date_added": "2019-01-01T12:40:10+00:00"
-  },
-  {
-    "title": "Morning Star (Red Rising Saga, #3)",
-    "author": "Pierce Brown",
-    "link": "https://www.goodreads.com/review/show/2776197209?utm_medium=api&utm_source=rss",
-    "rating": "5",
-    "date_read": "2019-04-19T00:00:00+00:00",
-    "date_added": "2019-04-05T20:35:24+00:00"
-  },
-  {
-    "title": "Golden Son (Red Rising Saga, #2)",
-    "author": "Pierce Brown",
-    "link": "https://www.goodreads.com/review/show/2765850966?utm_medium=api&utm_source=rss",
-    "rating": "5",
-    "date_read": "2019-04-05T00:00:00+00:00",
-    "date_added": "2019-03-27T23:33:51+00:00"
-  },
-  {
-    "title": "Red Rising (Red Rising Saga, #1)",
-    "author": "Pierce Brown",
-    "link": "https://www.goodreads.com/review/show/2394300542?utm_medium=api&utm_source=rss",
-    "rating": "5",
-    "date_read": "2019-03-15T00:00:00+00:00",
-    "date_added": "2018-05-17T14:26:42+00:00"
-  },
-  {
-    "title": "The Alloy of Law (Mistborn, #4)",
-    "author": "Brandon Sanderson",
-    "link": "https://www.goodreads.com/review/show/2718666794?utm_medium=api&utm_source=rss",
-    "rating": "4",
-    "date_read": "2019-02-28T00:00:00+00:00",
-    "date_added": "2019-02-17T13:00:57+00:00"
-  },
-  {
-    "title": "The 8-Minute Writing Habit: Create a Consistent Writing Habit That Works With Your Busy Lifestyle (Growth Hacking For Storytellers #3)",
-    "author": "Monica Leonelle",
-    "link": "https://www.goodreads.com/review/show/2651717397?utm_medium=api&utm_source=rss",
-    "rating": "2",
-    "date_read": "2019-02-05T00:00:00+00:00",
-    "date_added": "2019-01-02T06:55:45+00:00"
-  },
-  {
-    "title": "The Wise Man's Fear (The Kingkiller Chronicle, #2)",
-    "author": "Patrick Rothfuss",
-    "link": "https://www.goodreads.com/review/show/2646473087?utm_medium=api&utm_source=rss",
-    "rating": "5",
-    "date_read": "2019-01-27T00:00:00+00:00",
-    "date_added": "2018-12-30T20:12:04+00:00"
-  },
-  {
-    "title": "The Veldt",
-    "author": "Ray Bradbury",
-    "link": "https://www.goodreads.com/review/show/2517597904?utm_medium=api&utm_source=rss",
-    "rating": "4",
-    "date_read": "2018-10-01T00:00:00+00:00",
-    "date_added": "2018-09-03T18:39:29+00:00"
-  },
-  {
-    "title": "Artemis",
-    "author": "Andy Weir",
-    "link": "https://www.goodreads.com/review/show/2559891093?utm_medium=api&utm_source=rss",
-    "rating": "3",
-    "date_read": "2018-10-18T00:00:00+00:00",
-    "date_added": "2018-10-12T16:10:58+00:00"
-  },
-  {
-    "title": "The Name of the Wind (The Kingkiller Chronicle, #1)",
-    "author": "Patrick Rothfuss",
-    "link": "https://www.goodreads.com/review/show/2527602728?utm_medium=api&utm_source=rss",
-    "rating": "5",
-    "date_read": "2018-12-30T00:00:00+00:00",
-    "date_added": "2018-09-12T10:25:22+00:00"
-  },
-  {
-    "title": "Linux for Beginners",
-    "author": "Jason Cannon",
-    "link": "https://www.goodreads.com/review/show/2594421135?utm_medium=api&utm_source=rss",
-    "rating": "3",
-    "date_read": "2018-11-30T00:00:00+00:00",
-    "date_added": "2018-11-14T21:29:39+00:00"
-  },
-  {
-    "title": "The Three-Body Problem (Remembrance of Earth\u2019s Past, #1)",
-    "author": "Liu Cixin",
-    "link": "https://www.goodreads.com/review/show/2585883186?utm_medium=api&utm_source=rss",
-    "rating": "3",
-    "date_read": "2018-11-27T00:00:00+00:00",
-    "date_added": "2018-11-06T20:09:21+00:00"
-  },
-  {
-    "title": "Leviathan Wakes (The Expanse, #1)",
-    "author": "James S.A. Corey",
-    "link": "https://www.goodreads.com/review/show/2188741560?utm_medium=api&utm_source=rss",
-    "rating": "5",
-    "date_read": null,
-    "date_added": "2017-11-19T11:55:36+00:00"
-  },
-  {
-    "title": "The Hero of Ages (Mistborn, #3)",
-    "author": "Brandon Sanderson",
-    "link": "https://www.goodreads.com/review/show/2483914647?utm_medium=api&utm_source=rss",
-    "rating": "5",
-    "date_read": "2018-11-08T00:00:00+00:00",
-    "date_added": "2018-08-06T07:06:39+00:00"
-  },
-  {
-    "title": "Brave New World",
-    "author": "Aldous Huxley",
-    "link": "https://www.goodreads.com/review/show/2394299761?utm_medium=api&utm_source=rss",
-    "rating": "4",
-    "date_read": "2018-10-27T00:00:00+00:00",
-    "date_added": "2018-05-17T14:25:46+00:00"
-  },
-  {
-    "title": "ReWork",
-    "author": "Jason Fried",
-    "link": "https://www.goodreads.com/review/show/2559633985?utm_medium=api&utm_source=rss",
-    "rating": "0",
-    "date_read": "2017-01-01T00:00:00+00:00",
-    "date_added": "2018-10-12T09:23:52+00:00"
-  },
-  {
-    "title": "Mistborn: The Final Empire (Mistborn, #1)",
-    "author": "Brandon Sanderson",
-    "link": "https://www.goodreads.com/review/show/2479832987?utm_medium=api&utm_source=rss",
-    "rating": "4",
-    "date_read": "2018-08-02T00:00:00+00:00",
-    "date_added": "2018-08-02T19:44:20+00:00"
-  },
-  {
-    "title": "Elon Musk: Tesla, SpaceX, and the Quest for a Fantastic Future",
-    "author": "Ashlee Vance",
-    "link": "https://www.goodreads.com/review/show/2514080008?utm_medium=api&utm_source=rss",
-    "rating": "5",
-    "date_read": "2018-10-07T00:00:00+00:00",
-    "date_added": "2018-08-31T15:30:37+00:00"
-  },
-  {
-    "title": "Masters of Doom: How Two Guys Created an Empire and Transformed Pop Culture",
-    "author": "David Kushner",
-    "link": "https://www.goodreads.com/review/show/2514061757?utm_medium=api&utm_source=rss",
-    "rating": "5",
-    "date_read": "2018-09-04T00:00:00+00:00",
-    "date_added": "2018-08-31T15:11:53+00:00"
-  },
-  {
-    "title": "The Martian",
-    "author": "Andy Weir",
-    "link": "https://www.goodreads.com/review/show/2503208927?utm_medium=api&utm_source=rss",
-    "rating": "5",
-    "date_read": null,
-    "date_added": "2018-08-22T13:51:00+00:00"
-  },
-  {
-    "title": "The Well of Ascension (Mistborn, #2)",
-    "author": "Brandon Sanderson",
-    "link": "https://www.goodreads.com/review/show/2483914498?utm_medium=api&utm_source=rss",
-    "rating": "5",
-    "date_read": "2018-09-01T00:00:00+00:00",
-    "date_added": "2018-08-06T07:06:21+00:00"
-  },
-  {
-    "title": "Sapiens: A Brief History of Humankind",
-    "author": "Yuval Noah Harari",
-    "link": "https://www.goodreads.com/review/show/2242072881?utm_medium=api&utm_source=rss",
-    "rating": "3",
-    "date_read": "2018-07-23T00:00:00+00:00",
-    "date_added": "2018-01-04T08:36:58+00:00"
-  },
-  {
-    "title": "The Churn (The Expanse, #3.5)",
-    "author": "James S.A. Corey",
-    "link": "https://www.goodreads.com/review/show/2188742263?utm_medium=api&utm_source=rss",
-    "rating": "0",
-    "date_read": null,
-    "date_added": "2017-11-19T11:57:12+00:00"
-  },
-  {
-    "title": "Babylon\u2019s Ashes (The Expanse, #6)",
-    "author": "James S.A. Corey",
-    "link": "https://www.goodreads.com/review/show/2188742081?utm_medium=api&utm_source=rss",
-    "rating": "0",
-    "date_read": null,
-    "date_added": "2017-11-19T11:56:48+00:00"
-  },
-  {
-    "title": "Nemesis Games (The Expanse, #5)",
-    "author": "James S.A. Corey",
-    "link": "https://www.goodreads.com/review/show/2188742028?utm_medium=api&utm_source=rss",
-    "rating": "0",
-    "date_read": null,
-    "date_added": "2017-11-19T11:56:41+00:00"
-  },
-  {
-    "title": "Drive (The Expanse, #2.7)",
-    "author": "James S.A. Corey",
-    "link": "https://www.goodreads.com/review/show/2188742360?utm_medium=api&utm_source=rss",
-    "rating": "0",
-    "date_read": null,
-    "date_added": "2017-11-19T11:57:26+00:00"
-  },
-  {
-    "title": "The Butcher of Anderson Station (The Expanse, #1.5)",
-    "author": "James S.A. Corey",
-    "link": "https://www.goodreads.com/review/show/2188742123?utm_medium=api&utm_source=rss",
-    "rating": "0",
-    "date_read": null,
-    "date_added": "2017-11-19T11:56:53+00:00"
-  },
-  {
-    "title": "Cibola Burn (The Expanse, #4)",
-    "author": "James S.A. Corey",
-    "link": "https://www.goodreads.com/review/show/2188741979?utm_medium=api&utm_source=rss",
-    "rating": "0",
-    "date_read": null,
-    "date_added": "2017-11-19T11:56:34+00:00"
-  },
-  {
-    "title": "Abaddon\u2019s Gate (The Expanse, #3)",
-    "author": "James S.A. Corey",
-    "link": "https://www.goodreads.com/review/show/2188741937?utm_medium=api&utm_source=rss",
-    "rating": "0",
-    "date_read": null,
-    "date_added": "2017-11-19T11:56:28+00:00"
-  },
-  {
-    "title": "Caliban\u2019s War (The Expanse, #2)",
-    "author": "James S.A. Corey",
-    "link": "https://www.goodreads.com/review/show/2188741881?utm_medium=api&utm_source=rss",
-    "rating": "0",
-    "date_read": null,
-    "date_added": "2017-11-19T11:56:22+00:00"
-  },
-  {
-    "title": "Foundation (Foundation, #1)",
-    "author": "Isaac Asimov",
-    "link": "https://www.goodreads.com/review/show/1018308131?utm_medium=api&utm_source=rss",
-    "rating": "0",
-    "date_read": null,
-    "date_added": "2014-08-06T06:10:47+00:00"
-  },
-  {
-    "title": "Children of Dune (Dune #3)",
-    "author": "Frank Herbert",
-    "link": "https://www.goodreads.com/review/show/1018307520?utm_medium=api&utm_source=rss",
-    "rating": "0",
-    "date_read": null,
-    "date_added": "2014-08-06T06:09:35+00:00"
-  },
-  {
-    "title": "Thinking, Fast and Slow",
-    "author": "Daniel Kahneman",
-    "link": "https://www.goodreads.com/review/show/1018305499?utm_medium=api&utm_source=rss",
-    "rating": "0",
-    "date_read": "2017-09-28T00:00:00+00:00",
-    "date_added": "2014-08-06T06:05:20+00:00"
-  },
-  {
-    "title": "Hyperion (Hyperion Cantos, #1)",
-    "author": "Dan Simmons",
-    "link": "https://www.goodreads.com/review/show/1018305223?utm_medium=api&utm_source=rss",
-    "rating": "0",
-    "date_read": null,
-    "date_added": "2014-08-06T06:04:48+00:00"
-  },
-  {
-    "title": "Animal Farm",
-    "author": "George Orwell",
-    "link": "https://www.goodreads.com/review/show/1018303741?utm_medium=api&utm_source=rss",
-    "rating": "0",
-    "date_read": null,
-    "date_added": "2014-08-06T06:02:04+00:00"
-  },
-  {
-    "title": "Dune (Dune #1)",
-    "author": "Frank Herbert",
-    "link": "https://www.goodreads.com/review/show/980001298?utm_medium=api&utm_source=rss",
-    "rating": "5",
-    "date_read": null,
-    "date_added": "2014-06-28T11:26:48+00:00"
-  },
-  {
-    "title": "Dune Messiah (Dune #2)",
-    "author": "Frank Herbert",
-    "link": "https://www.goodreads.com/review/show/1018303307?utm_medium=api&utm_source=rss",
-    "rating": "5",
-    "date_read": "2014-07-27T00:00:00+00:00",
-    "date_added": "2014-08-06T06:01:18+00:00"
-  },
-  {
-    "title": "Guns, Germs, and Steel: The Fates of Human Societies",
-    "author": "Jared Diamond",
-    "link": "https://www.goodreads.com/review/show/980008098?utm_medium=api&utm_source=rss",
-    "rating": "4",
-    "date_read": "2014-07-16T00:00:00+00:00",
-    "date_added": "2014-06-28T11:41:46+00:00"
-  },
-  {
-    "title": "The Etymologicon: A Circular Stroll through the Hidden Connections of the English Language",
-    "author": "Mark Forsyth",
-    "link": "https://www.goodreads.com/review/show/980009676?utm_medium=api&utm_source=rss",
-    "rating": "5",
-    "date_read": null,
-    "date_added": "2014-06-28T11:45:28+00:00"
-  },
-  {
-    "title": "A Feast for Crows (A Song of Ice and Fire, #4)",
-    "author": "George R.R. Martin",
-    "link": "https://www.goodreads.com/review/show/980008581?utm_medium=api&utm_source=rss",
-    "rating": "4",
-    "date_read": null,
-    "date_added": "2014-06-28T11:42:48+00:00"
-  },
-  {
-    "title": "A Dance with Dragons (A Song of Ice and Fire, #5)",
-    "author": "George R.R. Martin",
-    "link": "https://www.goodreads.com/review/show/980008423?utm_medium=api&utm_source=rss",
-    "rating": "5",
-    "date_read": null,
-    "date_added": "2014-06-28T11:42:26+00:00"
-  },
-  {
-    "title": "Born to Run: A Hidden Tribe, Superathletes, and the Greatest Race the World Has Never Seen",
-    "author": "Christopher McDougall",
-    "link": "https://www.goodreads.com/review/show/980007849?utm_medium=api&utm_source=rss",
-    "rating": "4",
-    "date_read": null,
-    "date_added": "2014-06-28T11:41:15+00:00"
-  },
-  {
-    "title": "Roots",
-    "author": "Alex Haley",
-    "link": "https://www.goodreads.com/review/show/980001281?utm_medium=api&utm_source=rss",
-    "rating": "4",
-    "date_read": null,
-    "date_added": "2014-06-28T11:26:46+00:00"
-  },
-  {
-    "title": "The Eye of the World (The Wheel of Time, #1)",
-    "author": "Robert Jordan",
-    "link": "https://www.goodreads.com/review/show/980001291?utm_medium=api&utm_source=rss",
-    "rating": "3",
-    "date_read": null,
-    "date_added": "2014-06-28T11:26:47+00:00"
-  },
-  {
-    "title": "The Great Hunt (Wheel of Time, #2)",
-    "author": "Robert Jordan",
-    "link": "https://www.goodreads.com/review/show/980001277?utm_medium=api&utm_source=rss",
-    "rating": "4",
-    "date_read": null,
-    "date_added": "2014-06-28T11:26:46+00:00"
-  },
-  {
-    "title": "A Game of Thrones (A Song of Ice and Fire, #1)",
-    "author": "George R.R. Martin",
-    "link": "https://www.goodreads.com/review/show/980001290?utm_medium=api&utm_source=rss",
-    "rating": "4",
-    "date_read": null,
-    "date_added": "2014-06-28T11:26:47+00:00"
-  },
-  {
-    "title": "Catch-22",
-    "author": "Joseph Heller",
-    "link": "https://www.goodreads.com/review/show/980001292?utm_medium=api&utm_source=rss",
-    "rating": "5",
-    "date_read": null,
-    "date_added": "2014-06-28T11:26:47+00:00"
-  },
-  {
-    "title": "The Dragon Reborn (The Wheel of Time #3)",
-    "author": "Robert Jordan",
-    "link": "https://www.goodreads.com/review/show/980001287?utm_medium=api&utm_source=rss",
-    "rating": "4",
-    "date_read": null,
-    "date_added": "2014-06-28T11:26:46+00:00"
-  },
-  {
-    "title": "1984",
-    "author": "George Orwell",
-    "link": "https://www.goodreads.com/review/show/980001289?utm_medium=api&utm_source=rss",
-    "rating": "4",
-    "date_read": null,
-    "date_added": "2014-06-28T11:26:47+00:00"
-  },
-  {
-    "title": "A Storm of Swords (A Song of Ice and Fire, #3)",
-    "author": "George R.R. Martin",
-    "link": "https://www.goodreads.com/review/show/980001528?utm_medium=api&utm_source=rss",
-    "rating": "5",
-    "date_read": null,
-    "date_added": "2014-06-28T11:27:18+00:00"
-  },
-  {
-    "title": "To Kill a Mockingbird",
-    "author": "Harper Lee",
-    "link": "https://www.goodreads.com/review/show/979535588?utm_medium=api&utm_source=rss",
-    "rating": "4",
-    "date_read": null,
-    "date_added": "2014-06-27T23:21:14+00:00"
-  }
+{"title":"Empire of Silence (The Sun Eater, #1)","author":"Christopher Ruocchio","link":"https://www.goodreads.com/review/show/7100337673?utm_medium=api&utm_source=rss","book_id":"36454667","pages":753,"rating":4,"rating_stars":"★★★★","date_read":"2025-11-10","date_added":"2024-12-19"},
+{"title":"Neuromancer (Sprawl #1)","author":"William Gibson","link":"https://www.goodreads.com/review/show/2514073089?utm_medium=api&utm_source=rss","book_id":"888628","pages":278,"rating":1,"rating_stars":"★","date_read":"2018-10-19","date_added":"2018-08-31"},
+{"title":"Ultra-Processed People: Why We Can't Stop Eating Food That Isn't Food","author":"Chris van Tulleken","link":"https://www.goodreads.com/review/show/7791175663?utm_medium=api&utm_source=rss","book_id":"200196183","pages":416,"rating":5,"rating_stars":"★★★★★","date_read":"2025-09-06","date_added":"2025-08-01"},
+{"title":"Isles of the Emberdark","author":"Brandon Sanderson","link":"https://www.goodreads.com/review/show/7769788183?utm_medium=api&utm_source=rss","book_id":"210300489","pages":465,"rating":5,"rating_stars":"★★★★★","date_read":"2025-08-17","date_added":"2025-07-25"},
+{"title":"Warbreaker","author":"Brandon Sanderson","link":"https://www.goodreads.com/review/show/6684001785?utm_medium=api&utm_source=rss","book_id":"1268479","pages":688,"rating":4,"rating_stars":"★★★★","date_read":"2025-07-25","date_added":"2024-07-19"},
+{"title":"A Little Hatred (The Age of Madness, #1)","author":"Joe Abercrombie","link":"https://www.goodreads.com/review/show/6729030397?utm_medium=api&utm_source=rss","book_id":"35606041","pages":480,"rating":2,"rating_stars":"★★","date_read":"2025-06-07","date_added":"2024-08-04"},
+{"title":"Children of Ruin (Children of Time, #2)","author":"Adrian Tchaikovsky","link":"https://www.goodreads.com/review/show/7548164239?utm_medium=api&utm_source=rss","book_id":"40376072","pages":597,"rating":3,"rating_stars":"★★★","date_read":"2025-05-31","date_added":"2025-05-06"},
+{"title":"Children of Time (Children of Time, #1)","author":"Adrian Tchaikovsky","link":"https://www.goodreads.com/review/show/7167055398?utm_medium=api&utm_source=rss","book_id":"25499718","pages":608,"rating":5,"rating_stars":"★★★★★","date_read":"2025-04-23","date_added":"2025-01-03"},
+{"title":"Alone on the Wall","author":"Alex Honnold","link":"https://www.goodreads.com/review/show/5049239635?utm_medium=api&utm_source=rss","book_id":"36531127","pages":336,"rating":4,"rating_stars":"★★★★","date_read":"2025-04-09","date_added":"2022-10-16"},
+{"title":"Livesuit (The Captive's War, #1.5)","author":"James S.A. Corey","link":"https://www.goodreads.com/review/show/7167047216?utm_medium=api&utm_source=rss","book_id":"215760525","pages":90,"rating":4,"rating_stars":"★★★★","date_read":"2025-01-26","date_added":"2025-01-03"},
+{"title":"The Mercy of Gods (The Captive's War, #1)","author":"James S.A. Corey","link":"https://www.goodreads.com/review/show/7167047184?utm_medium=api&utm_source=rss","book_id":"201930181","pages":432,"rating":4,"rating_stars":"★★★★","date_read":"2025-01-22","date_added":"2025-01-03"},
+{"title":"The Will of the Many (Hierarchy, #1)","author":"James  Islington","link":"https://www.goodreads.com/review/show/7109471544?utm_medium=api&utm_source=rss","book_id":"58416952","pages":639,"rating":5,"rating_stars":"★★★★★","date_read":"2025-01-02","date_added":"2024-12-22"},
+{"title":"Play Nice: The Rise, Fall, and Future of Blizzard Entertainment","author":"Jason Schreier","link":"https://www.goodreads.com/review/show/6653935783?utm_medium=api&utm_source=rss","book_id":"207567968","pages":384,"rating":5,"rating_stars":"★★★★★","date_read":"2024-12-22","date_added":"2024-07-08"},
+{"title":"Shape Up: Stop Running in Circles and Ship Work that Matters","author":"Ryan Singer","link":"https://www.goodreads.com/review/show/7058564099?utm_medium=api&utm_source=rss","book_id":"50776459","pages":133,"rating":5,"rating_stars":"★★★★★","date_read":"2024-11-28","date_added":"2024-12-04"},
+{"title":"The Unfolding of Language: An Evolutionary Tour of Mankind's Greatest Invention","author":"Guy Deutscher","link":"https://www.goodreads.com/review/show/6913754864?utm_medium=api&utm_source=rss","book_id":"262579","pages":368,"rating":2,"rating_stars":"★★","date_read":"2024-12-01","date_added":"2024-10-09"},
+{"title":"The Republic of Thieves (Gentleman Bastard, #3)","author":"Scott Lynch","link":"https://www.goodreads.com/review/show/6737697899?utm_medium=api&utm_source=rss","book_id":"2890090","pages":650,"rating":3,"rating_stars":"★★★","date_read":"2024-10-13","date_added":"2024-08-07"},
+{"title":"A Clash of Kings (A Song of Ice and Fire, #2)","author":"George R.R. Martin","link":"https://www.goodreads.com/review/show/980001297?utm_medium=api&utm_source=rss","book_id":"374855","pages":1009,"rating":5,"rating_stars":"★★★★★","date_read":"","date_added":"2014-06-28"},
+{"title":"Red Seas Under Red Skies (Gentleman Bastard, #2)","author":"Scott Lynch","link":"https://www.goodreads.com/review/show/6737697683?utm_medium=api&utm_source=rss","book_id":"40604556","pages":578,"rating":4,"rating_stars":"★★★★","date_read":"2024-09-15","date_added":"2024-08-07"},
+{"title":"The Lies of Locke Lamora (Gentleman Bastard, #1)","author":"Scott Lynch","link":"https://www.goodreads.com/review/show/4885103911?utm_medium=api&utm_source=rss","book_id":"865293","pages":530,"rating":5,"rating_stars":"★★★★★","date_read":"2024-08-07","date_added":"2022-07-31"},
+{"title":"The Children of the Sky (Zones of Thought, #3)","author":"Vernor Vinge","link":"https://www.goodreads.com/review/show/6523345743?utm_medium=api&utm_source=rss","book_id":"10170545","pages":444,"rating":2,"rating_stars":"★★","date_read":"2024-07-16","date_added":"2024-05-21"},
+{"title":"Udsigt fra en malkeskammel","author":"Frank Erichsen","link":"https://www.goodreads.com/review/show/5107770703?utm_medium=api&utm_source=rss","book_id":"63276822","pages":0,"rating":5,"rating_stars":"★★★★★","date_read":"2023-08-10","date_added":"2022-11-16"},
+{"title":"A Fire Upon the Deep (Zones of Thought, #1)","author":"Vernor Vinge","link":"https://www.goodreads.com/review/show/5468620264?utm_medium=api&utm_source=rss","book_id":"77711","pages":613,"rating":4,"rating_stars":"★★★★","date_read":"2024-05-21","date_added":"2023-04-06"},
+{"title":"Number Go Up: Inside Crypto's Wild Rise and Staggering Fall","author":"Zeke Faux","link":"https://www.goodreads.com/review/show/6209279945?utm_medium=api&utm_source=rss","book_id":"123276708","pages":304,"rating":4,"rating_stars":"★★★★","date_read":"2024-03-20","date_added":"2024-01-27"},
+{"title":"Elon Musk","author":"Walter Isaacson","link":"https://www.goodreads.com/review/show/6301411885?utm_medium=api&utm_source=rss","book_id":"122765395","pages":688,"rating":5,"rating_stars":"★★★★★","date_read":"2024-03-06","date_added":"2024-02-28"},
+{"title":"The Sunlit Man","author":"Brandon Sanderson","link":"https://www.goodreads.com/review/show/6167818481?utm_medium=api&utm_source=rss","book_id":"60531420","pages":447,"rating":5,"rating_stars":"★★★★★","date_read":"2024-02-26","date_added":"2024-01-14"},
+{"title":"Light Bringer (Red Rising Saga, #6)","author":"Pierce Brown","link":"https://www.goodreads.com/review/show/6167818633?utm_medium=api&utm_source=rss","book_id":"29227774","pages":682,"rating":5,"rating_stars":"★★★★★","date_read":"2024-02-21","date_added":"2024-01-14"},
+{"title":"Dark Age (Red Rising Saga, #5)","author":"Pierce Brown","link":"https://www.goodreads.com/review/show/2792086496?utm_medium=api&utm_source=rss","book_id":"29226553","pages":704,"rating":4,"rating_stars":"★★★★","date_read":"2024-01-14","date_added":"2019-04-19"},
+{"title":"Yumi and the Nightmare Painter (Hoid's Travails, #2)","author":"Brandon Sanderson","link":"https://www.goodreads.com/review/show/5690354552?utm_medium=api&utm_source=rss","book_id":"60531416","pages":480,"rating":5,"rating_stars":"★★★★★","date_read":"2023-10-18","date_added":"2023-07-13"},
+{"title":"Elantris (Elantris, #1)","author":"Brandon Sanderson","link":"https://www.goodreads.com/review/show/2394309990?utm_medium=api&utm_source=rss","book_id":"68427","pages":638,"rating":5,"rating_stars":"★★★★★","date_read":"2023-09-14","date_added":"2018-05-17"},
+{"title":"Tress of the Emerald Sea","author":"Brandon Sanderson","link":"https://www.goodreads.com/review/show/4735548617?utm_medium=api&utm_source=rss","book_id":"60726942","pages":480,"rating":5,"rating_stars":"★★★★★","date_read":"2023-07-13","date_added":"2022-05-20"},
+{"title":"Invisible Women: Data Bias in a World Designed for Men","author":"Caroline Criado Pérez","link":"https://www.goodreads.com/review/show/3428253312?utm_medium=api&utm_source=rss","book_id":"41104077","pages":448,"rating":3,"rating_stars":"★★★","date_read":"2023-06-24","date_added":"2020-07-06"},
+{"title":"Work Clean: The life-changing power of mise-en-place to organize your life, work, and mind","author":"Dan Charnas","link":"https://www.goodreads.com/review/show/2666272499?utm_medium=api&utm_source=rss","book_id":"26114603","pages":304,"rating":3,"rating_stars":"★★★","date_read":"2023-06-24","date_added":"2019-01-09"},
+{"title":"Kitchen Confidential: Adventures in the Culinary Underbelly","author":"Anthony Bourdain","link":"https://www.goodreads.com/review/show/5464625507?utm_medium=api&utm_source=rss","book_id":"33313","pages":312,"rating":4,"rating_stars":"★★★★","date_read":"2023-04-30","date_added":"2023-04-05"},
+{"title":"The Internet is a Playground","author":"David Thorne","link":"https://www.goodreads.com/review/show/3964991386?utm_medium=api&utm_source=rss","book_id":"7662439","pages":218,"rating":4,"rating_stars":"★★★★","date_read":"2023-04-12","date_added":"2021-04-25"},
+{"title":"I'll Go Home Then, It's Warm and Has Chairs. The Unpublished Emails.","author":"David Thorne","link":"https://www.goodreads.com/review/show/3964991843?utm_medium=api&utm_source=rss","book_id":"13544260","pages":210,"rating":3,"rating_stars":"★★★","date_read":"2023-03-13","date_added":"2021-04-25"},
+{"title":"Project Hail Mary","author":"Andy Weir","link":"https://www.goodreads.com/review/show/4451513219?utm_medium=api&utm_source=rss","book_id":"54493401","pages":476,"rating":5,"rating_stars":"★★★★★","date_read":"2023-03-06","date_added":"2022-01-05"},
+{"title":"The Lost Metal (Mistborn, #7)","author":"Brandon Sanderson","link":"https://www.goodreads.com/review/show/4735537447?utm_medium=api&utm_source=rss","book_id":"23947089","pages":507,"rating":5,"rating_stars":"★★★★★","date_read":"2023-02-23","date_added":"2022-05-20"},
+{"title":"Best Served Cold","author":"Joe Abercrombie","link":"https://www.goodreads.com/review/show/4885099608?utm_medium=api&utm_source=rss","book_id":"2315892","pages":534,"rating":3,"rating_stars":"★★★","date_read":"2023-01-30","date_added":"2022-07-31"},
+{"title":"Last Argument of Kings (The First Law, #3)","author":"Joe Abercrombie","link":"https://www.goodreads.com/review/show/4885099592?utm_medium=api&utm_source=rss","book_id":"944076","pages":536,"rating":0,"rating_stars":"","date_read":"2022-11-25","date_added":"2022-07-31"},
+{"title":"Overcoming Gravity","author":"Steven Low","link":"https://www.goodreads.com/review/show/4739069765?utm_medium=api&utm_source=rss","book_id":"13186972","pages":542,"rating":3,"rating_stars":"★★★","date_read":"2022-11-05","date_added":"2022-05-22"},
+{"title":"Before They Are Hanged (The First Law, #2)","author":"Joe Abercrombie","link":"https://www.goodreads.com/review/show/4885099568?utm_medium=api&utm_source=rss","book_id":"902715","pages":441,"rating":4,"rating_stars":"★★★★","date_read":"2022-09-07","date_added":"2022-07-31"},
+{"title":"The Blade Itself (The First Law, #1)","author":"Joe Abercrombie","link":"https://www.goodreads.com/review/show/4353826300?utm_medium=api&utm_source=rss","book_id":"944073","pages":515,"rating":5,"rating_stars":"★★★★★","date_read":"2022-07-31","date_added":"2021-11-24"},
+{"title":"Monsters in the Dark: The Making of X-COM: UFO Defense","author":"David L. Craddock","link":"https://www.goodreads.com/review/show/4765944984?utm_medium=api&utm_source=rss","book_id":"57863448","pages":197,"rating":3,"rating_stars":"★★★","date_read":"2022-06-13","date_added":"2022-06-05"},
+{"title":"The Psychology of Money: Timeless Lessons on Wealth, Greed, and Happiness","author":"Morgan Housel","link":"https://www.goodreads.com/review/show/4508655547?utm_medium=api&utm_source=rss","book_id":"41881472","pages":242,"rating":3,"rating_stars":"★★★","date_read":"2022-06-05","date_added":"2022-01-27"},
+{"title":"The Sins of Our Fathers (The Expanse, #9.5)","author":"James S.A. Corey","link":"https://www.goodreads.com/review/show/4424560036?utm_medium=api&utm_source=rss","book_id":"59548471","pages":64,"rating":5,"rating_stars":"★★★★★","date_read":"2022-05-20","date_added":"2021-12-30"},
+{"title":"Oathbringer (The Stormlight Archive, #3)","author":"Brandon Sanderson","link":"https://www.goodreads.com/review/show/4484194474?utm_medium=api&utm_source=rss","book_id":"34039808","pages":1220,"rating":3,"rating_stars":"★★★","date_read":"2022-05-20","date_added":"2022-01-17"},
+{"title":"Cytonic (Skyward, #3)","author":"Brandon Sanderson","link":"https://www.goodreads.com/review/show/4158959602?utm_medium=api&utm_source=rss","book_id":"43606157","pages":432,"rating":3,"rating_stars":"★★★","date_read":"2022-01-17","date_added":"2021-08-06"},
+{"title":"Leviathan Falls (The Expanse, #9)","author":"James S.A. Corey","link":"https://www.goodreads.com/review/show/4424560613?utm_medium=api&utm_source=rss","book_id":"28335699","pages":528,"rating":5,"rating_stars":"★★★★★","date_read":"2021-12-30","date_added":"2021-12-30"},
+{"title":"Steve Jobs","author":"Walter Isaacson","link":"https://www.goodreads.com/review/show/4355889221?utm_medium=api&utm_source=rss","book_id":"11084145","pages":630,"rating":5,"rating_stars":"★★★★★","date_read":"2021-12-13","date_added":"2021-11-25"},
+{"title":"Creativity, Inc.: Overcoming the Unseen Forces That Stand in the Way of True Inspiration","author":"Ed Catmull","link":"https://www.goodreads.com/review/show/4098870231?utm_medium=api&utm_source=rss","book_id":"18077903","pages":368,"rating":2,"rating_stars":"★★","date_read":"2021-11-23","date_added":"2021-07-06"},
+{"title":"Starsight (Skyward, #2)","author":"Brandon Sanderson","link":"https://www.goodreads.com/review/show/3094856623?utm_medium=api&utm_source=rss","book_id":"42769202","pages":461,"rating":5,"rating_stars":"★★★★★","date_read":"2021-08-06","date_added":"2019-12-21"},
+{"title":"Skyward (Skyward, #1)","author":"Brandon Sanderson","link":"https://www.goodreads.com/review/show/2951557956?utm_medium=api&utm_source=rss","book_id":"36642458","pages":513,"rating":5,"rating_stars":"★★★★★","date_read":"2021-07-28","date_added":"2019-08-25"},
+{"title":"The Bands of Mourning (Mistborn, #6)","author":"Brandon Sanderson","link":"https://www.goodreads.com/review/show/2587995445?utm_medium=api&utm_source=rss","book_id":"18739426","pages":455,"rating":5,"rating_stars":"★★★★★","date_read":"2021-07-21","date_added":"2018-11-08"},
+{"title":"Shadows of Self (Mistborn, #5)","author":"Brandon Sanderson","link":"https://www.goodreads.com/review/show/2587995395?utm_medium=api&utm_source=rss","book_id":"16065004","pages":376,"rating":5,"rating_stars":"★★★★★","date_read":"2021-07-04","date_added":"2018-11-08"},
+{"title":"A Guide to the Good Life: The Ancient Art of Stoic Joy","author":"William B. Irvine","link":"https://www.goodreads.com/review/show/2890878919?utm_medium=api&utm_source=rss","book_id":"5617966","pages":326,"rating":3,"rating_stars":"★★★","date_read":"2021-06-13","date_added":"2019-07-10"},
+{"title":"Blood, Sweat, and Pixels","author":"Jason Schreier","link":"https://www.goodreads.com/review/show/3408999544?utm_medium=api&utm_source=rss","book_id":"34376766","pages":353,"rating":3,"rating_stars":"★★★","date_read":"2021-04-27","date_added":"2020-06-24"},
+{"title":"The Checklist Manifesto: How to Get Things Right","author":"Atul Gawande","link":"https://www.goodreads.com/review/show/3884094610?utm_medium=api&utm_source=rss","book_id":"6667514","pages":208,"rating":3,"rating_stars":"★★★","date_read":"2021-04-09","date_added":"2021-03-11"},
+{"title":"The Great Mental Models: General Thinking Concepts","author":"Shane Parrish","link":"https://www.goodreads.com/review/show/3622486181?utm_medium=api&utm_source=rss","book_id":"44245196","pages":216,"rating":4,"rating_stars":"★★★★","date_read":"2021-03-02","date_added":"2020-10-31"},
+{"title":"Fluent Forever: How to Learn Any Language Fast and Never Forget It","author":"Gabriel Wyner","link":"https://www.goodreads.com/review/show/3608926513?utm_medium=api&utm_source=rss","book_id":"22304017","pages":387,"rating":4,"rating_stars":"★★★★","date_read":"2021-01-13","date_added":"2020-10-23"},
+{"title":"Buddha in Blue Jeans: An Extremely Short Simple Zen Guide to Sitting Quietly and Being Buddha","author":"Tai Sheridan","link":"https://www.goodreads.com/review/show/3698825421?utm_medium=api&utm_source=rss","book_id":"13139782","pages":31,"rating":4,"rating_stars":"★★★★","date_read":"2020-12-29","date_added":"2020-12-16"},
+{"title":"Man's Search for Meaning","author":"Viktor E. Frankl","link":"https://www.goodreads.com/review/show/3325633975?utm_medium=api&utm_source=rss","book_id":"17204679","pages":188,"rating":4,"rating_stars":"★★★★","date_read":"2020-12-24","date_added":"2020-05-08"},
+{"title":"A Mind for Numbers: How to Excel at Math and Science (Even If You Flunked Algebra)","author":"Barbara Oakley","link":"https://www.goodreads.com/review/show/3608863923?utm_medium=api&utm_source=rss","book_id":"22709382","pages":332,"rating":3,"rating_stars":"★★★","date_read":"2020-11-24","date_added":"2020-10-23"},
+{"title":"Make It Stick: The Science of Successful Learning","author":"Peter C. Brown","link":"https://www.goodreads.com/review/show/2565099479?utm_medium=api&utm_source=rss","book_id":"21956680","pages":293,"rating":4,"rating_stars":"★★★★","date_read":"2020-11-03","date_added":"2018-10-17"},
+{"title":"Production Ready GraphQL","author":"Marc-Andre Giroux","link":"https://www.goodreads.com/review/show/3588997901?utm_medium=api&utm_source=rss","book_id":"52719441","pages":180,"rating":5,"rating_stars":"★★★★★","date_read":"2020-10-16","date_added":"2020-10-10"},
+{"title":"Managing Oneself (Harvard Business Review Classics)","author":"Peter F. Drucker","link":"https://www.goodreads.com/review/show/2890877749?utm_medium=api&utm_source=rss","book_id":"2477223","pages":72,"rating":4,"rating_stars":"★★★★","date_read":"2020-09-28","date_added":"2019-07-10"},
+{"title":"Rigtige sommerhuse","author":"Bente Lange","link":"https://www.goodreads.com/review/show/3563923266?utm_medium=api&utm_source=rss","book_id":"41011317","pages":254,"rating":5,"rating_stars":"★★★★★","date_read":"2020-09-24","date_added":"2020-09-23"},
+{"title":"Shoe Dog: A Memoir by the Creator of Nike","author":"Phil Knight","link":"https://www.goodreads.com/review/show/3483649700?utm_medium=api&utm_source=rss","book_id":"27220736","pages":400,"rating":4,"rating_stars":"★★★★","date_read":"2020-09-23","date_added":"2020-08-07"},
+{"title":"Practical Programming for Strength Training","author":"Mark Rippetoe","link":"https://www.goodreads.com/review/show/3194340045?utm_medium=api&utm_source=rss","book_id":"25212845","pages":256,"rating":5,"rating_stars":"★★★★★","date_read":"2020-09-06","date_added":"2020-02-17"},
+{"title":"Stay Awhile and Listen: Book II - Heaven, Hell, and Secret Cow Levels","author":"David L. Craddock","link":"https://www.goodreads.com/review/show/3408998570?utm_medium=api&utm_source=rss","book_id":"52651926","pages":358,"rating":4,"rating_stars":"★★★★","date_read":"2020-08-02","date_added":"2020-06-24"},
+{"title":"Why We Sleep: The New Science of Sleep and Dreams","author":"Matthew Walker","link":"https://www.goodreads.com/review/show/3354459423?utm_medium=api&utm_source=rss","book_id":"48592299","pages":341,"rating":5,"rating_stars":"★★★★★","date_read":"2020-08-10","date_added":"2020-05-24"},
+{"title":"Stay Awhile and Listen: Book I - How Two Blizzards Unleashed Diablo and Forged a Video-Game Empire","author":"David L. Craddock","link":"https://www.goodreads.com/review/show/3408648835?utm_medium=api&utm_source=rss","book_id":"18743934","pages":274,"rating":4,"rating_stars":"★★★★","date_read":"2020-07-26","date_added":"2020-06-24"},
+{"title":"Persepolis Rising (The Expanse, #7)","author":"James S.A. Corey","link":"https://www.goodreads.com/review/show/3445678916?utm_medium=api&utm_source=rss","book_id":"28335696","pages":608,"rating":0,"rating_stars":"","date_read":"","date_added":"2020-07-16"},
+{"title":"Bloody Rose (The Band, #2)","author":"Nicholas Eames","link":"https://www.goodreads.com/review/show/3403535936?utm_medium=api&utm_source=rss","book_id":"35052265","pages":512,"rating":5,"rating_stars":"★★★★★","date_read":"2020-07-11","date_added":"2020-06-21"},
+{"title":"Factfulness: Ten Reasons We're Wrong About the World – and Why Things Are Better Than You Think","author":"Hans Rosling","link":"https://www.goodreads.com/review/show/3011963918?utm_medium=api&utm_source=rss","book_id":"34890015","pages":342,"rating":5,"rating_stars":"★★★★★","date_read":"2020-06-08","date_added":"2019-10-14"},
+{"title":"The Enchiridion","author":"Epictetus","link":"https://www.goodreads.com/review/show/2569225884?utm_medium=api&utm_source=rss","book_id":"35220516","pages":26,"rating":5,"rating_stars":"★★★★★","date_read":"2020-05-17","date_added":"2018-10-21"},
+{"title":"How to Take Smart Notes","author":"Sönke Ahrens","link":"https://www.goodreads.com/review/show/2570157581?utm_medium=api&utm_source=rss","book_id":"34507927","pages":178,"rating":5,"rating_stars":"★★★★★","date_read":"2020-05-23","date_added":"2018-10-22"},
+{"title":"The Little Book of Stoicism: Timeless Wisdom to Gain Resilience, Confidence, and Calmness","author":"Jonas Salzgeber","link":"https://www.goodreads.com/review/show/2951642579?utm_medium=api&utm_source=rss","book_id":"43621841","pages":287,"rating":5,"rating_stars":"★★★★★","date_read":"2020-05-15","date_added":"2019-08-25"},
+{"title":"The Right Stuff","author":"Tom Wolfe","link":"https://www.goodreads.com/review/show/2550763838?utm_medium=api&utm_source=rss","book_id":"8146619","pages":369,"rating":2,"rating_stars":"★★","date_read":"2020-04-28","date_added":"2018-10-03"},
+{"title":"How To: Absurd Scientific Advice for Common Real-World Problems","author":"Randall Munroe","link":"https://www.goodreads.com/review/show/3006557605?utm_medium=api&utm_source=rss","book_id":"42086897","pages":308,"rating":3,"rating_stars":"★★★","date_read":"2020-04-07","date_added":"2019-10-09"},
+{"title":"Karma Cowboy","author":"Dan Turèll","link":"https://www.goodreads.com/review/show/3262811303?utm_medium=api&utm_source=rss","book_id":"28878697","pages":160,"rating":2,"rating_stars":"★★","date_read":"2020-04-04","date_added":"2020-04-04"},
+{"title":"The WoW Diary: A Journal of Computer Game Development","author":"John Staats","link":"https://www.goodreads.com/review/show/2956995726?utm_medium=api&utm_source=rss","book_id":"42594746","pages":336,"rating":4,"rating_stars":"★★★★","date_read":"2020-04-03","date_added":"2019-08-29"},
+{"title":"Words of Radiance (The Stormlight Archive, #2)","author":"Brandon Sanderson","link":"https://www.goodreads.com/review/show/3062132790?utm_medium=api&utm_source=rss","book_id":"20150777","pages":1088,"rating":4,"rating_stars":"★★★★","date_read":"2020-03-25","date_added":"2019-11-25"},
+{"title":"Starting Strength","author":"Mark Rippetoe","link":"https://www.goodreads.com/review/show/3181940494?utm_medium=api&utm_source=rss","book_id":"15746753","pages":347,"rating":5,"rating_stars":"★★★★★","date_read":"2020-03-07","date_added":"2020-02-08"},
+{"title":"Breakfast of Champions","author":"Kurt Vonnegut Jr.","link":"https://www.goodreads.com/review/show/3047184273?utm_medium=api&utm_source=rss","book_id":"4980","pages":303,"rating":3,"rating_stars":"★★★","date_read":"2020-01-24","date_added":"2019-11-12"},
+{"title":"Vigtigt at vide om Ludmilla","author":"Sissel-Jo Gazan","link":"https://www.goodreads.com/review/show/3134001420?utm_medium=api&utm_source=rss","book_id":"3914846","pages":188,"rating":3,"rating_stars":"★★★","date_read":"2020-01-11","date_added":"2020-01-09"},
+{"title":"Ser du månen, Daniel","author":"Puk Damsgård","link":"https://www.goodreads.com/review/show/3109395862?utm_medium=api&utm_source=rss","book_id":"26328110","pages":264,"rating":4,"rating_stars":"★★★★","date_read":"2020-01-08","date_added":"2019-12-30"},
+{"title":"The Hard Thing About Hard Things: Building a Business When There Are No Easy Answers―Straight Talk on the Challenges of Entrepreneurship","author":"Ben Horowitz","link":"https://www.goodreads.com/review/show/2908970981?utm_medium=api&utm_source=rss","book_id":"18176747","pages":304,"rating":4,"rating_stars":"★★★★","date_read":"2019-12-29","date_added":"2019-07-24"},
+{"title":"Secret History (Mistborn, #3.5)","author":"Brandon Sanderson","link":"https://www.goodreads.com/review/show/3050381144?utm_medium=api&utm_source=rss","book_id":"28698036","pages":155,"rating":4,"rating_stars":"★★★★","date_read":"2019-12-28","date_added":"2019-11-15"},
+{"title":"The Slow Regard of Silent Things (The Kingkiller Chronicle, #2.5)","author":"Patrick Rothfuss","link":"https://www.goodreads.com/review/show/3004101212?utm_medium=api&utm_source=rss","book_id":"21535271","pages":159,"rating":3,"rating_stars":"★★★","date_read":"2019-12-19","date_added":"2019-10-07"},
+{"title":"Kings of the Wyld (The Band, #1)","author":"Nicholas Eames","link":"https://www.goodreads.com/review/show/2646382029?utm_medium=api&utm_source=rss","book_id":"33129036","pages":554,"rating":4,"rating_stars":"★★★★","date_read":"2019-12-07","date_added":"2018-12-30"},
+{"title":"The Last Wish (The Witcher, #0.5)","author":"Andrzej Sapkowski","link":"https://www.goodreads.com/review/show/3040886425?utm_medium=api&utm_source=rss","book_id":"40603587","pages":400,"rating":2,"rating_stars":"★★","date_read":"2019-11-22","date_added":"2019-11-07"},
+{"title":"Fight Club","author":"Chuck Palahniuk","link":"https://www.goodreads.com/review/show/2929011190?utm_medium=api&utm_source=rss","book_id":"5759","pages":218,"rating":5,"rating_stars":"★★★★★","date_read":"2019-11-10","date_added":"2019-08-08"},
+{"title":"The Manager's Path: A Guide for Tech Leaders Navigating Growth and Change","author":"Camille Fournier","link":"https://www.goodreads.com/review/show/2672037203?utm_medium=api&utm_source=rss","book_id":"33369254","pages":226,"rating":4,"rating_stars":"★★★★","date_read":"2019-10-31","date_added":"2019-01-13"},
+{"title":"American Psycho (Vintage Contemporaries)","author":"Bret Easton Ellis","link":"https://www.goodreads.com/review/show/2988577856?utm_medium=api&utm_source=rss","book_id":"28676","pages":399,"rating":5,"rating_stars":"★★★★★","date_read":"2019-10-22","date_added":"2019-09-24"},
+{"title":"The Hitchhiker’s Guide to the Galaxy (The Hitchhiker's Guide to the Galaxy, #1)","author":"Douglas Adams","link":"https://www.goodreads.com/review/show/2581150151?utm_medium=api&utm_source=rss","book_id":"386162","pages":193,"rating":3,"rating_stars":"★★★","date_read":"2019-10-17","date_added":"2018-11-02"},
+{"title":"The Way of Kings (The Stormlight Archive, #1)","author":"Brandon Sanderson","link":"https://www.goodreads.com/review/show/2394309777?utm_medium=api&utm_source=rss","book_id":"7235533","pages":1007,"rating":4,"rating_stars":"★★★★","date_read":"2019-10-09","date_added":"2018-05-17"},
+{"title":"The Metamorphosis","author":"Franz Kafka","link":"https://www.goodreads.com/review/show/2255073008?utm_medium=api&utm_source=rss","book_id":"17986414","pages":126,"rating":3,"rating_stars":"★★★","date_read":"2019-09-13","date_added":"2018-01-12"},
+{"title":"Tiamat's Wrath (The Expanse, #8)","author":"James S.A. Corey","link":"https://www.goodreads.com/review/show/2577287852?utm_medium=api&utm_source=rss","book_id":"28335698","pages":534,"rating":5,"rating_stars":"★★★★★","date_read":"2019-08-23","date_added":"2018-10-29"},
+{"title":"Bad Blood: Secrets and Lies in a Silicon Valley Startup","author":"John Carreyrou","link":"https://www.goodreads.com/review/show/2644342151?utm_medium=api&utm_source=rss","book_id":"37976541","pages":339,"rating":4,"rating_stars":"★★★★","date_read":"2019-07-30","date_added":"2018-12-29"},
+{"title":"The Bogleheads' Guide to Investing","author":"Mel Lindauer","link":"https://www.goodreads.com/review/show/2871876766?utm_medium=api&utm_source=rss","book_id":"22847559","pages":330,"rating":4,"rating_stars":"★★★★","date_read":"2019-07-23","date_added":"2019-06-25"},
+{"title":"The Prince","author":"Niccolò Machiavelli","link":"https://www.goodreads.com/review/show/2562132208?utm_medium=api&utm_source=rss","book_id":"35386592","pages":112,"rating":3,"rating_stars":"★★★","date_read":"2019-07-12","date_added":"2018-10-14"},
+{"title":"The Lean Startup","author":"Eric Ries","link":"https://www.goodreads.com/review/show/2889578376?utm_medium=api&utm_source=rss","book_id":"10127019","pages":299,"rating":0,"rating_stars":"","date_read":"","date_added":"2019-07-09"},
+{"title":"Iron Gold (Red Rising Saga, #4)","author":"Pierce Brown","link":"https://www.goodreads.com/review/show/2792086424?utm_medium=api&utm_source=rss","book_id":"33257757","pages":602,"rating":4,"rating_stars":"★★★★","date_read":"2019-07-09","date_added":"2019-04-19"},
+{"title":"1491: New Revelations of the Americas Before Columbus","author":"Charles C. Mann","link":"https://www.goodreads.com/review/show/2822954916?utm_medium=api&utm_source=rss","book_id":"39020","pages":563,"rating":4,"rating_stars":"★★★★","date_read":"2019-06-21","date_added":"2019-05-16"},
+{"title":"Den rationelle investor","author":"Kurt Kara","link":"https://www.goodreads.com/review/show/2851842215?utm_medium=api&utm_source=rss","book_id":"32705740","pages":154,"rating":5,"rating_stars":"★★★★★","date_read":"2019-06-16","date_added":"2019-06-09"},
+{"title":"Small Green Roofs: Low-Tech Options for Greener Living","author":"Nigel Dunnett","link":"https://www.goodreads.com/review/show/2844423489?utm_medium=api&utm_source=rss","book_id":"10327581","pages":256,"rating":2,"rating_stars":"★★","date_read":"2019-06-02","date_added":"2019-06-03"},
+{"title":"The New Self-Sufficient Gardener","author":"John Seymour","link":"https://www.goodreads.com/review/show/2649449822?utm_medium=api&utm_source=rss","book_id":"2870924","pages":256,"rating":5,"rating_stars":"★★★★★","date_read":"2019-05-12","date_added":"2019-01-01"},
+{"title":"Morning Star (Red Rising Saga, #3)","author":"Pierce Brown","link":"https://www.goodreads.com/review/show/2776197209?utm_medium=api&utm_source=rss","book_id":"18966806","pages":525,"rating":5,"rating_stars":"★★★★★","date_read":"2019-04-19","date_added":"2019-04-05"},
+{"title":"Golden Son (Red Rising Saga, #2)","author":"Pierce Brown","link":"https://www.goodreads.com/review/show/2765850966?utm_medium=api&utm_source=rss","book_id":"18966819","pages":466,"rating":5,"rating_stars":"★★★★★","date_read":"2019-04-05","date_added":"2019-03-27"},
+{"title":"Red Rising (Red Rising Saga, #1)","author":"Pierce Brown","link":"https://www.goodreads.com/review/show/2394300542?utm_medium=api&utm_source=rss","book_id":"15839976","pages":382,"rating":5,"rating_stars":"★★★★★","date_read":"2019-03-15","date_added":"2018-05-17"},
+{"title":"The Alloy of Law (Mistborn, #4)","author":"Brandon Sanderson","link":"https://www.goodreads.com/review/show/2718666794?utm_medium=api&utm_source=rss","book_id":"10803121","pages":325,"rating":4,"rating_stars":"★★★★","date_read":"2019-02-28","date_added":"2019-02-17"},
+{"title":"The 8-Minute Writing Habit: Create a Consistent Writing Habit That Works With Your Busy Lifestyle (Growth Hacking For Storytellers #3)","author":"Monica Leonelle","link":"https://www.goodreads.com/review/show/2651717397?utm_medium=api&utm_source=rss","book_id":"26189973","pages":116,"rating":2,"rating_stars":"★★","date_read":"2019-02-05","date_added":"2019-01-01"},
+{"title":"The Wise Man's Fear (The Kingkiller Chronicle, #2)","author":"Patrick Rothfuss","link":"https://www.goodreads.com/review/show/2646473087?utm_medium=api&utm_source=rss","book_id":"1215032","pages":994,"rating":5,"rating_stars":"★★★★★","date_read":"2019-01-27","date_added":"2018-12-30"},
+{"title":"The Veldt","author":"Ray Bradbury","link":"https://www.goodreads.com/review/show/2517597904?utm_medium=api&utm_source=rss","book_id":"120555","pages":45,"rating":4,"rating_stars":"★★★★","date_read":"2018-10-01","date_added":"2018-09-03"},
+{"title":"Artemis","author":"Andy Weir","link":"https://www.goodreads.com/review/show/2559891093?utm_medium=api&utm_source=rss","book_id":"34928122","pages":305,"rating":3,"rating_stars":"★★★","date_read":"2018-10-18","date_added":"2018-10-12"},
+{"title":"The Name of the Wind (The Kingkiller Chronicle, #1)","author":"Patrick Rothfuss","link":"https://www.goodreads.com/review/show/2527602728?utm_medium=api&utm_source=rss","book_id":"186074","pages":662,"rating":5,"rating_stars":"★★★★★","date_read":"2018-12-30","date_added":"2018-09-12"},
+{"title":"Linux for Beginners","author":"Jason Cannon","link":"https://www.goodreads.com/review/show/2594421135?utm_medium=api&utm_source=rss","book_id":"20447117","pages":147,"rating":3,"rating_stars":"★★★","date_read":"2018-11-30","date_added":"2018-11-14"},
+{"title":"The Three-Body Problem (Remembrance of Earth’s Past, #1)","author":"Liu Cixin","link":"https://www.goodreads.com/review/show/2585883186?utm_medium=api&utm_source=rss","book_id":"20518872","pages":472,"rating":3,"rating_stars":"★★★","date_read":"2018-11-27","date_added":"2018-11-06"},
+{"title":"Leviathan Wakes (The Expanse, #1)","author":"James S.A. Corey","link":"https://www.goodreads.com/review/show/2188741560?utm_medium=api&utm_source=rss","book_id":"8855321","pages":561,"rating":5,"rating_stars":"★★★★★","date_read":"","date_added":"2017-11-19"},
+{"title":"The Hero of Ages (Mistborn, #3)","author":"Brandon Sanderson","link":"https://www.goodreads.com/review/show/2483914647?utm_medium=api&utm_source=rss","book_id":"12968709","pages":725,"rating":5,"rating_stars":"★★★★★","date_read":"2018-11-08","date_added":"2018-08-06"},
+{"title":"Brave New World","author":"Aldous Huxley","link":"https://www.goodreads.com/review/show/2394299761?utm_medium=api&utm_source=rss","book_id":"5129","pages":288,"rating":4,"rating_stars":"★★★★","date_read":"2018-10-27","date_added":"2018-05-17"},
+{"title":"ReWork","author":"Jason Fried","link":"https://www.goodreads.com/review/show/2559633985?utm_medium=api&utm_source=rss","book_id":"9118033","pages":288,"rating":0,"rating_stars":"","date_read":"2017-01-01","date_added":"2018-10-12"},
+{"title":"Mistborn: The Final Empire (Mistborn, #1)","author":"Brandon Sanderson","link":"https://www.goodreads.com/review/show/2479832987?utm_medium=api&utm_source=rss","book_id":"18490585","pages":664,"rating":4,"rating_stars":"★★★★","date_read":"2018-08-02","date_added":"2018-08-02"},
+{"title":"Elon Musk: Tesla, SpaceX, and the Quest for a Fantastic Future","author":"Ashlee Vance","link":"https://www.goodreads.com/review/show/2514080008?utm_medium=api&utm_source=rss","book_id":"25541028","pages":392,"rating":5,"rating_stars":"★★★★★","date_read":"2018-10-07","date_added":"2018-08-31"},
+{"title":"Masters of Doom: How Two Guys Created an Empire and Transformed Pop Culture","author":"David Kushner","link":"https://www.goodreads.com/review/show/2514061757?utm_medium=api&utm_source=rss","book_id":"222146","pages":339,"rating":5,"rating_stars":"★★★★★","date_read":"2018-09-04","date_added":"2018-08-31"},
+{"title":"The Martian","author":"Andy Weir","link":"https://www.goodreads.com/review/show/2503208927?utm_medium=api&utm_source=rss","book_id":"18007564","pages":384,"rating":5,"rating_stars":"★★★★★","date_read":"","date_added":"2018-08-22"},
+{"title":"The Well of Ascension (Mistborn, #2)","author":"Brandon Sanderson","link":"https://www.goodreads.com/review/show/2483914498?utm_medium=api&utm_source=rss","book_id":"68429","pages":590,"rating":5,"rating_stars":"★★★★★","date_read":"2018-09-01","date_added":"2018-08-06"},
+{"title":"Sapiens: A Brief History of Humankind","author":"Yuval Noah Harari","link":"https://www.goodreads.com/review/show/2242072881?utm_medium=api&utm_source=rss","book_id":"23692271","pages":512,"rating":3,"rating_stars":"★★★","date_read":"2018-07-23","date_added":"2018-01-04"},
+{"title":"The Churn (The Expanse, #3.5)","author":"James S.A. Corey","link":"https://www.goodreads.com/review/show/2188742263?utm_medium=api&utm_source=rss","book_id":"20981355","pages":60,"rating":0,"rating_stars":"","date_read":"","date_added":"2017-11-19"},
+{"title":"Babylon’s Ashes (The Expanse, #6)","author":"James S.A. Corey","link":"https://www.goodreads.com/review/show/2188742081?utm_medium=api&utm_source=rss","book_id":"25877663","pages":532,"rating":0,"rating_stars":"","date_read":"","date_added":"2017-11-19"},
+{"title":"Nemesis Games (The Expanse, #5)","author":"James S.A. Corey","link":"https://www.goodreads.com/review/show/2188742028?utm_medium=api&utm_source=rss","book_id":"22886612","pages":536,"rating":0,"rating_stars":"","date_read":"","date_added":"2017-11-19"},
+{"title":"Drive (The Expanse, #2.7)","author":"James S.A. Corey","link":"https://www.goodreads.com/review/show/2188742360?utm_medium=api&utm_source=rss","book_id":"25899877","pages":30,"rating":0,"rating_stars":"","date_read":"","date_added":"2017-11-19"},
+{"title":"The Butcher of Anderson Station (The Expanse, #1.5)","author":"James S.A. Corey","link":"https://www.goodreads.com/review/show/2188742123?utm_medium=api&utm_source=rss","book_id":"11570653","pages":40,"rating":0,"rating_stars":"","date_read":"","date_added":"2017-11-19"},
+{"title":"Cibola Burn (The Expanse, #4)","author":"James S.A. Corey","link":"https://www.goodreads.com/review/show/2188741979?utm_medium=api&utm_source=rss","book_id":"18656030","pages":581,"rating":0,"rating_stars":"","date_read":"","date_added":"2017-11-19"},
+{"title":"Abaddon’s Gate (The Expanse, #3)","author":"James S.A. Corey","link":"https://www.goodreads.com/review/show/2188741937?utm_medium=api&utm_source=rss","book_id":"16131032","pages":539,"rating":0,"rating_stars":"","date_read":"","date_added":"2017-11-19"},
+{"title":"Caliban’s War (The Expanse, #2)","author":"James S.A. Corey","link":"https://www.goodreads.com/review/show/2188741881?utm_medium=api&utm_source=rss","book_id":"12591698","pages":624,"rating":0,"rating_stars":"","date_read":"","date_added":"2017-11-19"},
+{"title":"Foundation (Foundation, #1)","author":"Isaac Asimov","link":"https://www.goodreads.com/review/show/1018308131?utm_medium=api&utm_source=rss","book_id":"29579","pages":244,"rating":0,"rating_stars":"","date_read":"","date_added":"2014-08-05"},
+{"title":"Children of Dune (Dune #3)","author":"Frank Herbert","link":"https://www.goodreads.com/review/show/1018307520?utm_medium=api&utm_source=rss","book_id":"112","pages":408,"rating":0,"rating_stars":"","date_read":"","date_added":"2014-08-05"},
+{"title":"Thinking, Fast and Slow","author":"Daniel Kahneman","link":"https://www.goodreads.com/review/show/1018305499?utm_medium=api&utm_source=rss","book_id":"11468377","pages":499,"rating":0,"rating_stars":"","date_read":"2017-09-28","date_added":"2014-08-05"},
+{"title":"Hyperion (Hyperion Cantos, #1)","author":"Dan Simmons","link":"https://www.goodreads.com/review/show/1018305223?utm_medium=api&utm_source=rss","book_id":"77566","pages":500,"rating":0,"rating_stars":"","date_read":"","date_added":"2014-08-05"},
+{"title":"Animal Farm","author":"George Orwell","link":"https://www.goodreads.com/review/show/1018303741?utm_medium=api&utm_source=rss","book_id":"7613","pages":129,"rating":0,"rating_stars":"","date_read":"","date_added":"2014-08-05"},
+{"title":"Dune (Dune #1)","author":"Frank Herbert","link":"https://www.goodreads.com/review/show/980001298?utm_medium=api&utm_source=rss","book_id":"1000049","pages":605,"rating":5,"rating_stars":"★★★★★","date_read":"","date_added":"2014-06-28"},
+{"title":"Dune Messiah (Dune #2)","author":"Frank Herbert","link":"https://www.goodreads.com/review/show/1018303307?utm_medium=api&utm_source=rss","book_id":"106","pages":331,"rating":5,"rating_stars":"★★★★★","date_read":"2014-07-27","date_added":"2014-08-05"},
+{"title":"Guns, Germs, and Steel: The Fates of Human Societies","author":"Jared Diamond","link":"https://www.goodreads.com/review/show/980008098?utm_medium=api&utm_source=rss","book_id":"1842","pages":498,"rating":4,"rating_stars":"★★★★","date_read":"2014-07-16","date_added":"2014-06-28"},
+{"title":"The Etymologicon: A Circular Stroll through the Hidden Connections of the English Language","author":"Mark Forsyth","link":"https://www.goodreads.com/review/show/980009676?utm_medium=api&utm_source=rss","book_id":"12870068","pages":252,"rating":5,"rating_stars":"★★★★★","date_read":"","date_added":"2014-06-28"},
+{"title":"A Feast for Crows (A Song of Ice and Fire, #4)","author":"George R.R. Martin","link":"https://www.goodreads.com/review/show/980008581?utm_medium=api&utm_source=rss","book_id":"13497","pages":1060,"rating":4,"rating_stars":"★★★★","date_read":"","date_added":"2014-06-28"},
+{"title":"A Dance with Dragons (A Song of Ice and Fire, #5)","author":"George R.R. Martin","link":"https://www.goodreads.com/review/show/980008423?utm_medium=api&utm_source=rss","book_id":"10664113","pages":1125,"rating":5,"rating_stars":"★★★★★","date_read":"","date_added":"2014-06-28"},
+{"title":"Born to Run: A Hidden Tribe, Superathletes, and the Greatest Race the World Has Never Seen","author":"Christopher McDougall","link":"https://www.goodreads.com/review/show/980007849?utm_medium=api&utm_source=rss","book_id":"6289283","pages":287,"rating":4,"rating_stars":"★★★★","date_read":"","date_added":"2014-06-28"},
+{"title":"Roots","author":"Alex Haley","link":"https://www.goodreads.com/review/show/980001281?utm_medium=api&utm_source=rss","book_id":"869208","pages":688,"rating":4,"rating_stars":"★★★★","date_read":"","date_added":"2014-06-28"},
+{"title":"The Eye of the World (The Wheel of Time, #1)","author":"Robert Jordan","link":"https://www.goodreads.com/review/show/980001291?utm_medium=api&utm_source=rss","book_id":"1111608","pages":800,"rating":3,"rating_stars":"★★★","date_read":"","date_added":"2014-06-28"},
+{"title":"The Great Hunt (Wheel of Time, #2)","author":"Robert Jordan","link":"https://www.goodreads.com/review/show/980001277?utm_medium=api&utm_source=rss","book_id":"1231807","pages":707,"rating":4,"rating_stars":"★★★★","date_read":"","date_added":"2014-06-28"},
+{"title":"A Game of Thrones (A Song of Ice and Fire, #1)","author":"George R.R. Martin","link":"https://www.goodreads.com/review/show/980001290?utm_medium=api&utm_source=rss","book_id":"409207","pages":835,"rating":4,"rating_stars":"★★★★","date_read":"","date_added":"2014-06-28"},
+{"title":"Catch-22","author":"Joseph Heller","link":"https://www.goodreads.com/review/show/980001292?utm_medium=api&utm_source=rss","book_id":"11437531","pages":519,"rating":5,"rating_stars":"★★★★★","date_read":"","date_added":"2014-06-28"},
+{"title":"The Dragon Reborn (The Wheel of Time #3)","author":"Robert Jordan","link":"https://www.goodreads.com/review/show/980001287?utm_medium=api&utm_source=rss","book_id":"867544","pages":674,"rating":4,"rating_stars":"★★★★","date_read":"","date_added":"2014-06-28"},
+{"title":"1984","author":"George Orwell","link":"https://www.goodreads.com/review/show/980001289?utm_medium=api&utm_source=rss","book_id":"3744438","pages":334,"rating":4,"rating_stars":"★★★★","date_read":"","date_added":"2014-06-28"},
+{"title":"A Storm of Swords (A Song of Ice and Fire, #3)","author":"George R.R. Martin","link":"https://www.goodreads.com/review/show/980001528?utm_medium=api&utm_source=rss","book_id":"62291","pages":1177,"rating":5,"rating_stars":"★★★★★","date_read":"","date_added":"2014-06-28"},
+{"title":"To Kill a Mockingbird","author":"Harper Lee","link":"https://www.goodreads.com/review/show/979535588?utm_medium=api&utm_source=rss","book_id":"2657","pages":323,"rating":4,"rating_stars":"★★★★","date_read":"","date_added":"2014-06-27"}
 ]

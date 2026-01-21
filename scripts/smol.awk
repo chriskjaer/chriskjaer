@@ -74,6 +74,114 @@ function strip_quotes(s) {
   return s
 }
 
+function sh_escape(s) {
+  gsub(/'/, "'\"'\"'", s)
+  return "'" s "'"
+}
+
+function json_unescape(s,   out, i, c, n, hex) {
+  # Input: JSON.stringify scalar, including quotes for strings.
+  # Output: decoded string; non-strings passed through.
+  s = rtrim(ltrim(s))
+  if (s ~ /^".*"$/) {
+    s = substr(s, 2, length(s) - 2)
+    out = ""
+    i = 1
+    while (i <= length(s)) {
+      c = substr(s, i, 1)
+      if (c != "\\") {
+        out = out c
+        i++
+        continue
+      }
+      i++
+      n = substr(s, i, 1)
+      if (n == "n") out = out "\n"
+      else if (n == "r") out = out "\r"
+      else if (n == "t") out = out "\t"
+      else if (n == "\\") out = out "\\"
+      else if (n == "\"") out = out "\""
+      else if (n == "u") {
+        hex = substr(s, i + 1, 4)
+        # best-effort: keep as-is if weird
+        out = out sprintf("\\u%s", hex)
+        i += 4
+      } else {
+        out = out n
+      }
+      i++
+    }
+    return out
+  }
+  if (s == "null") return ""
+  return s
+}
+
+function json_load(path, name,   cmd, js, line, parts, idx, key, val, max) {
+  if (name == "") return
+
+  js = "const fs=require('fs');" \
+    "const data=JSON.parse(fs.readFileSync(process.argv[1],'utf8'));" \
+    "if(!Array.isArray(data)) process.exit(0);" \
+    "for(let i=0;i<data.length;i++){" \
+    "const item=data[i];" \
+    "if(item && typeof item==='object' && !Array.isArray(item)){" \
+    "for(const [k,v] of Object.entries(item)){" \
+    "process.stdout.write(String(i+1)+'\\t'+k+'\\t'+JSON.stringify(v)+'\\n');" \
+    "}" \
+    "}else{" \
+    "process.stdout.write(String(i+1)+'\\t'+'value'+'\\t'+JSON.stringify(item)+'\\n');" \
+    "}" \
+    "}"
+
+  cmd = "node -e " sh_escape(js) " " sh_escape(path)
+
+  max = 0
+  while ((cmd | getline line) > 0) {
+    split(line, parts, "\t")
+    idx = parts[1]
+    key = parts[2]
+    val = parts[3]
+    json_item[name, idx, key] = json_unescape(val)
+    json_keys[name SUBSEP key] = 1
+    if (idx + 0 > max) max = idx + 0
+  }
+  close(cmd)
+  json_len[name] = max
+}
+
+function json_load_inline(json, name,   cmd, js, line, parts, idx, key, val, max) {
+  if (name == "") return
+
+  js = "const data=JSON.parse(process.argv[1]);" \
+    "if(!Array.isArray(data)) process.exit(0);" \
+    "for(let i=0;i<data.length;i++){" \
+    "const item=data[i];" \
+    "if(item && typeof item==='object' && !Array.isArray(item)){" \
+    "for(const [k,v] of Object.entries(item)){" \
+    "process.stdout.write(String(i+1)+'\\t'+k+'\\t'+JSON.stringify(v)+'\\n');" \
+    "}" \
+    "}else{" \
+    "process.stdout.write(String(i+1)+'\\t'+'value'+'\\t'+JSON.stringify(item)+'\\n');" \
+    "}" \
+    "}"
+
+  cmd = "node -e " sh_escape(js) " " sh_escape(json)
+
+  max = 0
+  while ((cmd | getline line) > 0) {
+    split(line, parts, "\t")
+    idx = parts[1]
+    key = parts[2]
+    val = parts[3]
+    json_item[name, idx, key] = json_unescape(val)
+    json_keys[name SUBSEP key] = 1
+    if (idx + 0 > max) max = idx + 0
+  }
+  close(cmd)
+  json_len[name] = max
+}
+
 function set_var_line(text,   key, val) {
   if (text == "") return
   key = text
@@ -110,7 +218,7 @@ function parse_include_parts(text,   rest, file, q, pos) {
   include_params = ""
   rest = ltrim(substr(text, length("@include") + 1))
   if (rest == "") return
-  if (rest ~ /^\"/ || rest ~ /^'/) {
+  if (rest ~ /^"/ || rest ~ /^'/) {
     q = substr(rest, 1, 1)
     rest = substr(rest, 2)
     pos = index(rest, q)
@@ -205,11 +313,88 @@ function vars_pop(   i, key) {
   vars_depth--
 }
 
-function handle_directive(text, indent, file_dir, line,   rest, key, val, attrs, inc, path, prefix) {
+function handle_directive(text, indent, file_dir, line,   rest, key, val, attrs, inc, path, prefix, q, pos, name) {
   if (text ~ /^@vars([ \t]|$)/) {
     vars_mode = 1
     vars_indent = indent
     vars_base_indent = -1
+    return 1
+  }
+
+  if (match(text, /^@json[ \t]+/)) {
+    rest = ltrim(substr(text, RLENGTH + 1))
+    if (rest ~ /^"/ || rest ~ /^'/) {
+      q = substr(rest, 1, 1)
+      rest = substr(rest, 2)
+      pos = index(rest, q)
+      if (pos > 0) {
+        path = substr(rest, 1, pos - 1)
+        rest = ltrim(substr(rest, pos + 1))
+      } else {
+        path = rest
+        rest = ""
+      }
+    } else {
+      path = rest
+      sub(/[ \t].*$/, "", path)
+      rest = ltrim(substr(rest, length(path) + 1))
+    }
+
+    name = ""
+    if (match(rest, /^as[ \t]+/)) {
+      rest = ltrim(substr(rest, RLENGTH + 1))
+      name = rest
+      sub(/[ \t].*$/, "", name)
+    }
+
+    path = interpolate(strip_quotes(path))
+    json_load(join_path(file_dir, path), name)
+    return 1
+  }
+
+  if (match(text, /^@forjson[ \t]+/)) {
+    rest = ltrim(substr(text, RLENGTH + 1))
+
+    alias = ""
+    expr = rest
+    if (match(rest, /[ \t]+as[ \t]+/)) {
+      expr = substr(rest, 1, RSTART - 1)
+      alias = substr(rest, RSTART + RLENGTH)
+      alias = ltrim(alias)
+      sub(/[ \t].*$/, "", alias)
+    }
+
+    expr = interpolate(strip_quotes(expr))
+
+    forjson_seq++
+    for_list = "__forjson_" forjson_seq
+    json_load_inline(expr, for_list)
+
+    for_alias = alias
+    if (for_alias == "") for_alias = for_list
+
+    for_mode = 1
+    for_indent = indent
+    for_count = 0
+    return 1
+  }
+
+  if (match(text, /^@for[ \t]+/)) {
+    rest = ltrim(substr(text, RLENGTH + 1))
+    for_list = rest
+    sub(/[ \t].*$/, "", for_list)
+    rest = ltrim(substr(rest, length(for_list) + 1))
+
+    for_alias = for_list
+    if (match(rest, /^as[ \t]+/)) {
+      rest = ltrim(substr(rest, RLENGTH + 1))
+      for_alias = rest
+      sub(/[ \t].*$/, "", for_alias)
+    }
+
+    for_mode = 1
+    for_indent = indent
+    for_count = 0
     return 1
   }
 
@@ -309,6 +494,43 @@ function process_line(line, file_dir,   indent, text, ch, pos, c, tag, id, class
   text = rtrim(ltrim(line))
 
   if (text ~ /^-#/) return
+
+  if (for_mode && !for_replaying) {
+    if (indent <= for_indent) {
+      for_mode = 0
+      for_replaying = 1
+
+      for (for_i = 1; for_i <= json_len[for_list]; for_i++) {
+        param_count = 0
+        include_param_keys[++param_count] = for_alias "_index"
+        include_param_vals[param_count] = for_i
+        for (for_key in json_keys) {
+          split(for_key, for_parts, SUBSEP)
+          if (for_parts[1] != for_list) continue
+          for_k = for_parts[2]
+          include_param_keys[++param_count] = for_alias "_" for_k
+          include_param_vals[param_count] = json_item[for_list, for_i, for_k]
+        }
+
+        vars_push(param_count)
+        for (for_j = 1; for_j <= for_count; for_j++) {
+          process_line(for_lines[for_j], file_dir)
+        }
+        vars_pop()
+
+        close_to(for_indent)
+      }
+
+      for_replaying = 0
+      for_count = 0
+
+      process_line(line, file_dir)
+      return
+    }
+
+    for_lines[++for_count] = line
+    return
+  }
 
   if (vars_mode) {
     if (indent <= vars_indent) {
@@ -732,6 +954,11 @@ BEGIN {
   vars_indent = -1
   vars_base_indent = -1
   vars_depth = 0
+
+  for_mode = 0
+  for_replaying = 0
+  for_indent = -1
+  for_count = 0
 
   found_html = 0
   found_sections = 0

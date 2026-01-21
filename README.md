@@ -13,12 +13,10 @@ Common tasks live behind `make`:
 
 Books page:
 - Source: Goodreads shelves `read`, `to-read`, `currently-reading`.
-- Build step: `scripts/generate_books_from_goodreads.py` generates:
-  - `src/data/books_read.smol`
-  - `src/data/books_to_read.smol`
-  - `src/data/books_currently_reading.smol`
-- Cache: JSON snapshots in `src/data/goodreads_cache/` (used if network flakes).
-- Force refresh: `python3 scripts/generate_books_from_goodreads.py --refresh`
+- Sync: `scripts/goodreads_sync.sh` fetches RSS into `src/data/goodreads_cache/`.
+- Stats: `scripts/generate_books_stats.sh` derives `src/data/books_stats.smol` from the read cache.
+- Resilience: if fetch fails, build keeps last committed cache JSON.
+- Force refresh: `./scripts/goodreads_sync.sh` (or `make build`).
 
 Smol is a tiny HAML-ish markup language compiled by `scripts/smol.awk`. The
 site templates live in `src/` (for example `src/index.smol` and `src/books.smol`)

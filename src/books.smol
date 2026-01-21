@@ -69,7 +69,7 @@
       gap: .5rem
     .bar
       display: grid
-      grid-template-columns: 3.5rem 1fr 2.5rem
+      grid-template-columns: 3.5rem 1fr 10rem
       gap: .75rem
       align-items: center
     .track
@@ -86,6 +86,7 @@
       font-size: .8rem
       color: #6b7280
       text-align: right
+      white-space: nowrap
 
     @media (min-width: 52em)
       .grid
@@ -106,7 +107,15 @@
           h2.section_title
             | Currently reading
           ol.book_list
-            @include data/books_currently_reading.smol
+            @json "data/goodreads_cache/32620052_currently-reading.json" as currently_reading
+            @for currently_reading as book
+              li
+                span.book
+                  | #{book_title}
+                | 
+
+                span.author
+                  | — #{book_author}
         section
           h2.section_title
             | Read per year
@@ -114,10 +123,33 @@
         section
           h2.section_title
             | Read
-          .read_list
-            @include data/books_read.smol
+          @json "data/goodreads_cache/32620052_read_grouped.json" as years
+          @for years as year
+            h3.year
+              | #{year_year}
+            ol.book_list
+              @forjson #{year_books} as book
+                li
+                  span.book
+                    | #{book_title}
+                  | 
+
+                  span.author
+                    | — #{book_author}
+                  | 
+
+                  span.meta
+                    | (#{book_date_read} · #{book_rating_stars})
         section
           h2.section_title
             | To read
           ol.book_list
-            @include data/books_to_read.smol
+            @json "data/goodreads_cache/32620052_to-read.json" as to_read
+            @for to_read as book
+              li
+                span.book
+                  | #{book_title}
+                | 
+
+                span.author
+                  | — #{book_author}
