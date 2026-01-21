@@ -24,9 +24,12 @@ fetch_shelf() {
     url="https://www.goodreads.com/review/list_rss/${user_id}?shelf=${shelf}&per_page=100&page=${page}"
 
     xml="$(mktemp)"
-    if ! curl -fsSL --max-time 10 "$url" >"$xml"; then
+    if ! curl -fsSL --max-time 20 \
+      --retry 3 --retry-delay 1 --retry-all-errors \
+      -A "Mozilla/5.0 (compatible; chriskjaer.com build; +https://chriskjaer.com)" \
+      "$url" >"$xml"; then
       rm -f "$xml"
-      printf '%s\n' "goodreads: fetch failed shelf=$shelf page=$page" >&2
+      printf '%s\n' "goodreads: fetch failed shelf=$shelf page=$page url=$url" >&2
       return 1
     fi
 
@@ -44,7 +47,7 @@ fetch_shelf() {
   done
 
   if [ "$got_any" -eq 0 ]; then
-    printf '%s\n' "goodreads: no items shelf=$shelf" >&2
+    printf '%s\n' "goodreads: no items shelf=$shelf (rss empty?)" >&2
     return 1
   fi
 
