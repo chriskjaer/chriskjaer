@@ -111,11 +111,11 @@
             @for currently_reading as book
               li
                 span.book
-                  | #{book_title}
+                  | #{book.title}
                 | 
 
                 span.author
-                  | — #{book_author}
+                  | — #{book.author}
         section
           h2.section_title
             | Read per year
@@ -123,23 +123,7 @@
         section
           h2.section_title
             | Read
-          @json "data/goodreads_cache/32620052_read_grouped.json" as years
-          @for years as year
-            h3.year
-              | #{year_year}
-            ol.book_list
-              @forjson #{year_books} as book
-                li
-                  span.book
-                    | #{book_title}
-                  | 
-
-                  span.author
-                    | — #{book_author}
-                  | 
-
-                  span.meta
-                    | (#{book_date_read} · #{book_rating_stars})
+          @include data/books_read_grouped.smol
         section
           h2.section_title
             | To read
@@ -148,8 +132,8 @@
             @for to_read as book
               li
                 span.book
-                  | #{book_title}
+                  | #{book.title}
                 | 
 
                 span.author
-                  | — #{book_author}
+                  | — #{book.author}

@@ -6,7 +6,7 @@ out="$root/public"
 build="$root/scripts/build.sh"
 port="${PORT:-3333}"
 
-watch_files="$root/src/index.smol $root/src/books.smol $root/src/data/books_stats.smol $root/src/data/goodreads_cache/32620052_read.json $root/src/data/goodreads_cache/32620052_to-read.json $root/src/data/goodreads_cache/32620052_currently-reading.json $root/src/includes/life.smol $root/src/includes/styles.smol $root/src/includes/logo.smol $root/src/wasm/life.zig $root/public/life.wasm $root/scripts/smol.awk $root/scripts/wasm_build.sh $root/scripts/goodreads_sync.sh $root/scripts/goodreads_rss_to_json.awk $root/scripts/generate_books_stats.sh"
+watch_files="$root/src/index.smol $root/src/books.smol $root/src/includes/life.smol $root/src/includes/styles.smol $root/src/includes/logo.smol $root/src/wasm/life.zig $root/public/life.wasm $root/scripts/smol.awk $root/scripts/wasm_build.sh $root/scripts/goodreads_sync.sh $root/scripts/goodreads_rss_to_json.awk $root/scripts/goodreads_read_to_tsv.awk"
 
 hash_files() {
   for file in $watch_files; do

@@ -29,7 +29,7 @@ cat <<'HAML' > "$tmp_in"
   @json JSONFILE as people
   ul
     @for people as person
-      li #{person_name}
+      li #{person.name}
   style
     body
       margin: 0

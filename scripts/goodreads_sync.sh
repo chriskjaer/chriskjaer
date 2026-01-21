@@ -74,10 +74,109 @@ fetch_one_shelf() {
 }
 
 fail=0
+
+read_tsv_tmp="$(mktemp)"
+trap 'rm -f "$read_tsv_tmp"' INT TERM HUP EXIT
+
 for shelf in currently-reading read to-read; do
   if ! fetch_one_shelf "$shelf"; then
     fail=1
   fi
+
 done
+
+# If we have a read shelf, generate derived build-time files.
+read_json="$cache_dir/${user_id}_read.json"
+if [ -f "$read_json" ]; then
+  # Re-fetch read shelf RSS once for reliable pages/date parsing.
+  rss_tmp="$(mktemp)"
+  if curl -fsSL --max-time 10 "https://www.goodreads.com/review/list_rss/${user_id}?shelf=read&per_page=100&page=1" >"$rss_tmp"; then
+    awk -f "$root/scripts/goodreads_read_to_tsv.awk" <"$rss_tmp" >"$read_tsv_tmp" || true
+
+    # books_stats.smol (build-time)
+    awk -F '\t' '
+      BEGIN {
+        print "-# Generated file. Do not edit.";
+        print "-# Source: Goodreads read shelf RSS.";
+        print "";
+        print "ul.chart";
+      }
+      {
+        year = substr($1, 1, 4) + 0;
+        books[year] += 1;
+        pages[year] += ($2 + 0);
+        if (books[year] > max) max = books[year];
+      }
+      END {
+        if (max == 0) {
+          print "  li";
+          print "    | (no data)";
+          exit;
+        }
+        # Print newest year first.
+        for (y in books) years[n++] = y;
+        # simple bubble sort for small N
+        for (i = 0; i < n; i++) for (j = i + 1; j < n; j++) if (years[j] > years[i]) { t=years[i]; years[i]=years[j]; years[j]=t }
+        for (i = 0; i < n; i++) {
+          y = years[i];
+          pct = int((books[y] / max) * 100 + 0.5);
+          printf "  li.bar\n";
+          printf "    span.year\n";
+          printf "      | %d\n", y;
+          printf "    span.track\n";
+          printf "      span.fill(style=\"width: %d%%\")\n", pct;
+          printf "    span.count\n";
+          if (pages[y] > 0) {
+            printf "      | %d books · %d pages\n", books[y], pages[y];
+          } else {
+            printf "      | %d books\n", books[y];
+          }
+        }
+      }
+    ' "$read_tsv_tmp" >"$root/src/data/books_stats.smol" || true
+
+    # books_read_grouped.smol (year headers + items, newest first)
+    sort -r "$read_tsv_tmp" | awk -F '\t' '
+      function stars(n,  i, s) { s=""; for (i=0;i<n;i++) s=s"★"; return s }
+      BEGIN {
+        print "-# Generated file. Do not edit.";
+        print "-# Source: Goodreads read shelf RSS.";
+        print "";
+        last_year = "";
+      }
+      {
+        date = $1;
+        pages = $2 + 0;
+        rating = $3 + 0;
+        title = $4;
+        author = $5;
+        year = substr(date, 1, 4);
+
+        if (year != last_year) {
+          if (last_year != "") printf "\n";
+          printf "h3.year\n";
+          printf "  | %s\n", year;
+          printf "ol.book_list\n";
+          last_year = year;
+        }
+
+        printf "  li\n";
+        printf "    span.book\n";
+        printf "      | %s\n", title;
+        printf "    | \n\n";
+        printf "    span.author\n";
+        printf "      | — %s\n", author;
+        printf "    | \n\n";
+        printf "    span.meta\n";
+        if (rating > 0) {
+          printf "      | (%s · %s)\n", date, stars(rating);
+        } else {
+          printf "      | (%s)\n", date;
+        }
+      }
+    ' >"$root/src/data/books_read_grouped.smol" || true
+  fi
+  rm -f "$rss_tmp"
+fi
 
 exit "$fail"

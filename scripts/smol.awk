@@ -2,6 +2,7 @@
 
 function ltrim(s) { sub(/^[ \t]+/, "", s); return s }
 function rtrim(s) { sub(/[ \t]+$/, "", s); return s }
+function trim(s) { return rtrim(ltrim(s)) }
 function indent_count(s) { match(s, /^[ \t]*/); return RLENGTH }
 function indent_str(level,   i, out) { out=""; for (i=0; i<level; i++) out = out "  "; return out }
 
@@ -58,7 +59,7 @@ function css_open(selector, indent) {
 }
 
 function interpolate(s,   key, val, start) {
-  while (match(s, /#\{[A-Za-z0-9_-]+\}/)) {
+  while (match(s, /#\{[A-Za-z0-9_.-]+\}/)) {
     start = RSTART
     key = substr(s, RSTART + 2, RLENGTH - 3)
     val = (key in vars) ? vars[key] : ""
@@ -117,68 +118,95 @@ function json_unescape(s,   out, i, c, n, hex) {
   return s
 }
 
-function json_load(path, name,   cmd, js, line, parts, idx, key, val, max) {
+function json_load(path, name,   line, key, val, idx, max) {
   if (name == "") return
 
-  js = "const fs=require('fs');" \
-    "const data=JSON.parse(fs.readFileSync(process.argv[1],'utf8'));" \
-    "if(!Array.isArray(data)) process.exit(0);" \
-    "for(let i=0;i<data.length;i++){" \
-    "const item=data[i];" \
-    "if(item && typeof item==='object' && !Array.isArray(item)){" \
-    "for(const [k,v] of Object.entries(item)){" \
-    "process.stdout.write(String(i+1)+'\\t'+k+'\\t'+JSON.stringify(v)+'\\n');" \
-    "}" \
-    "}else{" \
-    "process.stdout.write(String(i+1)+'\\t'+'value'+'\\t'+JSON.stringify(item)+'\\n');" \
-    "}" \
-    "}"
+  # Minimal JSON loader (array of flat objects).
+  # Expected shape:
+  # [ {"k":"v",...}, {...} ]
+  # Strings/ints/bools/null supported. Nested arrays/objects not supported.
 
-  cmd = "node -e " sh_escape(js) " " sh_escape(path)
-
+  idx = 0
   max = 0
-  while ((cmd | getline line) > 0) {
-    split(line, parts, "\t")
-    idx = parts[1]
-    key = parts[2]
-    val = parts[3]
-    json_item[name, idx, key] = json_unescape(val)
+
+  while ((getline line < path) > 0) {
+    # object start on its own line
+    if (line ~ /^{[ 	]*$/) {
+      idx++
+      if (idx > max) max = idx
+      continue
+    }
+
+    # one-line object: {"k":"v",...}
+    if (match(line, /{.*}/)) {
+      idx++
+      if (idx > max) max = idx
+
+      s = line
+      sub(/^.*{/, "{", s)
+      sub(/}.*$/, "}", s)
+
+      while (match(s, /"([^"]+)"[ 	]*:[ 	]*([^,}]+|"([^\\"]|\\.)*")/, m)) {
+        key = m[1]
+        val = m[2]
+        s = substr(s, RSTART + RLENGTH)
+        sub(/^[ 	]*,?/, "", s)
+
+        val = trim(val)
+        if (val ~ /^"/ && val ~ /"$/) {
+          val = substr(val, 2, length(val) - 2)
+          gsub(/\\"/, "\"", val)
+          gsub(/\\n/, "\n", val)
+          gsub(/\\t/, "\t", val)
+          gsub(/\\r/, "", val)
+          gsub(/\\\\/, "\\", val)
+        } else if (val == "null") {
+          val = ""
+        } else if (val == "true") {
+          val = "true"
+        } else if (val == "false") {
+          val = "false"
+        }
+
+        json_item[name, idx, key] = val
+        json_keys[name SUBSEP key] = 1
+      }
+
+      continue
+    }
+
+    if (idx <= 0) continue
+
+    # match "key": <value>
+    if (!match(line, /^[ 	]*"([^"]+)"[ 	]*:[ 	]*(.*)[ 	]*$/, m)) continue
+
+    key = m[1]
+    val = m[2]
+
+    # strip trailing comma
+    sub(/,[ 	]*$/, "", val)
+    val = trim(val)
+
+    if (val ~ /^"/ && val ~ /"$/) {
+      val = substr(val, 2, length(val) - 2)
+      gsub(/\\"/, "\"", val)
+      gsub(/\\n/, "\n", val)
+      gsub(/\\t/, "\t", val)
+      gsub(/\\r/, "", val)
+      gsub(/\\\\/, "\\", val)
+    } else if (val == "null") {
+      val = ""
+    } else if (val == "true") {
+      val = "true"
+    } else if (val == "false") {
+      val = "false"
+    }
+
+    json_item[name, idx, key] = val
     json_keys[name SUBSEP key] = 1
-    if (idx + 0 > max) max = idx + 0
   }
-  close(cmd)
-  json_len[name] = max
-}
 
-function json_load_inline(json, name,   cmd, js, line, parts, idx, key, val, max) {
-  if (name == "") return
-
-  js = "const data=JSON.parse(process.argv[1]);" \
-    "if(!Array.isArray(data)) process.exit(0);" \
-    "for(let i=0;i<data.length;i++){" \
-    "const item=data[i];" \
-    "if(item && typeof item==='object' && !Array.isArray(item)){" \
-    "for(const [k,v] of Object.entries(item)){" \
-    "process.stdout.write(String(i+1)+'\\t'+k+'\\t'+JSON.stringify(v)+'\\n');" \
-    "}" \
-    "}else{" \
-    "process.stdout.write(String(i+1)+'\\t'+'value'+'\\t'+JSON.stringify(item)+'\\n');" \
-    "}" \
-    "}"
-
-  cmd = "node -e " sh_escape(js) " " sh_escape(json)
-
-  max = 0
-  while ((cmd | getline line) > 0) {
-    split(line, parts, "\t")
-    idx = parts[1]
-    key = parts[2]
-    val = parts[3]
-    json_item[name, idx, key] = json_unescape(val)
-    json_keys[name SUBSEP key] = 1
-    if (idx + 0 > max) max = idx + 0
-  }
-  close(cmd)
+  close(path)
   json_len[name] = max
 }
 
@@ -352,32 +380,7 @@ function handle_directive(text, indent, file_dir, line,   rest, key, val, attrs,
     return 1
   }
 
-  if (match(text, /^@forjson[ \t]+/)) {
-    rest = ltrim(substr(text, RLENGTH + 1))
-
-    alias = ""
-    expr = rest
-    if (match(rest, /[ \t]+as[ \t]+/)) {
-      expr = substr(rest, 1, RSTART - 1)
-      alias = substr(rest, RSTART + RLENGTH)
-      alias = ltrim(alias)
-      sub(/[ \t].*$/, "", alias)
-    }
-
-    expr = interpolate(strip_quotes(expr))
-
-    forjson_seq++
-    for_list = "__forjson_" forjson_seq
-    json_load_inline(expr, for_list)
-
-    for_alias = alias
-    if (for_alias == "") for_alias = for_list
-
-    for_mode = 1
-    for_indent = indent
-    for_count = 0
-    return 1
-  }
+  # (removed @forjson)
 
   if (match(text, /^@for[ \t]+/)) {
     rest = ltrim(substr(text, RLENGTH + 1))
@@ -502,13 +505,13 @@ function process_line(line, file_dir,   indent, text, ch, pos, c, tag, id, class
 
       for (for_i = 1; for_i <= json_len[for_list]; for_i++) {
         param_count = 0
-        include_param_keys[++param_count] = for_alias "_index"
+        include_param_keys[++param_count] = for_alias ".index"
         include_param_vals[param_count] = for_i
         for (for_key in json_keys) {
           split(for_key, for_parts, SUBSEP)
           if (for_parts[1] != for_list) continue
           for_k = for_parts[2]
-          include_param_keys[++param_count] = for_alias "_" for_k
+          include_param_keys[++param_count] = for_alias "." for_k
           include_param_vals[param_count] = json_item[for_list, for_i, for_k]
         }
 
