@@ -2,6 +2,7 @@
 
 function ltrim(s) { sub(/^[ \t]+/, "", s); return s }
 function rtrim(s) { sub(/[ \t]+$/, "", s); return s }
+function trim(s) { return rtrim(ltrim(s)) }
 function indent_count(s) { match(s, /^[ \t]*/); return RLENGTH }
 function indent_str(level,   i, out) { out=""; for (i=0; i<level; i++) out = out "  "; return out }
 
@@ -58,7 +59,7 @@ function css_open(selector, indent) {
 }
 
 function interpolate(s,   key, val, start) {
-  while (match(s, /#\{[A-Za-z0-9_-]+\}/)) {
+  while (match(s, /#\{[A-Za-z0-9_.-]+\}/)) {
     start = RSTART
     key = substr(s, RSTART + 2, RLENGTH - 3)
     val = (key in vars) ? vars[key] : ""
@@ -72,6 +73,11 @@ function strip_quotes(s) {
   if (s ~ /^".*"$/) return substr(s, 2, length(s) - 2)
   if (s ~ /^'.*'$/) return substr(s, 2, length(s) - 2)
   return s
+}
+
+function sh_escape(s) {
+  gsub(/'/, "'\"'\"'", s)
+  return "'" s "'"
 }
 
 function set_var_line(text,   key, val) {
@@ -110,7 +116,7 @@ function parse_include_parts(text,   rest, file, q, pos) {
   include_params = ""
   rest = ltrim(substr(text, length("@include") + 1))
   if (rest == "") return
-  if (rest ~ /^\"/ || rest ~ /^'/) {
+  if (rest ~ /^"/ || rest ~ /^'/) {
     q = substr(rest, 1, 1)
     rest = substr(rest, 2)
     pos = index(rest, q)
@@ -205,11 +211,114 @@ function vars_pop(   i, key) {
   vars_depth--
 }
 
+function data_fail(msg) {
+  print "smol: data: " msg > "/dev/stderr"
+  exit 2
+}
+
+function data_parse_row(line, name, idx,   parts, n, i, f) {
+  n = split(line, parts, "|")
+  if (n != 6) data_fail(name ": row " idx ": expected 6 fields, got " n ": " line)
+  for (i = 1; i <= 6; i++) {
+    f = trim(parts[i])
+    data_field[name, idx, i] = f
+  }
+}
+
+function data_load(path, pipeline, name,   cmd, line, idx) {
+  if (name == "") return
+  if (name in data_loaded) return
+
+  pipeline = trim(pipeline)
+  pipeline = interpolate(pipeline)
+  path = interpolate(strip_quotes(path))
+
+  idx = 0
+  if (pipeline == "") {
+    cmd = "cat " sh_escape(path)
+  } else {
+    cmd = "/bin/sh -c " sh_escape("cat " sh_escape(path) " | " pipeline)
+  }
+
+  while ((cmd | getline line) > 0) {
+    if (line ~ /^[ \t]*$/) continue
+    idx++
+    data_parse_row(line, name, idx)
+  }
+  close(cmd)
+
+  data_len[name] = idx
+  data_loaded[name] = 1
+}
+
+function parse_data(text, indent, file_dir, line,   rest, path, q, pos, name, pipeline) {
+  rest = ltrim(substr(text, length("@data") + 1))
+  if (rest == "") return 1
+
+  # path (quoted or bare)
+  if (rest ~ /^"/ || rest ~ /^'/) {
+    q = substr(rest, 1, 1)
+    rest = substr(rest, 2)
+    pos = index(rest, q)
+    if (pos > 0) {
+      path = substr(rest, 1, pos - 1)
+      rest = ltrim(substr(rest, pos + 1))
+    } else {
+      path = rest
+      rest = ""
+    }
+  } else {
+    path = rest
+    sub(/[ \t].*$/, "", path)
+    rest = ltrim(substr(rest, length(path) + 1))
+  }
+
+  if (!match(rest, /as[ \t]+[A-Za-z0-9_-]+[ \t]*$/)) {
+    print "smol: @data: missing 'as <name>'" > "/dev/stderr"
+    exit 1
+  }
+
+  name = substr(rest, RSTART)
+  sub(/^as[ \t]+/, "", name)
+  name = trim(name)
+
+  pipeline = trim(substr(rest, 1, RSTART - 1))
+
+  if (pipeline ~ /^\|/) pipeline = trim(substr(pipeline, 2))
+  else pipeline = ""
+
+  data_load(join_path(file_dir, path), pipeline, name)
+  return 1
+}
+
 function handle_directive(text, indent, file_dir, line,   rest, key, val, attrs, inc, path, prefix) {
   if (text ~ /^@vars([ \t]|$)/) {
     vars_mode = 1
     vars_indent = indent
     vars_base_indent = -1
+    return 1
+  }
+
+  if (match(text, /^@data[ \t]+/)) {
+    return parse_data(text, indent, file_dir, line)
+  }
+
+  if (match(text, /^@for[ \t]+/)) {
+    rest = ltrim(substr(text, RLENGTH + 1))
+    for_list = rest
+    sub(/[ \t].*$/, "", for_list)
+    rest = ltrim(substr(rest, length(for_list) + 1))
+
+    for_alias = for_list
+    if (match(rest, /^as[ \t]+/)) {
+      rest = ltrim(substr(rest, RLENGTH + 1))
+      for_alias = rest
+      sub(/[ \t].*$/, "", for_alias)
+    }
+
+    for_mode = 1
+    for_indent = indent
+    for_count = 0
     return 1
   }
 
@@ -309,6 +418,54 @@ function process_line(line, file_dir,   indent, text, ch, pos, c, tag, id, class
   text = rtrim(ltrim(line))
 
   if (text ~ /^-#/) return
+
+  if (for_mode && !for_replaying) {
+    if (indent <= for_indent) {
+      for_mode = 0
+      for_replaying = 1
+
+      if (!(for_list in data_loaded)) {
+        print "smol: @for: unknown dataset '" for_list "'" > "/dev/stderr"
+        exit 1
+      }
+
+      for (for_i = 1; for_i <= data_len[for_list]; for_i++) {
+        param_count = 0
+        include_param_keys[++param_count] = for_alias ".index"
+        include_param_vals[param_count] = for_i
+
+        include_param_keys[++param_count] = for_alias ".shelf"
+        include_param_vals[param_count] = data_field[for_list, for_i, 1]
+        include_param_keys[++param_count] = for_alias ".date"
+        include_param_vals[param_count] = data_field[for_list, for_i, 2]
+        include_param_keys[++param_count] = for_alias ".rating"
+        include_param_vals[param_count] = data_field[for_list, for_i, 3]
+        include_param_keys[++param_count] = for_alias ".pages"
+        include_param_vals[param_count] = data_field[for_list, for_i, 4]
+        include_param_keys[++param_count] = for_alias ".title"
+        include_param_vals[param_count] = data_field[for_list, for_i, 5]
+        include_param_keys[++param_count] = for_alias ".author"
+        include_param_vals[param_count] = data_field[for_list, for_i, 6]
+
+        vars_push(param_count)
+        for (for_j = 1; for_j <= for_count; for_j++) {
+          process_line(for_lines[for_j], file_dir)
+        }
+        vars_pop()
+
+        close_to(for_indent)
+      }
+
+      for_replaying = 0
+      for_count = 0
+
+      process_line(line, file_dir)
+      return
+    }
+
+    for_lines[++for_count] = line
+    return
+  }
 
   if (vars_mode) {
     if (indent <= vars_indent) {
@@ -732,6 +889,11 @@ BEGIN {
   vars_indent = -1
   vars_base_indent = -1
   vars_depth = 0
+
+  for_mode = 0
+  for_replaying = 0
+  for_indent = -1
+  for_count = 0
 
   found_html = 0
   found_sections = 0

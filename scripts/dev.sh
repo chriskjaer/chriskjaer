@@ -6,14 +6,10 @@ out="$root/public"
 build="$root/scripts/build.sh"
 port="${PORT:-3333}"
 
-watch_files="$root/src/index.smol $root/src/books.smol $root/src/data/books_read.smol $root/src/data/books_to_read.smol $root/src/includes/life.smol $root/src/includes/styles.smol $root/src/includes/logo.smol $root/src/wasm/life.zig $root/public/life.wasm $root/scripts/smol.awk $root/scripts/wasm_build.sh"
+watch_dirs="$root/src $root/scripts $root/public"
 
 hash_files() {
-  for file in $watch_files; do
-    if [ ! -f "$file" ]; then
-      printf '%s\n' "missing $file" >&2
-      exit 1
-    fi
+  find $watch_dirs -type f -print | sort | while IFS= read -r file; do
     cksum "$file"
   done | cksum | awk '{print $1}'
 }
@@ -54,7 +50,7 @@ open_browser
 
 trap 'kill "$server_pid" 2>/dev/null' INT TERM EXIT
 
-printf '%s\n' "watching $watch_files (ctrl-c to stop)"
+printf '%s\n' "watching $watch_dirs (ctrl-c to stop)"
 
 while :; do
   current=$(hash_files)

@@ -16,6 +16,13 @@
 /build
 /public/index.html
 
+# generated (build-time only)
+/public/books/index.html
+/src/data/books
+/src/data/books_stats.smol
+/src/data/books_read_grouped.smol
+/src/data/goodreads_cache/
+
 # misc
 .DS_Store
 *.pem

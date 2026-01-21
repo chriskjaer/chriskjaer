@@ -8,6 +8,7 @@ tmp_in=$(mktemp)
 tmp_out=$(mktemp)
 tmp_expected=$(mktemp)
 tmp_include=$(mktemp)
+tmp_data=$(mktemp)
 
 cat <<'HAML' > "$tmp_in"
 @title Smol Test
@@ -25,6 +26,10 @@ cat <<'HAML' > "$tmp_in"
 :body
   h1 Hello #{who}
   @include INC note_class=note note_text="Included #{who}"
+  @data DATAFILE as people
+  ul
+    @for people as person
+      li #{person.index}: #{person.title}
   style
     body
       margin: 0
@@ -37,10 +42,20 @@ p(class="#{note_class}")
   | #{note_text}
 HAML
 
+cat <<'DATA' > "$tmp_data"
+read | 2024-01-01 | 0 | 0 | Ada | Lovelace
+read | 2024-01-02 | 0 | 0 | Linus | Torvalds
+DATA
+
 tmp_in2=$(mktemp)
 
 sed "s|@include INC|@include $tmp_include|" "$tmp_in" > "$tmp_in2"
 mv "$tmp_in2" "$tmp_in"
+
+tmp_in3=$(mktemp)
+
+sed "s|@data DATAFILE|@data $tmp_data|" "$tmp_in" > "$tmp_in3"
+mv "$tmp_in3" "$tmp_in"
 
 cat <<'HTML' > "$tmp_expected"
 <!doctype html>
@@ -62,6 +77,10 @@ cat <<'HTML' > "$tmp_expected"
     <p class="note">
       Included Chris
     </p>
+    <ul>
+      <li>1: Ada</li>
+      <li>2: Linus</li>
+    </ul>
     <script>
     console.log("Chris")
     </script>
@@ -73,6 +92,6 @@ awk -f "$compiler" "$tmp_in" > "$tmp_out"
 
 diff -u "$tmp_expected" "$tmp_out"
 
-rm -f "$tmp_in" "$tmp_out" "$tmp_expected" "$tmp_include"
+rm -f "$tmp_in" "$tmp_out" "$tmp_expected" "$tmp_include" "$tmp_data"
 
 printf '%s\n' "smol test ok"
