@@ -1,3 +1,5 @@
+@layout "includes/layout.smol"
+
 @title chriskjaer
 @description Creative Developer, Software Engineer, Co-Founder of Gaest.com. ex-Airbnb. Now CTO & Co-Founder at Landfolk. I code stuff and make it pretty.
 @viewport width=device-width, initial-scale=1
@@ -10,12 +12,6 @@
   gaest_url https://techcrunch.com/2019/01/25/airbnb-acquires-denmarks-gaest-to-expand-in-bookings-for-meetings-and-offsites
   linkedin_url https://www.linkedin.com/in/chriskjaer/
   github_url https://github.com/chriskjaer
-
-:head
-  link(rel="icon" type="image/svg+xml" href="/favicon.svg")
-  meta(name="theme-color" content="#24201a")
-  meta(name="color-scheme" content="light")
-  @include includes/styles.smol
 
 :body
   canvas#life.life

@@ -9,6 +9,7 @@ tmp_out=$(mktemp)
 tmp_expected=$(mktemp)
 tmp_include=$(mktemp)
 tmp_data=$(mktemp)
+tmp_onefield=$(mktemp)
 
 cat <<'HAML' > "$tmp_in"
 @title Smol Test
@@ -27,9 +28,13 @@ cat <<'HAML' > "$tmp_in"
   h1 Hello #{who}
   @include INC note_class=note note_text="Included #{who}"
   @data DATAFILE as people
+  @data ONEFIELD as tags
   ul
     @for people as person
-      li #{person.index}: #{person.title}
+      li #{person.index}: #{person.5}
+  ol
+    @for tags as tag
+      li #{tag.index}: #{tag.value}
   style
     body
       margin: 0
@@ -47,6 +52,11 @@ read | 2024-01-01 | 0 | 0 | Ada | Lovelace
 read | 2024-01-02 | 0 | 0 | Linus | Torvalds
 DATA
 
+cat <<'ONE' > "$tmp_onefield"
+smol
+test
+ONE
+
 tmp_in2=$(mktemp)
 
 sed "s|@include INC|@include $tmp_include|" "$tmp_in" > "$tmp_in2"
@@ -56,6 +66,11 @@ tmp_in3=$(mktemp)
 
 sed "s|@data DATAFILE|@data $tmp_data|" "$tmp_in" > "$tmp_in3"
 mv "$tmp_in3" "$tmp_in"
+
+tmp_in4=$(mktemp)
+
+sed "s|@data ONEFIELD|@data $tmp_onefield|" "$tmp_in" > "$tmp_in4"
+mv "$tmp_in4" "$tmp_in"
 
 cat <<'HTML' > "$tmp_expected"
 <!doctype html>
@@ -81,6 +96,10 @@ cat <<'HTML' > "$tmp_expected"
       <li>1: Ada</li>
       <li>2: Linus</li>
     </ul>
+    <ol>
+      <li>1: smol</li>
+      <li>2: test</li>
+    </ol>
     <script>
     console.log("Chris")
     </script>
@@ -92,6 +111,6 @@ awk -f "$compiler" "$tmp_in" > "$tmp_out"
 
 diff -u "$tmp_expected" "$tmp_out"
 
-rm -f "$tmp_in" "$tmp_out" "$tmp_expected" "$tmp_include" "$tmp_data"
+rm -f "$tmp_in" "$tmp_out" "$tmp_expected" "$tmp_include" "$tmp_data" "$tmp_onefield"
 
 printf '%s\n' "smol test ok"

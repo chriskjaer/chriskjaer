@@ -1,0 +1,12 @@
+| <!doctype html>
+html(lang="#{smol.lang}")
+  head
+    @yield meta
+    link(rel="icon" type="image/svg+xml" href="/favicon.svg")
+    meta(name="theme-color" content="#24201a")
+    meta(name="color-scheme" content="light")
+    @include includes/styles.smol
+    @yield head
+  body
+    @yield body
+    @yield scripts

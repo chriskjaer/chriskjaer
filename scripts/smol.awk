@@ -140,6 +140,28 @@ function parse_include(text) {
   return include_file
 }
 
+function parse_layout_parts(text,   rest, file, q, pos) {
+  layout_path = ""
+  rest = ltrim(substr(text, length("@layout") + 1))
+  if (rest == "") return
+
+  if (rest ~ /^"/ || rest ~ /^'/) {
+    q = substr(rest, 1, 1)
+    rest = substr(rest, 2)
+    pos = index(rest, q)
+    if (pos > 0) {
+      file = substr(rest, 1, pos - 1)
+    } else {
+      file = rest
+    }
+  } else {
+    file = rest
+    sub(/[ \t].*$/, "", file)
+  }
+
+  layout_path = interpolate(strip_quotes(file))
+}
+
 function parse_params(params,   rest, key, val, q, pos) {
   param_count = 0
   rest = params
@@ -218,8 +240,10 @@ function data_fail(msg) {
 
 function data_parse_row(line, name, idx,   parts, n, i, f) {
   n = split(line, parts, "|")
-  if (n != 6) data_fail(name ": row " idx ": expected 6 fields, got " n ": " line)
-  for (i = 1; i <= 6; i++) {
+  if (n < 1) data_fail(name ": row " idx ": expected 1+ fields, got " n ": " line)
+
+  data_cols[name, idx] = n
+  for (i = 1; i <= n; i++) {
     f = trim(parts[i])
     data_field[name, idx, i] = f
   }
@@ -296,6 +320,24 @@ function handle_directive(text, indent, file_dir, line,   rest, key, val, attrs,
     vars_mode = 1
     vars_indent = indent
     vars_base_indent = -1
+    return 1
+  }
+
+  if (match(text, /^@layout[ \t]+/)) {
+    if (rendering_layout) {
+      print "smol: @layout: not allowed inside layout" > "/dev/stderr"
+      exit 1
+    }
+
+    parse_layout_parts(text)
+    if (layout_path == "") return 1
+
+    if (layout_file != "" && layout_file != join_path(file_dir, layout_path)) {
+      print "smol: @layout: multiple layouts" > "/dev/stderr"
+      exit 1
+    }
+
+    layout_file = join_path(file_dir, layout_path)
     return 1
   }
 
@@ -388,6 +430,14 @@ function handle_directive(text, indent, file_dir, line,   rest, key, val, attrs,
     return 1
   }
 
+  if (match(text, /^@yield([ \t]|$)/)) {
+    rest = ltrim(substr(text, length("@yield") + 1))
+    if (rest == "") rest = "body"
+    sub(/[ \t].*$/, "", rest)
+    yield_lines(rest)
+    return 1
+  }
+
   return 0
 }
 
@@ -411,7 +461,7 @@ function end_section() {
   raw_base_indent = -1
 }
 
-function process_line(line, file_dir,   indent, text, ch, pos, c, tag, id, classes, attrs, name, depth, inline, raw_text, raw_line, css_text, selector, prop) {
+function process_line(line, file_dir,   indent, text, ch, pos, c, tag, id, classes, attrs, name, depth, inline, raw_text, raw_line, css_text, selector, prop, cols, col) {
   if (line ~ /^[ \t]*$/) return
 
   indent = indent_count(line)
@@ -434,18 +484,16 @@ function process_line(line, file_dir,   indent, text, ch, pos, c, tag, id, class
         include_param_keys[++param_count] = for_alias ".index"
         include_param_vals[param_count] = for_i
 
-        include_param_keys[++param_count] = for_alias ".shelf"
-        include_param_vals[param_count] = data_field[for_list, for_i, 1]
-        include_param_keys[++param_count] = for_alias ".date"
-        include_param_vals[param_count] = data_field[for_list, for_i, 2]
-        include_param_keys[++param_count] = for_alias ".rating"
-        include_param_vals[param_count] = data_field[for_list, for_i, 3]
-        include_param_keys[++param_count] = for_alias ".pages"
-        include_param_vals[param_count] = data_field[for_list, for_i, 4]
-        include_param_keys[++param_count] = for_alias ".title"
-        include_param_vals[param_count] = data_field[for_list, for_i, 5]
-        include_param_keys[++param_count] = for_alias ".author"
-        include_param_vals[param_count] = data_field[for_list, for_i, 6]
+        cols = data_cols[for_list, for_i]
+        for (col = 1; col <= cols; col++) {
+          include_param_keys[++param_count] = for_alias "." col
+          include_param_vals[param_count] = data_field[for_list, for_i, col]
+        }
+
+        if (cols == 1) {
+          include_param_keys[++param_count] = for_alias ".value"
+          include_param_vals[param_count] = data_field[for_list, for_i, 1]
+        }
 
         vars_push(param_count)
         for (for_j = 1; for_j <= for_count; for_j++) {
@@ -849,6 +897,53 @@ function move_blocks(   i, line, capture, capture_type, j, out_count) {
   for (i = 1; i <= body_count; i++) body_lines[i] = body_out[i]
 }
 
+function yield_lines(kind,   i, prefix, count, line) {
+  prefix = indent_str(stack_depth)
+
+  if (kind == "meta") {
+    if (meta_charset == "") meta_charset = "utf-8"
+    if (meta_viewport == "") meta_viewport = "width=device-width, initial-scale=1"
+    if (meta_lang == "") meta_lang = "en"
+
+    emit(prefix "<meta charset=\"" meta_charset "\" />")
+    if (meta_title != "") emit(prefix "<title>" meta_title "</title>")
+    if (meta_description != "") emit(prefix "<meta name=\"description\" content=\"" meta_description "\" />")
+    if (meta_viewport != "") emit(prefix "<meta name=\"viewport\" content=\"" meta_viewport "\" />")
+    for (i = 1; i <= meta_count; i++) emit(prefix "<meta " meta_extra[i] " />")
+    return
+  }
+
+  if (kind == "head") {
+    count = head_count
+    for (i = 1; i <= count; i++) {
+      line = head_lines[i]
+      emit(prefix line)
+    }
+    return
+  }
+
+  if (kind == "body") {
+    count = body_count
+    for (i = 1; i <= count; i++) {
+      line = body_lines[i]
+      emit(prefix line)
+    }
+    return
+  }
+
+  if (kind == "scripts") {
+    count = script_count
+    for (i = 1; i <= count; i++) {
+      line = script_lines[i]
+      emit(prefix line)
+    }
+    return
+  }
+
+  print "smol: @yield: unknown kind '" kind "'" > "/dev/stderr"
+  exit 1
+}
+
 function flush_autowrap(   i) {
   if (section_name != "") {
     end_section()
@@ -901,7 +996,59 @@ BEGIN {
   autowrap = (found_sections && !found_html)
   emit_target = "stdout"
 
+  layout_file = ""
+  rendering_layout = 0
+
   process_file(main_file, "")
+
+  if (layout_file != "") {
+    if (!autowrap) {
+      print "smol: @layout: requires autowrap (use :head/:body)" > "/dev/stderr"
+      exit 1
+    }
+
+    if (section_name != "") {
+      end_section()
+      section_name = ""
+    }
+
+    move_blocks()
+
+    if (meta_lang == "") meta_lang = "en"
+    if (meta_charset == "") meta_charset = "utf-8"
+    if (meta_viewport == "") meta_viewport = "width=device-width, initial-scale=1"
+
+    vars["smol.lang"] = meta_lang
+    vars["smol.charset"] = meta_charset
+    vars["smol.viewport"] = meta_viewport
+    vars["smol.title"] = meta_title
+    vars["smol.description"] = meta_description
+
+    reset_state()
+    vars_mode = 0
+    vars_indent = -1
+    vars_base_indent = -1
+    vars_depth = 0
+
+    for_mode = 0
+    for_replaying = 0
+    for_indent = -1
+    for_count = 0
+
+    rendering_layout = 1
+    autowrap = 0
+    emit_target = "stdout"
+
+    process_file(layout_file, "")
+
+    if (css_mode) {
+      css_close_to(-1)
+      emit(indent_str(stack_depth) "</style>")
+    }
+    close_to(-1)
+
+    exit
+  }
 
   if (autowrap) {
     flush_autowrap()
