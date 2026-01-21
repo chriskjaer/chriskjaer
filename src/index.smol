@@ -37,5 +37,6 @@
     .links
       a(href="#{linkedin_url}") LinkedIn
       a(href="#{github_url}") Github
+      a(href="/books") Books
 
   @include includes/life.smol
