@@ -102,12 +102,17 @@
         | Books
       p.hint
         | Read / to-read / currently-reading. Synced from Goodreads.
+
+      @data "data/books" | awk -F'|' '{s=$1; gsub(/^[ \t]+|[ \t]+$/, "", s); if(s=="currently-reading") print $0}' | sort -t'|' -k2,2r as currently_reading
+      @data "data/books" | awk -F'|' '{s=$1; gsub(/^[ \t]+|[ \t]+$/, "", s); if(s=="to-read") print $0}' | sort -t'|' -k2,2r as to_read
+      @data "data/books" | awk -f scripts/books_read_groups.awk as read_groups
+      @data "data/books" | awk -f scripts/books_chart.awk as read_chart
+
       .grid
         section
           h2.section_title
             | Currently reading
           ol.book_list
-            @json "data/goodreads_cache/32620052_currently-reading.json" as currently_reading
             @for currently_reading as book
               li
                 span.book
@@ -116,19 +121,31 @@
 
                 span.author
                   | — #{book.author}
+
         section
           h2.section_title
             | Read per year
-          @include data/books_stats.smol
+          ul.chart
+            @for read_chart as row
+              li.bar
+                span.year
+                  | #{row.shelf}
+                span.track
+                  span.fill(style="width: #{row.pages}%")
+                span.count
+                  | #{row.date} books · #{row.rating} pages
+
         section
           h2.section_title
             | Read
-          @include data/books_read_grouped.smol
+          :raw
+            @for read_groups as group
+              | #{group.title}
+
         section
           h2.section_title
             | To read
           ol.book_list
-            @json "data/goodreads_cache/32620052_to-read.json" as to_read
             @for to_read as book
               li
                 span.book

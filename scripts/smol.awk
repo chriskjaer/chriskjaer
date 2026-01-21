@@ -80,136 +80,6 @@ function sh_escape(s) {
   return "'" s "'"
 }
 
-function json_unescape(s,   out, i, c, n, hex) {
-  # Input: JSON.stringify scalar, including quotes for strings.
-  # Output: decoded string; non-strings passed through.
-  s = rtrim(ltrim(s))
-  if (s ~ /^".*"$/) {
-    s = substr(s, 2, length(s) - 2)
-    out = ""
-    i = 1
-    while (i <= length(s)) {
-      c = substr(s, i, 1)
-      if (c != "\\") {
-        out = out c
-        i++
-        continue
-      }
-      i++
-      n = substr(s, i, 1)
-      if (n == "n") out = out "\n"
-      else if (n == "r") out = out "\r"
-      else if (n == "t") out = out "\t"
-      else if (n == "\\") out = out "\\"
-      else if (n == "\"") out = out "\""
-      else if (n == "u") {
-        hex = substr(s, i + 1, 4)
-        # best-effort: keep as-is if weird
-        out = out sprintf("\\u%s", hex)
-        i += 4
-      } else {
-        out = out n
-      }
-      i++
-    }
-    return out
-  }
-  if (s == "null") return ""
-  return s
-}
-
-function json_load(path, name,   line, key, val, idx, max) {
-  if (name == "") return
-
-  # Minimal JSON loader (array of flat objects).
-  # Expected shape:
-  # [ {"k":"v",...}, {...} ]
-  # Strings/ints/bools/null supported. Nested arrays/objects not supported.
-
-  idx = 0
-  max = 0
-
-  while ((getline line < path) > 0) {
-    # object start on its own line
-    if (line ~ /^{[ 	]*$/) {
-      idx++
-      if (idx > max) max = idx
-      continue
-    }
-
-    # one-line object: {"k":"v",...}
-    if (match(line, /{.*}/)) {
-      idx++
-      if (idx > max) max = idx
-
-      s = line
-      sub(/^.*{/, "{", s)
-      sub(/}.*$/, "}", s)
-
-      while (match(s, /"([^"]+)"[ 	]*:[ 	]*([^,}]+|"([^\\"]|\\.)*")/, m)) {
-        key = m[1]
-        val = m[2]
-        s = substr(s, RSTART + RLENGTH)
-        sub(/^[ 	]*,?/, "", s)
-
-        val = trim(val)
-        if (val ~ /^"/ && val ~ /"$/) {
-          val = substr(val, 2, length(val) - 2)
-          gsub(/\\"/, "\"", val)
-          gsub(/\\n/, "\n", val)
-          gsub(/\\t/, "\t", val)
-          gsub(/\\r/, "", val)
-          gsub(/\\\\/, "\\", val)
-        } else if (val == "null") {
-          val = ""
-        } else if (val == "true") {
-          val = "true"
-        } else if (val == "false") {
-          val = "false"
-        }
-
-        json_item[name, idx, key] = val
-        json_keys[name SUBSEP key] = 1
-      }
-
-      continue
-    }
-
-    if (idx <= 0) continue
-
-    # match "key": <value>
-    if (!match(line, /^[ 	]*"([^"]+)"[ 	]*:[ 	]*(.*)[ 	]*$/, m)) continue
-
-    key = m[1]
-    val = m[2]
-
-    # strip trailing comma
-    sub(/,[ 	]*$/, "", val)
-    val = trim(val)
-
-    if (val ~ /^"/ && val ~ /"$/) {
-      val = substr(val, 2, length(val) - 2)
-      gsub(/\\"/, "\"", val)
-      gsub(/\\n/, "\n", val)
-      gsub(/\\t/, "\t", val)
-      gsub(/\\r/, "", val)
-      gsub(/\\\\/, "\\", val)
-    } else if (val == "null") {
-      val = ""
-    } else if (val == "true") {
-      val = "true"
-    } else if (val == "false") {
-      val = "false"
-    }
-
-    json_item[name, idx, key] = val
-    json_keys[name SUBSEP key] = 1
-  }
-
-  close(path)
-  json_len[name] = max
-}
-
 function set_var_line(text,   key, val) {
   if (text == "") return
   key = text
@@ -341,7 +211,87 @@ function vars_pop(   i, key) {
   vars_depth--
 }
 
-function handle_directive(text, indent, file_dir, line,   rest, key, val, attrs, inc, path, prefix, q, pos, name) {
+function data_fail(msg) {
+  print "smol: data: " msg > "/dev/stderr"
+  exit 2
+}
+
+function data_parse_row(line, name, idx,   parts, n, i, f) {
+  n = split(line, parts, "|")
+  if (n != 6) data_fail(name ": row " idx ": expected 6 fields, got " n ": " line)
+  for (i = 1; i <= 6; i++) {
+    f = trim(parts[i])
+    data_field[name, idx, i] = f
+  }
+}
+
+function data_load(path, pipeline, name,   cmd, line, idx) {
+  if (name == "") return
+  if (name in data_loaded) return
+
+  pipeline = trim(pipeline)
+  pipeline = interpolate(pipeline)
+  path = interpolate(strip_quotes(path))
+
+  idx = 0
+  if (pipeline == "") {
+    cmd = "cat " sh_escape(path)
+  } else {
+    cmd = "/bin/sh -c " sh_escape("cat " sh_escape(path) " | " pipeline)
+  }
+
+  while ((cmd | getline line) > 0) {
+    if (line ~ /^[ \t]*$/) continue
+    idx++
+    data_parse_row(line, name, idx)
+  }
+  close(cmd)
+
+  data_len[name] = idx
+  data_loaded[name] = 1
+}
+
+function parse_data(text, indent, file_dir, line,   rest, path, q, pos, name, pipeline) {
+  rest = ltrim(substr(text, length("@data") + 1))
+  if (rest == "") return 1
+
+  # path (quoted or bare)
+  if (rest ~ /^"/ || rest ~ /^'/) {
+    q = substr(rest, 1, 1)
+    rest = substr(rest, 2)
+    pos = index(rest, q)
+    if (pos > 0) {
+      path = substr(rest, 1, pos - 1)
+      rest = ltrim(substr(rest, pos + 1))
+    } else {
+      path = rest
+      rest = ""
+    }
+  } else {
+    path = rest
+    sub(/[ \t].*$/, "", path)
+    rest = ltrim(substr(rest, length(path) + 1))
+  }
+
+  if (!match(rest, /as[ \t]+[A-Za-z0-9_-]+[ \t]*$/)) {
+    print "smol: @data: missing 'as <name>'" > "/dev/stderr"
+    exit 1
+  }
+
+  name = substr(rest, RSTART)
+  sub(/^as[ \t]+/, "", name)
+  name = trim(name)
+
+  pipeline = trim(substr(rest, 1, RSTART - 1))
+
+  if (pipeline ~ /^\|/) pipeline = trim(substr(pipeline, 2))
+  else pipeline = ""
+
+  data_load(join_path(file_dir, path), pipeline, name)
+  return 1
+}
+
+function handle_directive(text, indent, file_dir, line,   rest, key, val, attrs, inc, path, prefix) {
   if (text ~ /^@vars([ \t]|$)/) {
     vars_mode = 1
     vars_indent = indent
@@ -349,38 +299,9 @@ function handle_directive(text, indent, file_dir, line,   rest, key, val, attrs,
     return 1
   }
 
-  if (match(text, /^@json[ \t]+/)) {
-    rest = ltrim(substr(text, RLENGTH + 1))
-    if (rest ~ /^"/ || rest ~ /^'/) {
-      q = substr(rest, 1, 1)
-      rest = substr(rest, 2)
-      pos = index(rest, q)
-      if (pos > 0) {
-        path = substr(rest, 1, pos - 1)
-        rest = ltrim(substr(rest, pos + 1))
-      } else {
-        path = rest
-        rest = ""
-      }
-    } else {
-      path = rest
-      sub(/[ \t].*$/, "", path)
-      rest = ltrim(substr(rest, length(path) + 1))
-    }
-
-    name = ""
-    if (match(rest, /^as[ \t]+/)) {
-      rest = ltrim(substr(rest, RLENGTH + 1))
-      name = rest
-      sub(/[ \t].*$/, "", name)
-    }
-
-    path = interpolate(strip_quotes(path))
-    json_load(join_path(file_dir, path), name)
-    return 1
+  if (match(text, /^@data[ \t]+/)) {
+    return parse_data(text, indent, file_dir, line)
   }
-
-  # (removed @forjson)
 
   if (match(text, /^@for[ \t]+/)) {
     rest = ltrim(substr(text, RLENGTH + 1))
@@ -503,17 +424,28 @@ function process_line(line, file_dir,   indent, text, ch, pos, c, tag, id, class
       for_mode = 0
       for_replaying = 1
 
-      for (for_i = 1; for_i <= json_len[for_list]; for_i++) {
+      if (!(for_list in data_loaded)) {
+        print "smol: @for: unknown dataset '" for_list "'" > "/dev/stderr"
+        exit 1
+      }
+
+      for (for_i = 1; for_i <= data_len[for_list]; for_i++) {
         param_count = 0
         include_param_keys[++param_count] = for_alias ".index"
         include_param_vals[param_count] = for_i
-        for (for_key in json_keys) {
-          split(for_key, for_parts, SUBSEP)
-          if (for_parts[1] != for_list) continue
-          for_k = for_parts[2]
-          include_param_keys[++param_count] = for_alias "." for_k
-          include_param_vals[param_count] = json_item[for_list, for_i, for_k]
-        }
+
+        include_param_keys[++param_count] = for_alias ".shelf"
+        include_param_vals[param_count] = data_field[for_list, for_i, 1]
+        include_param_keys[++param_count] = for_alias ".date"
+        include_param_vals[param_count] = data_field[for_list, for_i, 2]
+        include_param_keys[++param_count] = for_alias ".rating"
+        include_param_vals[param_count] = data_field[for_list, for_i, 3]
+        include_param_keys[++param_count] = for_alias ".pages"
+        include_param_vals[param_count] = data_field[for_list, for_i, 4]
+        include_param_keys[++param_count] = for_alias ".title"
+        include_param_vals[param_count] = data_field[for_list, for_i, 5]
+        include_param_keys[++param_count] = for_alias ".author"
+        include_param_vals[param_count] = data_field[for_list, for_i, 6]
 
         vars_push(param_count)
         for (for_j = 1; for_j <= for_count; for_j++) {
