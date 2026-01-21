@@ -2,19 +2,22 @@
 set -eu
 
 root=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
-file="$root/public/index.html"
 
-if [ ! -f "$file" ]; then
-  printf '%s\n' "missing $file (run build first)" >&2
-  exit 1
-fi
+files="$root/public/index.html $root/public/books/index.html"
 
-tmp=$(mktemp)
-tmp_css=$(mktemp)
+minify_one() {
+  file="$1"
 
-tr -s ' \t\r\n' ' ' < "$file" | sed -E 's/> </></g; s/^ //; s/ $//; s/>[[:space:]]+([^<[:space:]])/>\1/g; s/="([^"[:space:]=<>`]+)"/=\1/g' > "$tmp"
+  if [ ! -f "$file" ]; then
+    return
+  fi
 
-awk '
+  tmp=$(mktemp)
+  tmp_css=$(mktemp)
+
+  tr -s ' \t\r\n' ' ' < "$file" | sed -E 's/> </></g; s/^ //; s/ $//; s/>[[:space:]]+([^<[:space:]])/>\1/g; s/="([^"[:space:]=<>`]+)"/=\1/g' > "$tmp"
+
+  awk '
 function mincss(css,   t) {
   gsub(/[ \t\n]+/, " ", css)
   gsub(/ *\\{ */, "{", css)
@@ -47,8 +50,17 @@ function mincss(css,   t) {
 }
 ' "$tmp" > "$tmp_css"
 
-mv "$tmp_css" "$file"
-rm -f "$tmp"
+  mv "$tmp_css" "$file"
+  rm -f "$tmp"
 
-size=$(wc -c < "$file" | tr -d ' ')
-printf '%s\n' "minified $(basename "$file") ($size bytes)"
+  size=$(wc -c < "$file" | tr -d ' ')
+  printf '%s\n' "minified $(basename "$file") ($size bytes)"
+}
+
+for file in $files; do
+  if [ ! -f "$file" ]; then
+    printf '%s\n' "missing $file (run build first)" >&2
+    exit 1
+  fi
+  minify_one "$file"
+done

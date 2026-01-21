@@ -1,0 +1,16 @@
+-# Data file. Edit this to update the “To read” list on /books.
+
+li
+  span.book
+    | The Inner Game of Tennis
+  | 
+
+  span.author
+    | — W. Timothy Gallwey
+li
+  span.book
+    | The Courage to Be Disliked
+  | 
+
+  span.author
+    | — Ichiro Kishimi, Fumitake Koga

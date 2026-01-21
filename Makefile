@@ -13,7 +13,7 @@ minify: build
 	@./scripts/minify.sh
 
 clean:
-	@rm -f ./public/index.html
+	@rm -f ./public/index.html ./public/books/index.html
 
 test:
 	@./scripts/smol_test.sh

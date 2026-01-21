@@ -37,7 +37,10 @@ p(class="#{note_class}")
   | #{note_text}
 HAML
 
-sed -i "" "s|@include INC|@include $tmp_include|" "$tmp_in"
+tmp_in2=$(mktemp)
+
+sed "s|@include INC|@include $tmp_include|" "$tmp_in" > "$tmp_in2"
+mv "$tmp_in2" "$tmp_in"
 
 cat <<'HTML' > "$tmp_expected"
 <!doctype html>

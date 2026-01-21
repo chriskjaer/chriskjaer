@@ -1,0 +1,79 @@
+@title books — chriskjaer
+@description Books I’ve read and books I want to read.
+@viewport width=device-width, initial-scale=1
+@lang en
+@charset utf-8
+
+:head
+  link(rel="icon" type="image/svg+xml" href="/favicon.svg")
+  meta(name="theme-color" content="#24201a")
+  meta(name="color-scheme" content="light")
+  @include includes/styles.smol
+
+  style
+    body
+      overflow: auto
+    .page
+      justify-content: flex-start
+      padding: 4rem 1rem 6rem
+    .books
+      width: 100%
+      max-width: 42rem
+    .nav
+      font-size: .75rem
+      margin-bottom: 2rem
+    .title
+      font-family: Palatino Linotype, Palatino, Palladio, URW Palladio L, ui-serif, Georgia, Cambria, "Times New Roman", Times, serif
+      font-size: 2rem
+      font-weight: 700
+      line-height: 1.1
+      margin: 0 0 1rem
+    .hint
+      margin: 0 0 2.5rem
+      font-size: .875rem
+      color: #4b5563
+    .grid
+      display: grid
+      gap: 2.5rem
+    .section_title
+      font-size: .75rem
+      letter-spacing: .08em
+      text-transform: uppercase
+      margin: 0 0 1rem
+      color: #111827
+    .book_list
+      margin: 0
+      padding-left: 1.25rem
+    .book_list li
+      margin: .5rem 0
+      line-height: 1.4
+    .book
+      font-size: .95rem
+    .author
+      color: #4b5563
+      font-size: .875rem
+    @media (min-width: 52em)
+      .grid
+        grid-template-columns: 1fr 1fr
+        gap: 3rem
+
+:body
+  main.page
+    .books
+      nav.nav
+        a(href="/") ← Home
+      h1.title
+        | Books
+      p.hint
+        | Read + to-read. Data lives in src/data/.
+      .grid
+        section
+          h2.section_title
+            | Read
+          ol.book_list
+            @include data/books_read.smol
+        section
+          h2.section_title
+            | To read
+          ol.book_list
+            @include data/books_to_read.smol

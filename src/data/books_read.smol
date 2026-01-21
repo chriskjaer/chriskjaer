@@ -1,0 +1,16 @@
+-# Data file. Edit this to update the “Read” list on /books.
+
+li
+  span.book
+    | The Pragmatic Programmer
+  | 
+
+  span.author
+    | — Andrew Hunt, David Thomas
+li
+  span.book
+    | Working in Public
+  | 
+
+  span.author
+    | — Nadia Eghbal

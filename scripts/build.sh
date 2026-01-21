@@ -4,13 +4,17 @@ set -eu
 root=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
 
 out="$root/public"
-
-template="$root/src/index.smol"
 compiler="$root/scripts/smol.awk"
-target="$out/index.html"
 
-mkdir -p "$out"
+build_one() {
+  template="$1"
+  target="$2"
 
-awk -f "$compiler" "$template" > "$target"
+  mkdir -p "$(dirname -- "$target")"
+  awk -f "$compiler" "$template" > "$target"
 
-printf '%s\n' "built $(basename "$target")"
+  printf '%s\n' "built $(basename "$target")"
+}
+
+build_one "$root/src/index.smol" "$out/index.html"
+build_one "$root/src/books.smol" "$out/books/index.html"
