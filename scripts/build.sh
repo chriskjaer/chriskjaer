@@ -16,7 +16,11 @@ build_one() {
   printf '%s\n' "built $(basename "$target")"
 }
 
-./scripts/goodreads_sync.sh || true
+./scripts/goodreads_sync.sh
+if [ ! -f "$root/src/data/books" ]; then
+  echo "missing src/data/books (goodreads sync failed)" >&2
+  exit 1
+fi
 
 build_one "$root/src/index.smol" "$out/index.html"
 build_one "$root/src/books.smol" "$out/books/index.html"
