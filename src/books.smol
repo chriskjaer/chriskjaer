@@ -107,8 +107,6 @@
 
       @data "data/books" | awk -F'|' '{s=$1; gsub(/^[ \t]+|[ \t]+$/, "", s); if(s!="read") next; d=$2; gsub(/^[ \t]+|[ \t]+$/, "", d); y=substr(d,1,4); if(y=="") next; p=$4; gsub(/[^0-9]/, "", p); books[y]++; pages[y]+=p+0; if(pages[y]>max) max=pages[y]} END {for (y in books) {pct=0; if(max>0) pct=int((pages[y]*100)/max); print y " | " books[y] " | " pages[y] " | " pct}}' | sort -t'|' -k1,1r as read_chart
 
-      @data "data/books" | awk -F'|' '{s=$1; gsub(/^[ \t]+|[ \t]+$/, "", s); if(s!="read") next; d=$2; gsub(/^[ \t]+|[ \t]+$/, "", d); y=substr(d,1,4); t=$5; a=$6; gsub(/^[ \t]+|[ \t]+$/, "", t); gsub(/^[ \t]+|[ \t]+$/, "", a); if(y!="" && t!="") print y "|" d "|" t "|" a}' | sort -t'|' -k1,1r -k2,2r | awk -F'|' 'BEGIN{prev=""} {y=$1; d=$2; t=$3; a=$4; if(y!=prev){ if(prev!="") print "</ol>"; print "<h3 class=\"year\">" y "</h3>"; print "<ol class=\"book_list\">"; prev=y } printf "<li><span class=\"book\">%s</span> <span class=\"author\">— %s</span> <span class=\"meta\">(%s)</span></li>\n", t, a, d; prev=y } END{ if(prev!="") print "</ol>"}' as read_grouped_html
-
       .grid
         section
           h2.section_title
@@ -139,9 +137,23 @@
         section
           h2.section_title
             | Read
-          :raw
-            @for read_grouped_html as line
-              | #{line.value}
+          @for read_years as year
+            h3.year
+              | #{year.value}
+            ol.book_list
+              @data "data/books" | awk -F'|' -v Y="#{year.value}" '{s=$1; gsub(/^[ \t]+|[ \t]+$/, "", s); if(s!="read") next; d=$2; gsub(/^[ \t]+|[ \t]+$/, "", d); if(substr(d,1,4)!=Y) next; print $0}' | sort -t'|' -k2,2r as year_books
+              @for year_books as book
+                li
+                  span.book
+                    | #{book.5}
+                  | 
+
+                  span.author
+                    | — #{book.6}
+                  | 
+
+                  span.meta
+                    | (#{book.2})
 
         section
           h2.section_title
