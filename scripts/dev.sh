@@ -6,7 +6,7 @@ out="$root/public"
 build="make -s -C $root html"
 port="${PORT:-3333}"
 
-watch_dirs="$root/src $root/scripts $root/public"
+watch_dirs=". $root/src $root/scripts $root/public"
 
 hash_files() {
   # shellcheck disable=SC2086
