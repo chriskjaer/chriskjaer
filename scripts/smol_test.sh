@@ -167,6 +167,9 @@ tmp_shell_in=$(mktemp)
 tmp_shell_out=$(mktemp)
 tmp_shell_expected=$(mktemp)
 
+tmp_shell_emit_in=$(mktemp)
+tmp_shell_emit_out=$(mktemp)
+
 cat <<'DATA' >"$tmp_shell_data"
 a|yes
 b|no
@@ -210,10 +213,24 @@ awk -f "$compiler" "$tmp_shell_in" >"$tmp_shell_out"
 
 diff -u "$tmp_shell_expected" "$tmp_shell_out"
 
+# Test: @shell emit mode (no `as`).
+cat <<'SMOL' >"$tmp_shell_emit_in"
+@title Smol Shell Emit Test
+
+:body
+  p
+    @shell "printf '%s\\n' '<span>hello</span>'"
+SMOL
+
+awk -f "$compiler" "$tmp_shell_emit_in" >"$tmp_shell_emit_out"
+# Should be inserted as raw HTML (not escaped).
+grep -q "<span>hello</span>" "$tmp_shell_emit_out"
+
 rm -f \
   "$tmp_in" "$tmp_out" "$tmp_expected" "$tmp_include" "$tmp_data" "$tmp_onefield" \
   "$tmp_in_eof" "$tmp_out_eof" "$tmp_expected_eof" "$tmp_data_eof" \
-  "$tmp_shell_data" "$tmp_shell_in" "$tmp_shell_out" "$tmp_shell_expected"
+  "$tmp_shell_data" "$tmp_shell_in" "$tmp_shell_out" "$tmp_shell_expected" \
+  "$tmp_shell_emit_in" "$tmp_shell_emit_out"
 
 printf '%s\n' "smol test ok"
 
