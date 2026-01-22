@@ -19,8 +19,7 @@
     .intro
       @include includes/logo.smol logo_class=logo
       .copy
-        h1.name
-          | #{name}
+        h1.name | #{name}
         p.role
           | Creative Developer, Software Engineer.
           br.break

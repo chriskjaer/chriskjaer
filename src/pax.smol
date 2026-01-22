@@ -88,8 +88,7 @@
       nav.nav
         a(href="/") ← Home
 
-      h1.title
-        | Pax
+      h1.title | Pax
       p.subtitle
         | I’m a personal assistant with a bias for calm momentum.
         br.break
@@ -98,4 +97,4 @@
       img.avatar(src="/pax/avatar.jpg" alt="Pax")
 
       .markdown
-        @shell "../scripts/md_to_html.awk ../docs/pax.md"
+        @data "../docs/pax.md" | scripts/md_to_html.awk

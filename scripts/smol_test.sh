@@ -111,6 +111,24 @@ awk -f "$compiler" "$tmp_in" >"$tmp_out"
 
 diff -u "$tmp_expected" "$tmp_out"
 
+# Test: one-line text (`tag | text`).
+
+tmp_inline_in=$(mktemp)
+tmp_inline_out=$(mktemp)
+
+cat <<'SMOL' >"$tmp_inline_in"
+@title Smol Inline Text Test
+
+:body
+  @set name "Pax"
+  p | Hi, #{name}
+SMOL
+
+awk -f "$compiler" "$tmp_inline_in" >"$tmp_inline_out"
+grep -q "<p>Hi, Pax</p>" "$tmp_inline_out"
+
+rm -f "$tmp_inline_in" "$tmp_inline_out"
+
 # Regression: @for at EOF + pipeline with quotes and pipes.
 
 tmp_in_eof=$(mktemp)
@@ -226,11 +244,36 @@ awk -f "$compiler" "$tmp_shell_emit_in" >"$tmp_shell_emit_out"
 # Should be inserted as raw HTML (not escaped).
 grep -q "<span>hello</span>" "$tmp_shell_emit_out"
 
+# Test: @data emit mode (no `as`).
+tmp_data_emit_file=$(mktemp)
+tmp_data_emit_in=$(mktemp)
+tmp_data_emit_out=$(mktemp)
+
+cat <<'DATA' >"$tmp_data_emit_file"
+<span>data-emit</span>
+DATA
+
+cat <<'SMOL' >"$tmp_data_emit_in"
+@title Smol Data Emit Test
+
+:body
+  div
+    @data DATAFILE
+SMOL
+
+sed "s|DATAFILE|$tmp_data_emit_file|" "$tmp_data_emit_in" >"$tmp_data_emit_in.2"
+mv "$tmp_data_emit_in.2" "$tmp_data_emit_in"
+
+awk -f "$compiler" "$tmp_data_emit_in" >"$tmp_data_emit_out"
+grep -q "<span>data-emit</span>" "$tmp_data_emit_out"
+
 rm -f \
   "$tmp_in" "$tmp_out" "$tmp_expected" "$tmp_include" "$tmp_data" "$tmp_onefield" \
+  "$tmp_inline_in" "$tmp_inline_out" \
   "$tmp_in_eof" "$tmp_out_eof" "$tmp_expected_eof" "$tmp_data_eof" \
   "$tmp_shell_data" "$tmp_shell_in" "$tmp_shell_out" "$tmp_shell_expected" \
-  "$tmp_shell_emit_in" "$tmp_shell_emit_out"
+  "$tmp_shell_emit_in" "$tmp_shell_emit_out" \
+  "$tmp_data_emit_file" "$tmp_data_emit_in" "$tmp_data_emit_out"
 
 printf '%s\n' "smol test ok"
 

@@ -52,18 +52,17 @@ A minimal page:
 
 :body
   main
-    h1
-      | Hello
-    p
-      | This was written in Smol.
+    h1 | Hello
+    p | This was written in Smol.
 ```
 
 Plain text uses `|`:
 
 ```smol
-p
-  | This is text.
+p | This is text.
 ```
+
+(And if you want multiple lines, just indent them.)
 
 ## Tags, Classes, IDs
 
@@ -72,8 +71,7 @@ Smol tags look like HTML tag names:
 ```smol
 main
   section
-    h2
-      | Title
+    h2 | Title
 ```
 
 You can add classes and ids with sugar:
@@ -171,6 +169,17 @@ You can attach a pipeline (this is the “unix shapes data” part):
 ```
 
 Smol runs `cat <file> | <pipeline>` and reads stdout as the dataset.
+
+### Emitting file contents
+
+If you omit `as name`, `\@data` behaves more like shell: it **emits** the file contents (or the piped result) directly into the template.
+
+```smol
+div.markdown
+  @data "../docs/pax.md" | ../../scripts/md_to_html.awk
+```
+
+This is the pattern used on `/pax`: keep the content in a file, pipe it through a tiny build-time transformer, and insert the result.
 
 ### Looping
 

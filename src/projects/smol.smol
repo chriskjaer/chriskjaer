@@ -90,4 +90,4 @@
         a(href="/pax") Pax
 
       .markdown
-        @shell "../../scripts/md_to_html.awk ../../docs/smol.md"
+        @data "../../docs/smol.md" | scripts/md_to_html.awk

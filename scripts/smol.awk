@@ -392,7 +392,24 @@ function parse_shell(text, indent, file_dir, line,   rest, name, cmd, prefix) {
   return 1
 }
 
-function parse_data(text, indent, file_dir, line,   rest, path, q, pos, name, pipeline) {
+function data_emit(path, pipeline, prefix,   cmd, line) {
+  pipeline = trim(pipeline)
+  pipeline = interpolate(pipeline)
+
+  if (pipeline == "") {
+    cmd = "cat " sh_escape(path)
+  } else {
+    cmd = "cat " sh_escape(path) " | " pipeline
+  }
+
+  while ((cmd | getline line) > 0) {
+    sub(/\r$/, "", line)
+    emit(prefix line)
+  }
+  close(cmd)
+}
+
+function parse_data(text, indent, file_dir, line,   rest, path, q, pos, name, pipeline, prefix) {
   rest = ltrim(substr(text, length("@data") + 1))
   if (rest == "") return 1
 
@@ -414,21 +431,30 @@ function parse_data(text, indent, file_dir, line,   rest, path, q, pos, name, pi
     rest = ltrim(substr(rest, length(path) + 1))
   }
 
-  if (!match(rest, /as[ \t]+[A-Za-z0-9_-]+[ \t]*$/)) {
-    print "smol: @data: missing 'as <name>'" > "/dev/stderr"
-    exit 1
+  path = join_path(file_dir, interpolate(strip_quotes(path)))
+
+  # Data mode: @data "file" | ... as name
+  if (match(rest, /as[ \t]+[A-Za-z0-9_-]+[ \t]*$/)) {
+    name = substr(rest, RSTART)
+    sub(/^as[ \t]+/, "", name)
+    name = trim(name)
+
+    pipeline = trim(substr(rest, 1, RSTART - 1))
+
+    if (pipeline ~ /^\|/) pipeline = trim(substr(pipeline, 2))
+    else pipeline = ""
+
+    data_load(path, pipeline, name)
+    return 1
   }
 
-  name = substr(rest, RSTART)
-  sub(/^as[ \t]+/, "", name)
-  name = trim(name)
-
-  pipeline = trim(substr(rest, 1, RSTART - 1))
-
+  # Emit mode: @data "file" | ...
+  pipeline = trim(rest)
   if (pipeline ~ /^\|/) pipeline = trim(substr(pipeline, 2))
   else pipeline = ""
 
-  data_load(join_path(file_dir, path), pipeline, name)
+  prefix = indent_str(stack_depth)
+  data_emit(path, pipeline, prefix)
   return 1
 }
 

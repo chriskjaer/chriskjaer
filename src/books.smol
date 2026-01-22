@@ -156,10 +156,8 @@
     .books
       nav.nav
         a(href="/") ← Home
-      h1.title
-        | Books
-      p.hint
-        | Read / to-read / currently-reading. Synced from Goodreads.
+      h1.title | Books
+      p.hint | Read / to-read / currently-reading. Synced from Goodreads.
 
       @data "data/books" | awk -F'|' '{s=$1; gsub(/^[ \t]+|[ \t]+$/, "", s); if(s=="currently-reading") print $0}' | sort -t'|' -k2,2r as currently_reading
       @data "data/books" | awk -F'|' '{s=$1; gsub(/^[ \t]+|[ \t]+$/, "", s); if(s=="to-read") print $0}' | sort -t'|' -k2,2r as to_read
@@ -168,8 +166,7 @@
 
       .grid
         section
-          h2.section_title
-            | Currently reading
+          h2.section_title | Currently reading
           ol.book_list
             @for currently_reading as book
               li
@@ -181,8 +178,7 @@
                   | — #{book.6}
 
         section
-          h2.section_title
-            | Read per year
+          h2.section_title | Read per year
           ul.chart
             @for read_chart as row
               li.bar
@@ -199,13 +195,11 @@
           input#book-search.search(type="search" placeholder="Filter by title/author…" autocomplete="off")
 
         section
-          h2.section_title
-            | Read
+          h2.section_title | Read
 
           @shell "cat data/books | awk -F'|' -f ../scripts/books_read_years.awk | sort -r" as read_years
           @for read_years as y
-            h3.year
-              | #{y.value}
+            h3.year | #{y.value}
             @shell "cat data/books | awk -F'|' -v YEAR=#{y.value} -f ../scripts/books_read_for_year.awk | sort -t'|' -k1,1r" as read_books
             ul.read_list
               @for read_books as book
@@ -224,8 +218,7 @@
                         | #{book.1}
 
         section
-          h2.section_title
-            | To read
+          h2.section_title | To read
           ol.book_list
             @for to_read as book
               li
