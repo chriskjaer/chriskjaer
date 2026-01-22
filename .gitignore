@@ -22,6 +22,7 @@
 /src/data/books_stats.smol
 /src/data/books_read_grouped.smol
 /src/data/goodreads_cache/
+/data/raw/
 
 # misc
 .DS_Store

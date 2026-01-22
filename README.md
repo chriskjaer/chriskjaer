@@ -4,19 +4,20 @@ This will probably always be a work in progress; I never stop bikeshedding and I
 somehow keep overengineering even the simplest things.
 
 Common tasks live behind `make`:
-- `make build` compiles smol templates into `public/` (including `/books`).
-- `make dev` starts a local server, opens the page, and rebuilds on changes.
-- `make minify` shrinks the generated HTML.
+- `make data` fetches Goodreads RSS + writes `src/data/books`.
+- `make html` builds + minifies HTML into `public/` (depends on `data`).
+- `make build` alias for `make html`.
+- `make dev` starts a local server and rebuilds on changes.
+- `make smoke` runs quick checks against `public/` output.
 - `make clean` removes generated HTML.
 - `make test` runs a small sanity check for smol.
 - `make fmt` normalizes indentation and trims trailing whitespace in smol files.
 
 Books page:
 - Source: Goodreads shelves `read`, `to-read`, `currently-reading`.
-- Sync: `scripts/goodreads_sync.sh` fetches RSS into `src/data/goodreads_cache/`.
-- Stats: `scripts/generate_books_stats.sh` derives `src/data/books_stats.smol` from the read cache.
-- Resilience: if fetch fails, build keeps last committed cache JSON.
-- Force refresh: `./scripts/goodreads_sync.sh` (or `make build`).
+- Fetch: `scripts/fetch_books_rss.sh` downloads shelf RSS into `data/raw/`.
+- Transform: `scripts/books_from_rss.awk` converts RSS into `src/data/books` rows.
+- Wrapper: `scripts/goodreads_sync.sh` runs fetch+transform (manual use).
 
 Smol is a tiny HAML-ish markup language compiled by `scripts/smol.awk`. The
 site templates live in `src/` (for example `src/index.smol` and `src/books.smol`)
