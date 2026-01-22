@@ -96,10 +96,6 @@
       p.hint
         | Read / to-read / currently-reading. Synced from Goodreads.
 
-      label.meta(for="book-search")
-        | Search
-      input#book-search(type="search" placeholder="Filter by title/author…" autocomplete="off" style="width: 100%; max-width: 24rem; padding: .5rem .75rem; margin: .5rem 0 2rem; border: 1px solid #e5e7eb; border-radius: .5rem")
-
       @data "data/books" | awk -F'|' '{s=$1; gsub(/^[ \t]+|[ \t]+$/, "", s); if(s=="currently-reading") print $0}' | sort -t'|' -k2,2r as currently_reading
       @data "data/books" | awk -F'|' '{s=$1; gsub(/^[ \t]+|[ \t]+$/, "", s); if(s=="to-read") print $0}' | sort -t'|' -k2,2r as to_read
 
@@ -131,6 +127,11 @@
                   span.fill(style="width: #{row.4}%")
                 span.count
                   | #{row.2} books · #{row.3} pages
+
+        section
+          label.meta(for="book-search")
+            | Search
+          input#book-search(type="search" placeholder="Filter by title/author…" autocomplete="off" style="width: 100%; max-width: 24rem; padding: .5rem .75rem; margin: .5rem 0 0; border: 1px solid #e5e7eb; border-radius: .5rem")
 
         section
           h2.section_title
