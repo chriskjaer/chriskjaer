@@ -6,7 +6,6 @@ root=$(CDPATH="" cd -- "$(dirname -- "$0")/.." && pwd)
 index="$root/public/index.html"
 books="$root/public/books/index.html"
 data="$root/src/data/books"
-read_grouped="$root/src/data/books_read_grouped.smol"
 
 fail() {
   printf '%s\n' "smoke: $*" >&2
@@ -37,10 +36,8 @@ if [ -s "$data" ] && grep -q '^to-read |' "$data"; then
   fi
 fi
 
-# If we have read rows, ensure the 'Read' include exists and renders at least one <li>.
+# If we have read rows, ensure the 'Read' section contains at least one <li>.
 if [ -s "$data" ] && grep -q '^read |' "$data"; then
-  [ -s "$read_grouped" ] || fail "read rows exist but missing $read_grouped (run: make data)"
-
   has_li=$(awk '
     BEGIN{in_section=0; li=0}
     /Read[[:space:]]*<\/h2>/{in_section=1}
