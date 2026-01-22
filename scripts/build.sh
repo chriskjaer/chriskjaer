@@ -26,3 +26,8 @@ fi
 
 build_one "$root/src/index.smol" "$out/index.html"
 build_one "$root/src/books.smol" "$out/books/index.html"
+build_one "$root/src/pax.smol" "$out/pax/index.html"
+
+# Static assets (kept tiny, copied explicitly).
+mkdir -p "$out/pax"
+cp -f "$root/src/assets/pax-avatar.jpg" "$out/pax/avatar.jpg"
