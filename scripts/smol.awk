@@ -44,8 +44,22 @@ function close_to(indent) {
   }
 }
 
+function close_to_depth(target_depth) {
+  while (stack_depth > target_depth) {
+    emit(indent_str(stack_depth - 1) "</" stack_tag[stack_depth] ">")
+    stack_depth--
+  }
+}
+
 function css_close_to(indent) {
   while (css_depth > 0 && indent <= css_indent_level[css_depth]) {
+    emit(css_indent(css_depth - 1) "}")
+    css_depth--
+  }
+}
+
+function css_close_to_depth(target_depth) {
+  while (css_depth > target_depth) {
     emit(css_indent(css_depth - 1) "}")
     css_depth--
   }
@@ -790,7 +804,7 @@ function process_line(line, file_dir,   indent, text, ch, pos, c, tag, id, class
   stack_indent[stack_depth] = indent
 }
 
-function process_file(path, prefix,   line, full, prev_dir, dir) {
+function process_file(path, prefix,   line, full, prev_dir, dir, before_depth, before_css_depth, before_css_mode, before_css_base_indent) {
   if (++include_depth > 20) {
     print "smol: include depth too deep" > "/dev/stderr"
     exit 1
@@ -802,6 +816,12 @@ function process_file(path, prefix,   line, full, prev_dir, dir) {
   prev_dir = current_dir
   dir = path_dir(path)
   current_dir = dir
+
+  before_depth = stack_depth
+  before_css_depth = css_depth
+  before_css_mode = css_mode
+  before_css_base_indent = css_base_indent
+
   while ((getline line < path) > 0) {
     full = (prefix != "") ? prefix line : line
     process_line(full, current_dir)
@@ -810,6 +830,21 @@ function process_file(path, prefix,   line, full, prev_dir, dir) {
   if (for_mode && !for_replaying) {
     for_end(current_dir, "")
   }
+
+  # Flush any still-open tags/blocks opened inside this include.
+  if (css_mode && !before_css_mode) {
+    css_close_to_depth(0)
+    emit("</style>")
+    css_mode = 0
+    css_base_indent = -1
+    css_depth = 0
+  } else {
+    css_close_to_depth(before_css_depth)
+    css_mode = before_css_mode
+    css_base_indent = before_css_base_indent
+  }
+
+  close_to_depth(before_depth)
 
   close(path)
   current_dir = prev_dir
