@@ -102,6 +102,9 @@
       letter-spacing: .06em
       color: #6b7280
       text-transform: uppercase
+
+    .chart .year
+      margin: 0
     .chart
       list-style: none
       margin: 0
@@ -198,9 +201,9 @@
 
                     span.meta
                       @if book.2 != ""
-                        | (#{book.1} · #{book.2})
+                        | #{book.1} · #{book.2}
                       @if book.2 == ""
-                        | (#{book.1})
+                        | #{book.1}
 
         section
           h2.section_title
