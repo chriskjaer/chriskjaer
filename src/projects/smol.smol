@@ -80,6 +80,15 @@
     .markdown code
       font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace
       font-size: .875rem
+      background: #f3f4f6
+      border: 1px solid #e5e7eb
+      padding: .1rem .3rem
+      border-radius: .35rem
+
+    .markdown pre code
+      background: transparent
+      border: 0
+      padding: 0
 
 :body
   main.page
