@@ -160,9 +160,60 @@ awk -f "$compiler" "$tmp_in_eof" >"$tmp_out_eof"
 
 diff -u "$tmp_expected_eof" "$tmp_out_eof"
 
+# Test: @shell + @if.
+
+tmp_shell_data=$(mktemp)
+tmp_shell_in=$(mktemp)
+tmp_shell_out=$(mktemp)
+tmp_shell_expected=$(mktemp)
+
+cat <<'DATA' >"$tmp_shell_data"
+a|yes
+b|no
+DATA
+
+cat <<'SMOL' >"$tmp_shell_in"
+@title Smol Shell If Test
+
+:body
+  @shell CMD as rows
+  ul
+    @for rows as r
+      @if r.2 == "yes"
+        li
+          | ok-#{r.1}
+SMOL
+
+# Inject cmd without risking quoting issues.
+sed "s|CMD|cat $tmp_shell_data|" "$tmp_shell_in" >"$tmp_shell_in.2"
+mv "$tmp_shell_in.2" "$tmp_shell_in"
+
+cat <<'HTML' >"$tmp_shell_expected"
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Smol Shell If Test</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+  </head>
+  <body>
+    <ul>
+      <li>
+        ok-a
+      </li>
+    </ul>
+  </body>
+</html>
+HTML
+
+awk -f "$compiler" "$tmp_shell_in" >"$tmp_shell_out"
+
+diff -u "$tmp_shell_expected" "$tmp_shell_out"
+
 rm -f \
   "$tmp_in" "$tmp_out" "$tmp_expected" "$tmp_include" "$tmp_data" "$tmp_onefield" \
-  "$tmp_in_eof" "$tmp_out_eof" "$tmp_expected_eof" "$tmp_data_eof"
+  "$tmp_in_eof" "$tmp_out_eof" "$tmp_expected_eof" "$tmp_data_eof" \
+  "$tmp_shell_data" "$tmp_shell_in" "$tmp_shell_out" "$tmp_shell_expected"
 
 printf '%s\n' "smol test ok"
 
