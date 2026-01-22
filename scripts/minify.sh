@@ -23,32 +23,34 @@ function squeeze(s) {
   sub(/ $/, "", s)
   return s
 }
+BEGIN { in_code = 0 }
 {
   line = $0
-  out = ""
-  while (1) {
-    start = index(line, "<pre><code>")
-    if (start == 0) {
-      out = out squeeze(line)
-      break
-    }
-    pre = substr(line, 1, start - 1)
-    out = out squeeze(pre) "<pre><code>"
-    line = substr(line, start + length("<pre><code>"))
 
-    end = index(line, "</code></pre>")
-    if (end == 0) {
-      # no closing marker on this line; emit the rest as-is
-      out = out line
-      line = ""
-      break
+  # If we are inside a <pre><code>...</code></pre> block, preserve whitespace.
+  if (in_code) {
+    print line
+    if (index(line, "</code></pre>") > 0) {
+      in_code = 0
     }
-
-    code = substr(line, 1, end - 1)
-    out = out code "</code></pre>"
-    line = substr(line, end + length("</code></pre>"))
+    next
   }
-  print out
+
+  # Start of code block may appear mid-line; squeeze before it, preserve after.
+  start = index(line, "<pre><code>")
+  if (start > 0) {
+    pre = substr(line, 1, start - 1)
+    post = substr(line, start)
+
+    print squeeze(pre) post
+
+    if (index(post, "</code></pre>") == 0) {
+      in_code = 1
+    }
+    next
+  }
+
+  print squeeze(line)
 }
 ' "$file" | sed -E 's/="([^"[:space:]=<>`]+)"/=\1/g' >"$tmp"
 
