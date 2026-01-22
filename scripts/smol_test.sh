@@ -111,6 +111,57 @@ awk -f "$compiler" "$tmp_in" > "$tmp_out"
 
 diff -u "$tmp_expected" "$tmp_out"
 
-rm -f "$tmp_in" "$tmp_out" "$tmp_expected" "$tmp_include" "$tmp_data" "$tmp_onefield"
+# Regression: @for at EOF + pipeline with quotes and pipes.
+
+tmp_in_eof=$(mktemp)
+tmp_out_eof=$(mktemp)
+tmp_expected_eof=$(mktemp)
+tmp_data_eof=$(mktemp)
+
+authors_data="$tmp_data_eof"
+cat <<'DATA' > "$tmp_data_eof"
+read | 2024-01-01 | 0 | 0 | Ada | Lovelace
+read | 2024-01-02 | 0 | 0 | Linus | Torvalds
+DATA
+
+cat <<'HAML' > "$tmp_in_eof"
+@title Smol EOF For Test
+
+:body
+  @data DATAFILE | awk -F'|' '{print $5 "|" $6}' as names
+  ul
+    @for names as row
+      li #{row.1} #{row.2}
+HAML
+
+tmp_in_eof2=$(mktemp)
+
+sed "s|DATAFILE|$authors_data|" "$tmp_in_eof" > "$tmp_in_eof2"
+mv "$tmp_in_eof2" "$tmp_in_eof"
+
+cat <<'HTML' > "$tmp_expected_eof"
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Smol EOF For Test</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+  </head>
+  <body>
+    <ul>
+      <li>Ada Lovelace</li>
+      <li>Linus Torvalds</li>
+    </ul>
+  </body>
+</html>
+HTML
+
+awk -f "$compiler" "$tmp_in_eof" > "$tmp_out_eof"
+
+diff -u "$tmp_expected_eof" "$tmp_out_eof"
+
+rm -f \
+  "$tmp_in" "$tmp_out" "$tmp_expected" "$tmp_include" "$tmp_data" "$tmp_onefield" \
+  "$tmp_in_eof" "$tmp_out_eof" "$tmp_expected_eof" "$tmp_data_eof"
 
 printf '%s\n' "smol test ok"

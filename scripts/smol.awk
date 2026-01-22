@@ -238,6 +238,12 @@ function data_fail(msg) {
   exit 2
 }
 
+function data_debug(msg) {
+  if (ENVIRON["SMOL_DEBUG_DATA"] != "") {
+    print "smol: data: " msg > "/dev/stderr"
+  }
+}
+
 function data_parse_row(line, name, idx,   parts, n, i, f) {
   n = split(line, parts, "|")
   if (n < 1) data_fail(name ": row " idx ": expected 1+ fields, got " n ": " line)
@@ -261,8 +267,13 @@ function data_load(path, pipeline, name,   cmd, line, idx) {
   if (pipeline == "") {
     cmd = "cat " sh_escape(path)
   } else {
-    cmd = "/bin/sh -c " sh_escape("cat " sh_escape(path) " | " pipeline)
+    # awk executes commands via a shell already; keep it simple.
+    cmd = "cat " sh_escape(path) " | " pipeline
   }
+
+  data_debug("load name='" name "' path='" path "'")
+  data_debug("pipeline: " pipeline)
+  data_debug("cmd: " cmd)
 
   while ((cmd | getline line) > 0) {
     if (line ~ /^[ \t]*$/) continue
@@ -270,6 +281,8 @@ function data_load(path, pipeline, name,   cmd, line, idx) {
     data_parse_row(line, name, idx)
   }
   close(cmd)
+
+  data_debug("loaded name='" name "' rows=" idx)
 
   data_len[name] = idx
   data_loaded[name] = 1
@@ -461,6 +474,48 @@ function end_section() {
   raw_base_indent = -1
 }
 
+function for_end(file_dir, next_line) {
+  for_mode = 0
+  for_replaying = 1
+
+  if (!(for_list in data_loaded)) {
+    print "smol: @for: unknown dataset '" for_list "'" > "/dev/stderr"
+    exit 1
+  }
+
+  for (for_i = 1; for_i <= data_len[for_list]; for_i++) {
+    param_count = 0
+    include_param_keys[++param_count] = for_alias ".index"
+    include_param_vals[param_count] = for_i
+
+    cols = data_cols[for_list, for_i]
+    for (col = 1; col <= cols; col++) {
+      include_param_keys[++param_count] = for_alias "." col
+      include_param_vals[param_count] = data_field[for_list, for_i, col]
+    }
+
+    if (cols == 1) {
+      include_param_keys[++param_count] = for_alias ".value"
+      include_param_vals[param_count] = data_field[for_list, for_i, 1]
+    }
+
+    vars_push(param_count)
+    for (for_j = 1; for_j <= for_count; for_j++) {
+      process_line(for_lines[for_j], file_dir)
+    }
+    vars_pop()
+
+    close_to(for_indent)
+  }
+
+  for_replaying = 0
+  for_count = 0
+
+  if (next_line != "") {
+    process_line(next_line, file_dir)
+  }
+}
+
 function process_line(line, file_dir,   indent, text, ch, pos, c, tag, id, classes, attrs, name, depth, inline, raw_text, raw_line, css_text, selector, prop, cols, col) {
   if (line ~ /^[ \t]*$/) return
 
@@ -471,43 +526,7 @@ function process_line(line, file_dir,   indent, text, ch, pos, c, tag, id, class
 
   if (for_mode && !for_replaying) {
     if (indent <= for_indent) {
-      for_mode = 0
-      for_replaying = 1
-
-      if (!(for_list in data_loaded)) {
-        print "smol: @for: unknown dataset '" for_list "'" > "/dev/stderr"
-        exit 1
-      }
-
-      for (for_i = 1; for_i <= data_len[for_list]; for_i++) {
-        param_count = 0
-        include_param_keys[++param_count] = for_alias ".index"
-        include_param_vals[param_count] = for_i
-
-        cols = data_cols[for_list, for_i]
-        for (col = 1; col <= cols; col++) {
-          include_param_keys[++param_count] = for_alias "." col
-          include_param_vals[param_count] = data_field[for_list, for_i, col]
-        }
-
-        if (cols == 1) {
-          include_param_keys[++param_count] = for_alias ".value"
-          include_param_vals[param_count] = data_field[for_list, for_i, 1]
-        }
-
-        vars_push(param_count)
-        for (for_j = 1; for_j <= for_count; for_j++) {
-          process_line(for_lines[for_j], file_dir)
-        }
-        vars_pop()
-
-        close_to(for_indent)
-      }
-
-      for_replaying = 0
-      for_count = 0
-
-      process_line(line, file_dir)
+      for_end(file_dir, line)
       return
     }
 
@@ -729,6 +748,10 @@ function process_line(line, file_dir,   indent, text, ch, pos, c, tag, id, class
   }
 
   inline = rtrim(ltrim(substr(text, pos)))
+  if (inline ~ /^\|/) {
+    inline = substr(inline, 2)
+    if (inline ~ /^ /) inline = substr(inline, 2)
+  }
 
   attrs = rtrim(attrs)
   if (id != "" && attrs !~ /(^|[ \t])id=/) {
@@ -781,6 +804,11 @@ function process_file(path, prefix,   line, full, prev_dir, dir) {
     full = (prefix != "") ? prefix line : line
     process_line(full, current_dir)
   }
+
+  if (for_mode && !for_replaying) {
+    for_end(current_dir, "")
+  }
+
   close(path)
   current_dir = prev_dir
   include_stack[path] = 0
