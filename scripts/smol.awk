@@ -269,9 +269,24 @@ function data_parse_row(line, name, idx,   parts, n, i, f) {
   }
 }
 
+function data_clear(name,   idx, col, cols) {
+  if (!(name in data_loaded)) return
+
+  for (idx = 1; idx <= data_len[name]; idx++) {
+    cols = data_cols[name, idx]
+    for (col = 1; col <= cols; col++) {
+      delete data_field[name, idx, col]
+    }
+    delete data_cols[name, idx]
+  }
+
+  data_len[name] = 0
+  delete data_loaded[name]
+}
+
 function data_load(path, pipeline, name,   cmd, line, idx) {
   if (name == "") return
-  if (name in data_loaded) return
+  data_clear(name)
 
   pipeline = trim(pipeline)
   pipeline = interpolate(pipeline)
@@ -304,7 +319,7 @@ function data_load(path, pipeline, name,   cmd, line, idx) {
 
 function shell_load(file_dir, cmd, name,   full_cmd, line, idx) {
   if (name == "") return
-  if (name in data_loaded) return
+  data_clear(name)
 
   cmd = trim(cmd)
   cmd = interpolate(strip_quotes(cmd))
@@ -429,20 +444,24 @@ function handle_directive(text, indent, file_dir, line,   rest, key, val, attrs,
 
   if (match(text, /^@for[ \t]+/)) {
     rest = ltrim(substr(text, RLENGTH + 1))
-    for_list = rest
-    sub(/[ \t].*$/, "", for_list)
-    rest = ltrim(substr(rest, length(for_list) + 1))
+    loop_list = rest
+    sub(/[ \t].*$/, "", loop_list)
+    rest = ltrim(substr(rest, length(loop_list) + 1))
 
-    for_alias = for_list
+    loop_alias = loop_list
     if (match(rest, /^as[ \t]+/)) {
       rest = ltrim(substr(rest, RLENGTH + 1))
-      for_alias = rest
-      sub(/[ \t].*$/, "", for_alias)
+      loop_alias = rest
+      sub(/[ \t].*$/, "", loop_alias)
     }
 
-    for_mode = 1
-    for_indent = indent
-    for_count = 0
+    for_depth++
+    for_list_stack[for_depth] = loop_list
+    for_alias_stack[for_depth] = loop_alias
+    for_indent_stack[for_depth] = indent
+    for_count_stack[for_depth] = 0
+    for_phase[for_depth] = "capture"
+
     return 1
   }
 
@@ -577,42 +596,55 @@ function end_section() {
   raw_base_indent = -1
 }
 
-function for_end(file_dir, next_line) {
-  for_mode = 0
-  for_replaying = 1
+function for_finish(file_dir, next_line,   depth, list, alias, indent, count, i, j, cols, col, param_count) {
+  depth = for_depth
+  if (depth <= 0) return
 
-  if (!(for_list in data_loaded)) {
-    print "smol: @for: unknown dataset '" for_list "'" > "/dev/stderr"
+  list = for_list_stack[depth]
+  alias = for_alias_stack[depth]
+  indent = for_indent_stack[depth]
+  count = for_count_stack[depth]
+
+  for_phase[depth] = "replay"
+
+  if (!(list in data_loaded)) {
+    print "smol: @for: unknown dataset '" list "'" > "/dev/stderr"
     exit 1
   }
 
-  for (for_i = 1; for_i <= data_len[for_list]; for_i++) {
+  for (i = 1; i <= data_len[list]; i++) {
     param_count = 0
-    include_param_keys[++param_count] = for_alias ".index"
-    include_param_vals[param_count] = for_i
+    include_param_keys[++param_count] = alias ".index"
+    include_param_vals[param_count] = i
 
-    cols = data_cols[for_list, for_i]
+    cols = data_cols[list, i]
     for (col = 1; col <= cols; col++) {
-      include_param_keys[++param_count] = for_alias "." col
-      include_param_vals[param_count] = data_field[for_list, for_i, col]
+      include_param_keys[++param_count] = alias "." col
+      include_param_vals[param_count] = data_field[list, i, col]
     }
 
     if (cols == 1) {
-      include_param_keys[++param_count] = for_alias ".value"
-      include_param_vals[param_count] = data_field[for_list, for_i, 1]
+      include_param_keys[++param_count] = alias ".value"
+      include_param_vals[param_count] = data_field[list, i, 1]
     }
 
     vars_push(param_count)
-    for (for_j = 1; for_j <= for_count; for_j++) {
-      process_line(for_lines[for_j], file_dir)
+    for (j = 1; j <= count; j++) {
+      process_line(for_lines[depth, j], file_dir)
     }
     vars_pop()
 
-    close_to(for_indent)
+    close_to(indent)
   }
 
-  for_replaying = 0
-  for_count = 0
+  for (j = 1; j <= count; j++) delete for_lines[depth, j]
+
+  delete for_phase[depth]
+  delete for_list_stack[depth]
+  delete for_alias_stack[depth]
+  delete for_indent_stack[depth]
+  delete for_count_stack[depth]
+  for_depth--
 
   if (next_line != "") {
     process_line(next_line, file_dir)
@@ -633,13 +665,13 @@ function process_line(line, file_dir,   indent, text, ch, pos, c, tag, id, class
     skip_indent = -1
   }
 
-  if (for_mode && !for_replaying) {
-    if (indent <= for_indent) {
-      for_end(file_dir, line)
+  if (for_depth > 0 && for_phase[for_depth] == "capture") {
+    if (indent <= for_indent_stack[for_depth]) {
+      for_finish(file_dir, line)
       return
     }
 
-    for_lines[++for_count] = line
+    for_lines[for_depth, ++for_count_stack[for_depth]] = line
     return
   }
 
@@ -922,8 +954,8 @@ function process_file(path, prefix,   line, full, prev_dir, dir, before_depth, b
     process_line(full, current_dir)
   }
 
-  if (for_mode && !for_replaying) {
-    for_end(current_dir, "")
+  while (for_depth > 0 && for_phase[for_depth] == "capture") {
+    for_finish(current_dir, "")
   }
 
   # Flush any still-open tags/blocks opened inside this include.
@@ -1145,10 +1177,7 @@ BEGIN {
   vars_base_indent = -1
   vars_depth = 0
 
-  for_mode = 0
-  for_replaying = 0
-  for_indent = -1
-  for_count = 0
+  for_depth = 0
 
   skip_mode = 0
   skip_indent = -1
