@@ -137,12 +137,12 @@
           h2.section_title
             | Read
 
-          @shell "cat src/data/books | awk -F'|' -f scripts/books_read_years.awk | sort -r" as read_years
+          @shell "cat data/books | awk -F'|' -f ../scripts/books_read_years.awk | sort -r" as read_years
           @for read_years as y
             h3.year
               | #{y.value}
             ol.book_list
-              @shell "cat src/data/books | awk -F'|' -v YEAR=#{y.value} -f scripts/books_read_for_year.awk | sort -t'|' -k1,1r" as read_books
+              @shell "cat data/books | awk -F'|' -v YEAR=#{y.value} -f ../scripts/books_read_for_year.awk | sort -t'|' -k1,1r" as read_books
               @for read_books as book
                 li
                   span.book
