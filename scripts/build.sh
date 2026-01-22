@@ -24,5 +24,8 @@ fi
 
 ./scripts/books_json.sh "$root/src/data/books" "$out/books.json"
 
+# Ensure template include exists even when running build.sh directly.
+./scripts/books_read_grouped.sh "$root/src/data/books" "$root/src/data/books_read_grouped.smol"
+
 build_one "$root/src/index.smol" "$out/index.html"
 build_one "$root/src/books.smol" "$out/books/index.html"

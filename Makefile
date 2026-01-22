@@ -2,6 +2,7 @@ SHELL := /bin/sh
 
 RAW_DIR := data/raw
 BOOKS_DATA := src/data/books
+BOOKS_READ_GROUPED := src/data/books_read_grouped.smol
 
 RSS_READ := $(RAW_DIR)/books_read.rss
 RSS_TO_READ := $(RAW_DIR)/books_to-read.rss
@@ -32,7 +33,7 @@ html: data
 dev:
 	@./scripts/dev.sh
 
-data: $(BOOKS_DATA)
+data: $(BOOKS_DATA) $(BOOKS_READ_GROUPED)
 
 $(RAW_DIR):
 	@mkdir -p "$@"
@@ -56,6 +57,9 @@ $(BOOKS_DATA): scripts/lib.awk scripts/books_from_rss.awk $(RSS_READ) $(RSS_TO_R
 	LC_ALL=C sort "$$tmp" >"$@.tmp"; \
 	mv "$@.tmp" "$@"; \
 	printf '%s\n' "wrote $@" >&2
+
+$(BOOKS_READ_GROUPED): scripts/books_read_grouped.sh scripts/books_read_grouped.awk $(BOOKS_DATA)
+	@./scripts/books_read_grouped.sh "$(BOOKS_DATA)" "$@"
 
 smoke: html
 	@./scripts/smoke.sh
