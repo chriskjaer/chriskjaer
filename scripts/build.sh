@@ -26,3 +26,4 @@ fi
 
 build_one "$root/src/index.smol" "$out/index.html"
 build_one "$root/src/books.smol" "$out/books/index.html"
+build_one "$root/src/pax.smol" "$out/pax/index.html"
