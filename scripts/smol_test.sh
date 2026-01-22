@@ -293,3 +293,57 @@ if grep -q "<ul>[[:space:]]*</ul>[[:space:]]*<li" /tmp/smol_for_nested_test.html
   exit 1
 fi
 rm -f /tmp/smol_for_nested_test.smol /tmp/smol_for_nested_years.data /tmp/smol_for_nested_items.data /tmp/smol_for_nested_test.html
+
+# test: @markdown directive
+cat >/tmp/smol_markdown_test.md <<'MD'
+## Hello
+
+Hi, I’m Pax.
+
+- One
+- Two
+
+> Quietly capable.
+
+```txt
+code & stuff
+```
+MD
+
+cat >/tmp/smol_markdown_test.smol <<'SMOL'
+:body
+  main
+    @markdown /tmp/smol_markdown_test.md
+SMOL
+
+awk -f "$compiler" /tmp/smol_markdown_test.smol >/tmp/smol_markdown_test.html
+
+# basic markers
+if ! grep -q "<h2>Hello</h2>" /tmp/smol_markdown_test.html; then
+  echo "markdown missing h2" >&2
+  cat /tmp/smol_markdown_test.html >&2
+  exit 1
+fi
+if ! grep -q "<ul>" /tmp/smol_markdown_test.html; then
+  echo "markdown missing ul" >&2
+  cat /tmp/smol_markdown_test.html >&2
+  exit 1
+fi
+if ! grep -q "<blockquote>" /tmp/smol_markdown_test.html; then
+  echo "markdown missing blockquote" >&2
+  cat /tmp/smol_markdown_test.html >&2
+  exit 1
+fi
+if ! grep -q "<pre><code>" /tmp/smol_markdown_test.html; then
+  echo "markdown missing code fence" >&2
+  cat /tmp/smol_markdown_test.html >&2
+  exit 1
+fi
+# ensure code was escaped
+if ! grep -q "code &amp; stuff" /tmp/smol_markdown_test.html; then
+  echo "markdown code not escaped" >&2
+  cat /tmp/smol_markdown_test.html >&2
+  exit 1
+fi
+
+rm -f /tmp/smol_markdown_test.md /tmp/smol_markdown_test.smol /tmp/smol_markdown_test.html

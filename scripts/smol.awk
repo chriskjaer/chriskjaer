@@ -125,6 +125,203 @@ function join_path(dir, file) {
   return dir "/" file
 }
 
+function html_escape(s) {
+  gsub(/&/, "&amp;", s)
+  gsub(/</, "&lt;", s)
+  gsub(/>/, "&gt;", s)
+  return s
+}
+
+function md_inline(s,   out, pre, mid, post, text, url) {
+  # Inline code: `code`
+  out = ""
+  while (match(s, /`[^`]+`/)) {
+    pre = substr(s, 1, RSTART - 1)
+    mid = substr(s, RSTART + 1, RLENGTH - 2)
+    post = substr(s, RSTART + RLENGTH)
+    out = out html_escape(pre) "<code>" html_escape(mid) "</code>"
+    s = post
+  }
+  out = out html_escape(s)
+
+  # Links: [text](url)
+  while (match(out, /\[[^\]]+\]\([^\)]+\)/)) {
+    pre = substr(out, 1, RSTART - 1)
+    mid = substr(out, RSTART, RLENGTH)
+    post = substr(out, RSTART + RLENGTH)
+
+    text = mid
+    sub(/^\[/, "", text)
+    sub(/\]\([^\)]+\)$/, "", text)
+
+    url = mid
+    sub(/^\[[^\]]+\]\(/, "", url)
+    sub(/\)$/, "", url)
+
+    out = pre "<a href=\"" html_escape(url) "\">" text "</a>" post
+  }
+
+  # Bold: **x** (simple)
+  gsub(/\*\*([^*]+)\*\*/, "<strong>\\1</strong>", out)
+
+  # Italic: *x* (simple, avoid bold already replaced)
+  gsub(/(^|[^*])\*([^*]+)\*([^*]|$)/, "\\1<em>\\2</em>\\3", out)
+
+  return out
+}
+
+function markdown_emit(path, prefix,   line, in_code, list_open, bq_open, para, fence, level, txt) {
+  in_code = 0
+  list_open = 0
+  bq_open = 0
+  para = ""
+
+  while ((getline line < path) > 0) {
+    sub(/\r$/, "", line)
+
+    fence = (line ~ /^```/)
+    if (fence) {
+      if (para != "") {
+        emit(prefix "<p>" md_inline(para) "</p>")
+        para = ""
+      }
+      if (list_open) {
+        emit(prefix "</ul>")
+        list_open = 0
+      }
+      if (bq_open) {
+        emit(prefix "</blockquote>")
+        bq_open = 0
+      }
+      if (!in_code) {
+        emit(prefix "<pre><code>")
+        in_code = 1
+      } else {
+        emit(prefix "</code></pre>")
+        in_code = 0
+      }
+      continue
+    }
+
+    if (in_code) {
+      emit(prefix html_escape(line))
+      continue
+    }
+
+    if (line ~ /^[ \t]*$/) {
+      if (para != "") {
+        emit(prefix "<p>" md_inline(para) "</p>")
+        para = ""
+      }
+      if (list_open) {
+        emit(prefix "</ul>")
+        list_open = 0
+      }
+      if (bq_open) {
+        emit(prefix "</blockquote>")
+        bq_open = 0
+      }
+      continue
+    }
+
+    if (bq_open && line !~ /^>/) {
+      emit(prefix "</blockquote>")
+      bq_open = 0
+    }
+
+    if (match(line, /^>[ \t]+/)) {
+      if (para != "") {
+        emit(prefix "<p>" md_inline(para) "</p>")
+        para = ""
+      }
+      if (list_open) {
+        emit(prefix "</ul>")
+        list_open = 0
+      }
+      if (!bq_open) {
+        emit(prefix "<blockquote>")
+        bq_open = 1
+      }
+      txt = substr(line, RLENGTH + 1)
+      txt = trim(txt)
+      emit(prefix "  <p>" md_inline(txt) "</p>")
+      continue
+    }
+
+    if (match(line, /^#{1,6}[ \t]+/)) {
+      if (para != "") {
+        emit(prefix "<p>" md_inline(para) "</p>")
+        para = ""
+      }
+      if (list_open) {
+        emit(prefix "</ul>")
+        list_open = 0
+      }
+
+      level = 0
+      while (substr(line, level + 1, 1) == "#") level++
+      txt = substr(line, level + 1)
+      txt = ltrim(txt)
+      emit(prefix "<h" level ">" md_inline(txt) "</h" level ">")
+      continue
+    }
+
+    if (match(line, /^[-*][ \t]+/)) {
+      if (para != "") {
+        emit(prefix "<p>" md_inline(para) "</p>")
+        para = ""
+      }
+      if (!list_open) {
+        emit(prefix "<ul>")
+        list_open = 1
+      }
+      txt = substr(line, RLENGTH + 1)
+      txt = trim(txt)
+      emit(prefix "  <li>" md_inline(txt) "</li>")
+      continue
+    }
+
+    if (para != "") para = para " " trim(line)
+    else para = trim(line)
+  }
+  close(path)
+
+  if (in_code) {
+    emit(prefix "</code></pre>")
+  }
+
+  if (para != "") {
+    emit(prefix "<p>" md_inline(para) "</p>")
+  }
+
+  if (list_open) {
+    emit(prefix "</ul>")
+  }
+
+  if (bq_open) {
+    emit(prefix "</blockquote>")
+  }
+}
+
+function parse_markdown(text, file_dir,   rest, path, q, pos) {
+  rest = ltrim(substr(text, length("@markdown") + 1))
+  if (rest == "") return ""
+
+  if (rest ~ /^"/ || rest ~ /^'/) {
+    q = substr(rest, 1, 1)
+    rest = substr(rest, 2)
+    pos = index(rest, q)
+    if (pos > 0) path = substr(rest, 1, pos - 1)
+    else path = rest
+  } else {
+    path = rest
+    sub(/[ \t].*$/, "", path)
+  }
+
+  path = interpolate(strip_quotes(path))
+  return join_path(file_dir, path)
+}
+
 function parse_include_parts(text,   rest, file, q, pos) {
   include_file = ""
   include_params = ""
@@ -511,6 +708,20 @@ function handle_directive(text, indent, file_dir, line,   rest, key, val, attrs,
     sub(/\)[ \t]*$/, "", attrs)
     attrs = interpolate(attrs)
     meta_extra[++meta_count] = attrs
+    return 1
+  }
+
+  if (match(text, /^@markdown[ \t]+/)) {
+    path = parse_markdown(text, file_dir)
+    if (path == "") return 1
+
+    if (section_name != "") {
+      prefix = indent_str(stack_depth)
+    } else {
+      prefix = indent_str(stack_depth)
+    }
+
+    markdown_emit(path, prefix)
     return 1
   }
 
