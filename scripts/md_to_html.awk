@@ -86,18 +86,23 @@ BEGIN {
     next
   }
 
-  if (match(line, /^#{1,6}[ \t]+/)) {
-    close_list()
-    close_blockquote()
-    flush_paragraph()
-
+  # Headings: one to six leading # followed by whitespace.
+  if (substr(line, 1, 1) == "#") {
     level = 0
-    while (substr(line, level + 1, 1) == "#") level++
-    text = substr(line, level + 1)
-    sub(/^[ \t]+/, "", text)
+    while (level < 6 && substr(line, level + 1, 1) == "#") level++
 
-    print "<h" level ">" html_escape(text) "</h" level ">"
-    next
+    # Must have at least one space/tab after the # run.
+    if (substr(line, level + 1, 1) == " " || substr(line, level + 1, 1) == "\t") {
+      close_list()
+      close_blockquote()
+      flush_paragraph()
+
+      text = substr(line, level + 1)
+      sub(/^[ \t]+/, "", text)
+
+      print "<h" level ">" html_escape(text) "</h" level ">"
+      next
+    }
   }
 
   if (match(line, /^[-*][ \t]+/)) {
