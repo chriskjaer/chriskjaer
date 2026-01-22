@@ -12,11 +12,15 @@ Common tasks live behind `make`:
 - `make clean` removes generated HTML.
 - `make test` runs a small sanity check for smol.
 - `make fmt` normalizes indentation and trims trailing whitespace in smol files.
+- `make lint` runs `shellcheck` + `shfmt` when installed (otherwise warns).
+- `make doctor` prints tool versions + sanity checks.
+- `make cf-tail` tails Cloudflare Pages failing logs (requires env vars).
 
 Books page:
 - Source: Goodreads shelves `read`, `to-read`, `currently-reading`.
 - Fetch: `scripts/fetch_books_rss.sh` downloads shelf RSS into `data/raw/`.
 - Transform: `scripts/books_from_rss.awk` converts RSS into `src/data/books` rows.
+- JSON: `scripts/books_json.sh` converts `src/data/books` into `public/books.json`.
 - Wrapper: `scripts/goodreads_sync.sh` runs fetch+transform (manual use).
 
 Smol is a tiny HAML-ish markup language compiled by `scripts/smol.awk`. The

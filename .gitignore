@@ -18,6 +18,7 @@
 
 # generated (build-time only)
 /public/books/index.html
+/public/books.json
 /src/data/books
 /src/data/books_stats.smol
 /src/data/books_read_grouped.smol
