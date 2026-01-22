@@ -202,9 +202,26 @@
           h2.section_title
             | Read
 
-          @shell "cat data/books | awk -F'|' -f ../scripts/books_read_grouped_html.awk" as read_html
-          @for read_html as line
-            | #{line.value}
+          @shell "cat data/books | awk -F'|' -f ../scripts/books_read_years.awk | sort -r" as read_years
+          @for read_years as y
+            h3.year
+              | #{y.value}
+            @shell "cat data/books | awk -F'|' -v YEAR=#{y.value} -f ../scripts/books_read_for_year.awk | sort -t'|' -k1,1r" as read_books
+            ul.read_list
+              @for read_books as book
+                li
+                  .book_item
+                    .book_head
+                      span.book.book_title
+                        | #{book.3}
+                      span.author
+                        | — #{book.4}
+
+                    span.meta
+                      @if book.2 != ""
+                        | #{book.1} · #{book.2}
+                      @if book.2 == ""
+                        | #{book.1}
 
         section
           h2.section_title
