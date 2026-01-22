@@ -1,9 +1,8 @@
 #!/bin/sh
 set -eu
 
-root=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
+root=$(CDPATH="" cd -- "$(dirname -- "$0")/.." && pwd)
 
-# shellcheck/shfmt optional: prefer graceful skip with guidance.
 sh_files=$(find "$root/scripts" -type f -name '*.sh' -print)
 
 if [ -z "$sh_files" ]; then

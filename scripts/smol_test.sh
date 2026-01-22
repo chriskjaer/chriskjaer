@@ -1,7 +1,7 @@
 #!/bin/sh
 set -eu
 
-root=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
+root=$(CDPATH="" cd -- "$(dirname -- "$0")/.." && pwd)
 compiler="$root/scripts/smol.awk"
 
 tmp_in=$(mktemp)
@@ -11,7 +11,7 @@ tmp_include=$(mktemp)
 tmp_data=$(mktemp)
 tmp_onefield=$(mktemp)
 
-cat <<'HAML' > "$tmp_in"
+cat <<'HAML' >"$tmp_in"
 @title Smol Test
 @description Example site
 @viewport width=device-width, initial-scale=1
@@ -42,37 +42,37 @@ cat <<'HAML' > "$tmp_in"
     | console.log("#{who}")
 HAML
 
-cat <<'HAML' > "$tmp_include"
+cat <<'HAML' >"$tmp_include"
 p(class="#{note_class}")
   | #{note_text}
 HAML
 
-cat <<'DATA' > "$tmp_data"
+cat <<'DATA' >"$tmp_data"
 read | 2024-01-01 | 0 | 0 | Ada | Lovelace
 read | 2024-01-02 | 0 | 0 | Linus | Torvalds
 DATA
 
-cat <<'ONE' > "$tmp_onefield"
+cat <<'ONE' >"$tmp_onefield"
 smol
 test
 ONE
 
 tmp_in2=$(mktemp)
 
-sed "s|@include INC|@include $tmp_include|" "$tmp_in" > "$tmp_in2"
+sed "s|@include INC|@include $tmp_include|" "$tmp_in" >"$tmp_in2"
 mv "$tmp_in2" "$tmp_in"
 
 tmp_in3=$(mktemp)
 
-sed "s|@data DATAFILE|@data $tmp_data|" "$tmp_in" > "$tmp_in3"
+sed "s|@data DATAFILE|@data $tmp_data|" "$tmp_in" >"$tmp_in3"
 mv "$tmp_in3" "$tmp_in"
 
 tmp_in4=$(mktemp)
 
-sed "s|@data ONEFIELD|@data $tmp_onefield|" "$tmp_in" > "$tmp_in4"
+sed "s|@data ONEFIELD|@data $tmp_onefield|" "$tmp_in" >"$tmp_in4"
 mv "$tmp_in4" "$tmp_in"
 
-cat <<'HTML' > "$tmp_expected"
+cat <<'HTML' >"$tmp_expected"
 <!doctype html>
 <html lang="en">
   <head>
@@ -107,7 +107,7 @@ cat <<'HTML' > "$tmp_expected"
 </html>
 HTML
 
-awk -f "$compiler" "$tmp_in" > "$tmp_out"
+awk -f "$compiler" "$tmp_in" >"$tmp_out"
 
 diff -u "$tmp_expected" "$tmp_out"
 
@@ -119,12 +119,12 @@ tmp_expected_eof=$(mktemp)
 tmp_data_eof=$(mktemp)
 
 authors_data="$tmp_data_eof"
-cat <<'DATA' > "$tmp_data_eof"
+cat <<'DATA' >"$tmp_data_eof"
 read | 2024-01-01 | 0 | 0 | Ada | Lovelace
 read | 2024-01-02 | 0 | 0 | Linus | Torvalds
 DATA
 
-cat <<'HAML' > "$tmp_in_eof"
+cat <<'HAML' >"$tmp_in_eof"
 @title Smol EOF For Test
 
 :body
@@ -136,10 +136,10 @@ HAML
 
 tmp_in_eof2=$(mktemp)
 
-sed "s|DATAFILE|$authors_data|" "$tmp_in_eof" > "$tmp_in_eof2"
+sed "s|DATAFILE|$authors_data|" "$tmp_in_eof" >"$tmp_in_eof2"
 mv "$tmp_in_eof2" "$tmp_in_eof"
 
-cat <<'HTML' > "$tmp_expected_eof"
+cat <<'HTML' >"$tmp_expected_eof"
 <!doctype html>
 <html lang="en">
   <head>
@@ -156,7 +156,7 @@ cat <<'HTML' > "$tmp_expected_eof"
 </html>
 HTML
 
-awk -f "$compiler" "$tmp_in_eof" > "$tmp_out_eof"
+awk -f "$compiler" "$tmp_in_eof" >"$tmp_out_eof"
 
 diff -u "$tmp_expected_eof" "$tmp_out_eof"
 
@@ -167,7 +167,7 @@ rm -f \
 printf '%s\n' "smol test ok"
 
 # regression: directives at same indent close previous tags
-cat > /tmp/smol_directive_test.smol <<'SMOL'
+cat >/tmp/smol_directive_test.smol <<'SMOL'
 :body
   section
     h2.section_title
@@ -177,10 +177,10 @@ cat > /tmp/smol_directive_test.smol <<'SMOL'
       h3.year
         | #{y.value}
 SMOL
-cat > /tmp/smol_directive_test.data <<'DATA'
+cat >/tmp/smol_directive_test.data <<'DATA'
 2025
 DATA
-awk -f "$compiler" /tmp/smol_directive_test.smol > /tmp/smol_directive_test.html
+awk -f "$compiler" /tmp/smol_directive_test.smol >/tmp/smol_directive_test.html
 # h3 must not be inside h2
 if grep -q "<h2 class=section_title>Read <h3" /tmp/smol_directive_test.html; then
   echo "directive nesting regression" >&2

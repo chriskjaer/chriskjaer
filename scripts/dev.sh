@@ -1,7 +1,7 @@
 #!/bin/sh
 set -eu
 
-root=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
+root=$(CDPATH="" cd -- "$(dirname -- "$0")/.." && pwd)
 out="$root/public"
 build="make -s -C $root html"
 port="${PORT:-3333}"
@@ -9,7 +9,8 @@ port="${PORT:-3333}"
 watch_dirs="$root/src $root/scripts $root/public"
 
 hash_files() {
-  find $watch_dirs -type f -print | sort | while IFS= read -r file; do
+  # shellcheck disable=SC2086
+  find -type f -print | sort | while IFS= read -r file; do
     cksum "$file"
   done | cksum | awk '{print $1}'
 }
