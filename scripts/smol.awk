@@ -350,12 +350,34 @@ function shell_load(file_dir, cmd, name,   full_cmd, line, idx) {
   data_loaded[name] = 1
 }
 
-function shell_emit(file_dir, cmd, prefix,   full_cmd, line) {
+function shell_emit(file_dir, cmd, prefix,   full_cmd, line, in_pre) {
   full_cmd = shell_full_cmd(file_dir, cmd)
+  in_pre = 0
 
   while ((full_cmd | getline line) > 0) {
     sub(/\r$/, "", line)
-    emit(prefix line)
+
+    # When emitting raw HTML, indentation is mostly cosmetic.
+    # But in <pre><code> blocks, leading spaces become part of the code.
+    if (in_pre) {
+      if (prefix != "" && substr(line, 1, length(prefix)) == prefix) {
+        line = substr(line, length(prefix) + 1)
+      }
+      emit(line)
+      if (index(line, "</code></pre>") > 0) in_pre = 0
+      continue
+    }
+
+    if (index(line, "<pre><code>") > 0) {
+      in_pre = 1
+      emit(line)
+      if (index(line, "</code></pre>") > 0) in_pre = 0
+      continue
+    }
+
+    # Outside code blocks, indent tag-y lines for readability.
+    if (line ~ /^[ \t]*</) emit(prefix line)
+    else emit(line)
   }
   close(full_cmd)
 }
@@ -392,7 +414,7 @@ function parse_shell(text, indent, file_dir, line,   rest, name, cmd, prefix) {
   return 1
 }
 
-function data_emit(path, pipeline, prefix,   cmd, line) {
+function data_emit(path, pipeline, prefix,   cmd, line, in_pre) {
   pipeline = trim(pipeline)
   pipeline = interpolate(pipeline)
 
@@ -402,9 +424,29 @@ function data_emit(path, pipeline, prefix,   cmd, line) {
     cmd = "cat " sh_escape(path) " | " pipeline
   }
 
+  in_pre = 0
   while ((cmd | getline line) > 0) {
     sub(/\r$/, "", line)
-    emit(prefix line)
+
+    if (in_pre) {
+      if (prefix != "" && substr(line, 1, length(prefix)) == prefix) {
+        line = substr(line, length(prefix) + 1)
+      }
+      emit(line)
+      if (index(line, "</code></pre>") > 0) in_pre = 0
+      continue
+    }
+
+    if (index(line, "<pre><code>") > 0) {
+      in_pre = 1
+      emit(line)
+      if (index(line, "</code></pre>") > 0) in_pre = 0
+      continue
+    }
+
+    # Outside code blocks, indent tag-y lines for readability.
+    if (line ~ /^[ \t]*</) emit(prefix line)
+    else emit(line)
   }
   close(cmd)
 }

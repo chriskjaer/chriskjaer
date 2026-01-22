@@ -31,7 +31,7 @@ A `.smol` file is compiled line-by-line.
 
 - Indentation creates nesting.
 - Tags are emitted as HTML elements.
-- Directives (lines starting with `\@`) do “meta things”: set variables, load data, loop, include, etc.
+- Directives (lines starting with `@`) do “meta things”: set variables, load data, loop, include, etc.
 - Some blocks are special (like `style` and `script`).
 
 Smol also has an “autowrap” convenience:
@@ -107,7 +107,7 @@ Use a layout to avoid repeating the document skeleton:
     | …
 ```
 
-The layout uses `\@yield` to drop your sections into place.
+The layout uses `@yield` to drop your sections into place.
 
 ### Include
 
@@ -152,7 +152,7 @@ Smol can load datasets and iterate them.
 
 ### Loading data from a file
 
-`\@data` loads a `|`-separated file into a dataset:
+`@data` loads a `|`-separated file into a dataset:
 
 ```smol
 @data "src/data/books" as books
@@ -172,7 +172,7 @@ Smol runs `cat <file> | <pipeline>` and reads stdout as the dataset.
 
 ### Emitting file contents
 
-If you omit `as name`, `\@data` behaves more like shell: it **emits** the file contents (or the piped result) directly into the template.
+If you omit `as name`, `@data` behaves more like shell: it **emits** the file contents (or the piped result) directly into the template.
 
 ```smol
 div.markdown
@@ -194,7 +194,7 @@ If the dataset has one field per row, Smol also exposes `row.value`.
 
 ## Conditionals
 
-Use `\@if` to conditionally render an indented block:
+Use `@if` to conditionally render an indented block:
 
 ```smol
 @if book.2 != ""
