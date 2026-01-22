@@ -15,7 +15,7 @@
       padding: 4rem 1rem 6rem
     .books
       width: 100%
-      max-width: 42rem
+      max-width: 40rem
     .nav
       font-size: .75rem
       margin-bottom: 2rem
@@ -42,9 +42,21 @@
     .book_list
       margin: 0
       padding-left: 1.25rem
+
+    .read_list
+      list-style: none
+      padding-left: 0
+
     .book_list li
       margin: .35rem 0
       line-height: 1.35
+
+    .read_list li
+      padding: .35rem 0
+      border-bottom: 1px solid #f3f4f6
+
+    .read_list li:last-child
+      border-bottom: 0
 
     .book_item
       display: flex
@@ -56,6 +68,9 @@
       flex-wrap: wrap
       gap: .4rem
       align-items: baseline
+
+    .book_title
+      font-weight: 600
 
     .book
       font-size: .95rem
@@ -69,17 +84,24 @@
     .search
       width: 100%
       max-width: 24rem
-      padding: .55rem .75rem
-      margin: .5rem 0 0
+      padding: .6rem .75rem
+      margin: .35rem 0 0
       border: 1px solid #e5e7eb
       border-radius: .5rem
       background: #f9fafb
       font-size: .95rem
+
+    .search:focus
+      outline: none
+      border-color: #d1d5db
+      box-shadow: 0 0 0 3px rgba(17, 24, 39, .06)
     .year
-      margin: 1.5rem 0 .75rem
-      font-size: .875rem
+      margin: 1.75rem 0 .6rem
+      font-size: .8rem
       font-weight: 700
-      color: #111827
+      letter-spacing: .06em
+      color: #6b7280
+      text-transform: uppercase
     .chart
       list-style: none
       margin: 0
@@ -163,13 +185,13 @@
           @for read_years as y
             h3.year
               | #{y.value}
-            ol.book_list
+            ul.read_list
               @shell "cat data/books | awk -F'|' -v YEAR=#{y.value} -f ../scripts/books_read_for_year.awk | sort -t'|' -k1,1r" as read_books
               @for read_books as book
                 li
                   .book_item
                     .book_head
-                      span.book
+                      span.book.book_title
                         | #{book.3}
                       span.author
                         | — #{book.4}
