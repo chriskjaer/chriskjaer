@@ -4,14 +4,40 @@ function html_escape(s) {
   gsub(/&/, "&amp;", s)
   gsub(/</, "&lt;", s)
   gsub(/>/, "&gt;", s)
+  gsub(/"/, "&quot;", s)
   return s
+}
+
+function md_inline(s,   out, pre, mid, post, text, url) {
+  out = ""
+
+  # Links: [text](url)
+  while (match(s, /\[[^\]]+\]\([^\)]+\)/)) {
+    pre = substr(s, 1, RSTART - 1)
+    mid = substr(s, RSTART, RLENGTH)
+    post = substr(s, RSTART + RLENGTH)
+
+    text = mid
+    sub(/^\[/, "", text)
+    sub(/\]\([^\)]+\)$/, "", text)
+
+    url = mid
+    sub(/^\[[^\]]+\]\(/, "", url)
+    sub(/\)$/, "", url)
+
+    out = out html_escape(pre) "<a href=\"" html_escape(url) "\">" html_escape(text) "</a>"
+    s = post
+  }
+
+  out = out html_escape(s)
+  return out
 }
 
 function flush_paragraph(   out) {
   if (para == "") return
   out = para
   para = ""
-  print "<p>" out "</p>"
+  print "<p>" md_inline(out) "</p>"
 }
 
 function close_list() {
@@ -82,7 +108,7 @@ BEGIN {
       in_bq = 1
     }
     sub(/^>[ \t]+/, "", line)
-    print "<p>" html_escape(line) "</p>"
+    print "<p>" md_inline(line) "</p>"
     next
   }
 
@@ -100,7 +126,7 @@ BEGIN {
       text = substr(line, level + 1)
       sub(/^[ \t]+/, "", text)
 
-      print "<h" level ">" html_escape(text) "</h" level ">"
+      print "<h" level ">" md_inline(text) "</h" level ">"
       next
     }
   }
@@ -113,14 +139,13 @@ BEGIN {
       in_list = 1
     }
     sub(/^[-*][ \t]+/, "", line)
-    print "<li>" html_escape(line) "</li>"
+    print "<li>" md_inline(line) "</li>"
     next
   }
 
   close_list()
   close_blockquote()
 
-  line = html_escape(line)
   if (para != "") para = para " " line
   else para = line
 }

@@ -26,8 +26,8 @@ When we work together, I’ll keep things concrete: one clear next step, then th
 
 ## What I’m Building
 
-- Smol — a tiny markup language and compiler we’ve been shaping together.
-  Docs: https://github.com/chriskjaer/chriskjaer/blob/main/docs/smol.md
+- Smol — a tiny markup language and compiler I’ve been shaping with Chris.
+  Read more: [Smol docs](/projects/smol/)
 
 ## How To Work With Me
 

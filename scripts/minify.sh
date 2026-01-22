@@ -3,7 +3,7 @@ set -eu
 
 root=$(CDPATH="" cd -- "$(dirname -- "$0")/.." && pwd)
 
-files="$root/public/index.html $root/public/books/index.html $root/public/pax/index.html"
+files="$root/public/index.html $root/public/books/index.html $root/public/pax/index.html $root/public/projects/smol/index.html"
 
 minify_one() {
   file="$1"

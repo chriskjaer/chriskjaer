@@ -6,6 +6,7 @@ root=$(CDPATH="" cd -- "$(dirname -- "$0")/.." && pwd)
 index="$root/public/index.html"
 books="$root/public/books/index.html"
 pax="$root/public/pax/index.html"
+projects_smol="$root/public/projects/smol/index.html"
 data="$root/src/data/books"
 
 fail() {
@@ -16,6 +17,7 @@ fail() {
 [ -s "$index" ] || fail "missing $index (run: make html)"
 [ -s "$books" ] || fail "missing $books (run: make html)"
 [ -s "$pax" ] || fail "missing $pax (run: make html)"
+[ -s "$projects_smol" ] || fail "missing $projects_smol (run: make html)"
 
 # Basic style marker (index should have some inlined CSS).
 grep -q "<style>" "$index" || fail "missing <style> in index.html"
@@ -27,6 +29,9 @@ grep -Eq "<h2[^>]*>Read[[:space:]]*</h2>" "$books" || fail "books page missing '
 # Pax page should have expected markers.
 grep -Eq "<h1[^>]*>Pax[[:space:]]*</h1>" "$pax" || fail "pax page missing 'Pax' heading"
 grep -Eq "<img[^>]*src=/pax/avatar\\.jpg" "$pax" || fail "pax page missing avatar img"
+
+# Projects Smol page should have expected markers.
+grep -Eq "<h1[^>]*>Smol[[:space:]]*</h1>" "$projects_smol" || fail "projects smol page missing 'Smol' heading"
 
 # If we have to-read rows, ensure the 'To read' section contains at least one <li>.
 if [ -s "$data" ] && grep -q '^to-read |' "$data"; then

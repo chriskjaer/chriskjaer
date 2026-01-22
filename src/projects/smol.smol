@@ -1,0 +1,93 @@
+@layout "../includes/layout.smol"
+
+@title smol — projects — chriskjaer
+@description Smol is a tiny indentation-based markup language compiled to HTML.
+@viewport width=device-width, initial-scale=1
+@lang en
+@charset utf-8
+
+:head
+  style
+    body
+      overflow: auto
+    .page
+      justify-content: flex-start
+      padding: 4rem 1rem 6rem
+    .project
+      width: 100%
+      max-width: 46rem
+    .nav
+      font-size: .75rem
+      margin-bottom: 2rem
+    .title
+      font-family: Palatino Linotype, Palatino, Palladio, URW Palladio L, ui-serif, Georgia, Cambria, "Times New Roman", Times, serif
+      font-size: 2.25rem
+      font-weight: 700
+      line-height: 1.1
+      margin: 0 0 1rem
+    .subtitle
+      margin: 0 0 2.5rem
+      font-size: .95rem
+      color: #4b5563
+      line-height: 1.55
+
+    .markdown
+      font-size: 1rem
+      line-height: 1.7
+
+    .markdown h1
+      font-family: Palatino Linotype, Palatino, Palladio, URW Palladio L, ui-serif, Georgia, Cambria, "Times New Roman", Times, serif
+      font-size: 2.25rem
+      font-weight: 700
+      line-height: 1.1
+      margin: 0 0 1rem
+
+    .markdown h2
+      font-size: .75rem
+      letter-spacing: .08em
+      text-transform: uppercase
+      margin: 2.5rem 0 1rem
+      color: #111827
+
+    .markdown h2:first-child
+      margin-top: 0
+
+    .markdown p
+      margin: 0 0 1rem
+
+    .markdown ul
+      margin: .25rem 0 1.25rem
+      padding-left: 1.25rem
+
+    .markdown li
+      margin: .5rem 0
+
+    .markdown blockquote
+      margin: 1.25rem 0 0
+      padding-left: 1rem
+      border-left: 3px solid #f3f4f6
+      color: #6b7280
+      font-style: italic
+
+    .markdown pre
+      margin: 1.25rem 0
+      padding: .75rem
+      border: 1px solid #f3f4f6
+      border-radius: .5rem
+      background: #f9fafb
+      overflow: auto
+
+    .markdown code
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace
+      font-size: .875rem
+
+:body
+  main.page
+    .project
+      nav.nav
+        a(href="/") ← Home
+        | 
+        a(href="/pax") Pax
+
+      .markdown
+        @shell "../../scripts/md_to_html.awk ../../docs/smol.md"
