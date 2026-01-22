@@ -53,6 +53,23 @@ compact:
   doing the include). You can pass parameters inline like
   `@include includes/logo.smol logo_class=logo`.
 
+Data + unixy pipelines:
+- `@data "path" as name` loads a `|`-separated file into a dataset you can loop.
+- You can also attach a pipeline: `@data "path" | awk ... | sort ... as name`.
+  Smol runs `cat <path> | <pipeline>` and treats each output line as a row,
+  splitting on `|` into fields.
+- `@for name as row` iterates the dataset; use `#{row.1}`, `#{row.2}` etc.
+
+This is the preferred way to keep templates “unixy”: do transforms via shell
+pipelines at build-time, not by pre-generating template partials.
+
+Example (from `src/books.smol`): render a grouped “Read” section without
+writing any intermediate `.smol` files:
+
+- `@data "data/books" | awk -F'|' -f scripts/books_read_grouped_html.awk as read_html`
+- `@for read_html as line`
+- `  | #{line.value}`
+
 One small convenience: any `style` block found in the body is moved up into the
 head, and any `script` block is moved to the end of the body.
 
