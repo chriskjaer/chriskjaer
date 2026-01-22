@@ -302,22 +302,27 @@ function data_load(path, pipeline, name,   cmd, line, idx) {
   data_loaded[name] = 1
 }
 
-function shell_load(cmd, name,   line, idx) {
+function shell_load(file_dir, cmd, name,   full_cmd, line, idx) {
   if (name == "") return
   if (name in data_loaded) return
 
   cmd = trim(cmd)
   cmd = interpolate(strip_quotes(cmd))
 
-  idx = 0
-  data_debug("shell name='" name "' cmd='" cmd "'")
+  full_cmd = cmd
+  if (file_dir != "" && file_dir != ".") {
+    full_cmd = "cd " sh_escape(file_dir) " && " cmd
+  }
 
-  while ((cmd | getline line) > 0) {
+  idx = 0
+  data_debug("shell name='" name "' cmd='" full_cmd "'")
+
+  while ((full_cmd | getline line) > 0) {
     if (line ~ /^[ \t]*$/) continue
     idx++
     data_parse_row(line, name, idx)
   }
-  close(cmd)
+  close(full_cmd)
 
   data_debug("shell loaded name='" name "' rows=" idx)
 
@@ -344,7 +349,7 @@ function parse_shell(text, indent, file_dir, line,   rest, name, cmd) {
     exit 1
   }
 
-  shell_load(cmd, name)
+  shell_load(file_dir, cmd, name)
   return 1
 }
 
