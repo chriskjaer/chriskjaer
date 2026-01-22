@@ -50,7 +50,7 @@ function squeeze(s) {
   }
   print out
 }
-' "$file" | sed -E 's/>[[:space:]]+([^<[:space:]])/>\1/g; s/="([^"[:space:]=<>`]+)"/=\1/g' >"$tmp"
+' "$file" | sed -E 's/="([^"[:space:]=<>`]+)"/=\1/g' >"$tmp"
 
   awk '
 function mincss(css,   t) {
