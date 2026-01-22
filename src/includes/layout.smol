@@ -5,7 +5,7 @@ html(lang="#{smol.lang}")
     link(rel="icon" type="image/svg+xml" href="/favicon.svg")
     meta(name="theme-color" content="#24201a")
     meta(name="color-scheme" content="light")
-    @include includes/styles.smol
+    @include styles.smol
     @yield head
   body
     @yield body
