@@ -43,8 +43,20 @@
       margin: 0
       padding-left: 1.25rem
     .book_list li
-      margin: .5rem 0
-      line-height: 1.4
+      margin: .35rem 0
+      line-height: 1.35
+
+    .book_item
+      display: flex
+      flex-direction: column
+      gap: .15rem
+
+    .book_head
+      display: flex
+      flex-wrap: wrap
+      gap: .4rem
+      align-items: baseline
+
     .book
       font-size: .95rem
     .author
@@ -53,6 +65,16 @@
     .meta
       color: #6b7280
       font-size: .8rem
+
+    .search
+      width: 100%
+      max-width: 24rem
+      padding: .55rem .75rem
+      margin: .5rem 0 0
+      border: 1px solid #e5e7eb
+      border-radius: .5rem
+      background: #f9fafb
+      font-size: .95rem
     .year
       margin: 1.5rem 0 .75rem
       font-size: .875rem
@@ -131,7 +153,7 @@
         section
           label.meta(for="book-search")
             | Search
-          input#book-search(type="search" placeholder="Filter by title/author…" autocomplete="off" style="width: 100%; max-width: 24rem; padding: .5rem .75rem; margin: .5rem 0 0; border: 1px solid #e5e7eb; border-radius: .5rem")
+          input#book-search.search(type="search" placeholder="Filter by title/author…" autocomplete="off")
 
         section
           h2.section_title
@@ -145,19 +167,18 @@
               @shell "cat data/books | awk -F'|' -v YEAR=#{y.value} -f ../scripts/books_read_for_year.awk | sort -t'|' -k1,1r" as read_books
               @for read_books as book
                 li
-                  span.book
-                    | #{book.3}
-                  | 
+                  .book_item
+                    .book_head
+                      span.book
+                        | #{book.3}
+                      span.author
+                        | — #{book.4}
 
-                  span.author
-                    | — #{book.4}
-                  | 
-
-                  span.meta
-                    @if book.2 != ""
-                      | (#{book.1} · #{book.2})
-                    @if book.2 == ""
-                      | (#{book.1})
+                    span.meta
+                      @if book.2 != ""
+                        | (#{book.1} · #{book.2})
+                      @if book.2 == ""
+                        | (#{book.1})
 
         section
           h2.section_title
