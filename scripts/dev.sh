@@ -10,7 +10,7 @@ watch_dirs=". $root/src $root/scripts $root/public"
 
 hash_files() {
   # shellcheck disable=SC2086
-  find -type f -print | sort | while IFS= read -r file; do
+  find . -type f -print | sort | while IFS= read -r file; do
     cksum "$file"
   done | cksum | awk '{print $1}'
 }
