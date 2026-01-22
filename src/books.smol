@@ -46,6 +46,16 @@
     .read_list
       list-style: none
       padding-left: 0
+      margin: 0
+
+    .read_list li
+      margin: 0
+      padding: .35rem 0
+      line-height: 1.35
+      border-bottom: 1px solid #f3f4f6
+
+    .read_list li:last-child
+      border-bottom: 0
 
     .book_list li
       margin: .35rem 0
@@ -105,6 +115,14 @@
 
     .chart .year
       margin: 0
+
+    .year_row
+      margin: 1.75rem 0 .6rem
+      font-size: .8rem
+      font-weight: 700
+      letter-spacing: .06em
+      color: #6b7280
+      text-transform: uppercase
     .chart
       list-style: none
       margin: 0
@@ -184,26 +202,9 @@
           h2.section_title
             | Read
 
-          @shell "cat data/books | awk -F'|' -f ../scripts/books_read_years.awk | sort -r" as read_years
-          @for read_years as y
-            h3.year
-              | #{y.value}
-            ul.read_list
-              @shell "cat data/books | awk -F'|' -v YEAR=#{y.value} -f ../scripts/books_read_for_year.awk | sort -t'|' -k1,1r" as read_books
-              @for read_books as book
-                li
-                  .book_item
-                    .book_head
-                      span.book.book_title
-                        | #{book.3}
-                      span.author
-                        | — #{book.4}
-
-                    span.meta
-                      @if book.2 != ""
-                        | #{book.1} · #{book.2}
-                      @if book.2 == ""
-                        | #{book.1}
+          @shell "cat data/books | awk -F'|' -f ../scripts/books_read_grouped_html.awk" as read_html
+          @for read_html as line
+            | #{line.value}
 
         section
           h2.section_title
@@ -222,7 +223,7 @@
     | (function () {
     |   var input = document.getElementById('book-search');
     |   if (!input) return;
-    |   var items = document.querySelectorAll('.book_list li');
+    |   var items = document.querySelectorAll('.book_list li, .read_list li');
     |   function norm(s) { return (s || '').toLowerCase(); }
     |   function run() {
     |     var q = norm(input.value).trim();
