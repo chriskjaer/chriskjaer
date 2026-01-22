@@ -136,7 +136,9 @@
         section
           h2.section_title
             | Read
-          @include data/books_read_grouped.smol
+          @data "data/books" | awk -F'|' -f scripts/books_read_grouped_html.awk as read_html
+          @for read_html as line
+            | #{line.value}
 
         section
           h2.section_title
