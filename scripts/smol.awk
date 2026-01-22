@@ -556,6 +556,7 @@ function process_line(line, file_dir,   indent, text, ch, pos, c, tag, id, class
       start_section("body", indent)
       return
     }
+    close_to(indent)
     if (handle_directive(text, indent, file_dir, line)) return
     start_section("body", indent - 1)
     section_base_indent = indent
@@ -576,6 +577,7 @@ function process_line(line, file_dir,   indent, text, ch, pos, c, tag, id, class
       indent = indent - section_base_indent
       text = rtrim(ltrim(line))
     }
+    close_to(indent)
     if (handle_directive(text, indent, file_dir, line)) return
   }
 

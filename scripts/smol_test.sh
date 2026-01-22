@@ -165,3 +165,26 @@ rm -f \
   "$tmp_in_eof" "$tmp_out_eof" "$tmp_expected_eof" "$tmp_data_eof"
 
 printf '%s\n' "smol test ok"
+
+# regression: directives at same indent close previous tags
+cat > /tmp/smol_directive_test.smol <<'SMOL'
+:body
+  section
+    h2.section_title
+      | Read
+    @data /tmp/smol_directive_test.data as years
+    @for years as y
+      h3.year
+        | #{y.value}
+SMOL
+cat > /tmp/smol_directive_test.data <<'DATA'
+2025
+DATA
+awk -f "$compiler" /tmp/smol_directive_test.smol > /tmp/smol_directive_test.html
+# h3 must not be inside h2
+if grep -q "<h2 class=section_title>Read <h3" /tmp/smol_directive_test.html; then
+  echo "directive nesting regression" >&2
+  cat /tmp/smol_directive_test.html >&2
+  exit 1
+fi
+rm -f /tmp/smol_directive_test.smol /tmp/smol_directive_test.data /tmp/smol_directive_test.html

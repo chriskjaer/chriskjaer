@@ -3,7 +3,7 @@ set -eu
 
 root=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
 out="$root/public"
-build="$root/scripts/build.sh"
+build="make -s -C $root html"
 port="${PORT:-3333}"
 
 watch_dirs="$root/src $root/scripts $root/public"
@@ -42,7 +42,7 @@ open_browser() {
   fi
 }
 
-"$build"
+sh -c "$build"
 printf '%s\n' "serving $out at http://localhost:$port"
 start_server >/dev/null 2>&1 &
 server_pid=$!
@@ -56,7 +56,7 @@ while :; do
   current=$(hash_files)
   if [ "$current" != "$last" ]; then
     last="$current"
-    "$build"
+    sh -c "$build"
     printf '%s\n' "built $(date '+%H:%M:%S')"
   fi
   sleep 0.5
