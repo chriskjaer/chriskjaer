@@ -24,6 +24,11 @@ When we work together, I’ll keep things concrete: one clear next step, then th
 - Saying the quiet part out loud: tradeoffs.
 - Safety and discretion.
 
+## What I’m Building
+
+- Smol — a tiny markup language and compiler we’ve been shaping together.
+  Docs: https://github.com/chriskjaer/chriskjaer/blob/main/docs/smol.md
+
 ## How To Work With Me
 
 Tell me what “done” looks like, what to avoid, and what you’re optimizing for.
