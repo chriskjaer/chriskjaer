@@ -317,10 +317,7 @@ function data_load(path, pipeline, name,   cmd, line, idx) {
   data_loaded[name] = 1
 }
 
-function shell_load(file_dir, cmd, name,   full_cmd, line, idx) {
-  if (name == "") return
-  data_clear(name)
-
+function shell_full_cmd(file_dir, cmd,   full_cmd) {
   cmd = trim(cmd)
   cmd = interpolate(strip_quotes(cmd))
 
@@ -328,6 +325,14 @@ function shell_load(file_dir, cmd, name,   full_cmd, line, idx) {
   if (file_dir != "" && file_dir != ".") {
     full_cmd = "cd " sh_escape(file_dir) " && " cmd
   }
+  return full_cmd
+}
+
+function shell_load(file_dir, cmd, name,   full_cmd, line, idx) {
+  if (name == "") return
+  data_clear(name)
+
+  full_cmd = shell_full_cmd(file_dir, cmd)
 
   idx = 0
   data_debug("shell name='" name "' cmd='" full_cmd "'")
@@ -345,26 +350,45 @@ function shell_load(file_dir, cmd, name,   full_cmd, line, idx) {
   data_loaded[name] = 1
 }
 
-function parse_shell(text, indent, file_dir, line,   rest, name, cmd) {
+function shell_emit(file_dir, cmd, prefix,   full_cmd, line) {
+  full_cmd = shell_full_cmd(file_dir, cmd)
+
+  while ((full_cmd | getline line) > 0) {
+    sub(/\r$/, "", line)
+    emit(prefix line)
+  }
+  close(full_cmd)
+}
+
+function parse_shell(text, indent, file_dir, line,   rest, name, cmd, prefix) {
   rest = ltrim(substr(text, length("@shell") + 1))
   if (rest == "") return 1
 
-  if (!match(rest, /as[ \t]+[A-Za-z0-9_-]+[ \t]*$/)) {
-    print "smol: @shell: missing 'as <name>'" > "/dev/stderr"
-    exit 1
+  # Data mode: @shell "cmd" as name
+  if (match(rest, /as[ \t]+[A-Za-z0-9_-]+[ \t]*$/)) {
+    name = substr(rest, RSTART)
+    sub(/^as[ \t]+/, "", name)
+    name = trim(name)
+
+    cmd = trim(substr(rest, 1, RSTART - 1))
+    if (cmd == "") {
+      print "smol: @shell: missing command" > "/dev/stderr"
+      exit 1
+    }
+
+    shell_load(file_dir, cmd, name)
+    return 1
   }
 
-  name = substr(rest, RSTART)
-  sub(/^as[ \t]+/, "", name)
-  name = trim(name)
-
-  cmd = trim(substr(rest, 1, RSTART - 1))
+  # Emit mode: @shell "cmd" (stdout inserted as-is)
+  cmd = trim(rest)
   if (cmd == "") {
     print "smol: @shell: missing command" > "/dev/stderr"
     exit 1
   }
 
-  shell_load(file_dir, cmd, name)
+  prefix = indent_str(stack_depth)
+  shell_emit(file_dir, cmd, prefix)
   return 1
 }
 
