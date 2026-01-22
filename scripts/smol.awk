@@ -665,15 +665,7 @@ function process_line(line, file_dir,   indent, text, ch, pos, c, tag, id, class
     skip_indent = -1
   }
 
-  if (for_depth > 0 && for_phase[for_depth] == "capture") {
-    if (indent <= for_indent_stack[for_depth]) {
-      for_finish(file_dir, line)
-      return
-    }
-
-    for_lines[for_depth, ++for_count_stack[for_depth]] = line
-    return
-  }
+  # @for capture handled after section indentation normalization
 
   if (vars_mode) {
     if (indent <= vars_indent) {
@@ -718,6 +710,15 @@ function process_line(line, file_dir,   indent, text, ch, pos, c, tag, id, class
       indent = indent - section_base_indent
       text = rtrim(ltrim(line))
     }
+    if (for_depth > 0 && for_phase[for_depth] == "capture") {
+      if (indent <= for_indent_stack[for_depth]) {
+        for_finish(file_dir, "")
+      } else {
+        for_lines[for_depth, ++for_count_stack[for_depth]] = line
+        return
+      }
+    }
+
     close_to(indent)
     if (handle_directive(text, indent, file_dir, line)) return
   }
