@@ -32,33 +32,39 @@ function extract(tag, item,   start, gt, end, end_tag, val) {
   return val
 }
 
-function rss_date_to_ymd(raw,   s, day, mon, year, month) {
+function rss_date_to_ymd(raw,   s, parts, day, mon, year, month) {
   s = trim(html_unescape(raw))
   if (s == "") return ""
 
-  if (match(s, /^[0-9]{4}-[0-9]{2}-[0-9]{2}/)) return substr(s, 1, 10)
+  # ISO-ish
+  if (s ~ /^[0-9]{4}-[0-9]{2}-[0-9]{2}/) return substr(s, 1, 10)
 
-  if (match(s, /, *([0-9]{1,2}) +([A-Za-z]{3}) +([0-9]{4})/, m)) {
-    day = sprintf("%02d", m[1] + 0)
-    mon = m[2]
-    year = m[3]
+  # RFC-ish: "Thu, 21 Jan 2026 06:57:00 +0000"
+  # strip weekday prefix
+  sub(/^.*,[ \t]*/, "", s)
 
-    month = ""
-    if (mon == "Jan") month = "01"
-    else if (mon == "Feb") month = "02"
-    else if (mon == "Mar") month = "03"
-    else if (mon == "Apr") month = "04"
-    else if (mon == "May") month = "05"
-    else if (mon == "Jun") month = "06"
-    else if (mon == "Jul") month = "07"
-    else if (mon == "Aug") month = "08"
-    else if (mon == "Sep") month = "09"
-    else if (mon == "Oct") month = "10"
-    else if (mon == "Nov") month = "11"
-    else if (mon == "Dec") month = "12"
+  split(s, parts, /[ \t]+/)
+  if (length(parts) < 3) return ""
 
-    if (month != "") return year "-" month "-" day
-  }
+  day = sprintf("%02d", parts[1] + 0)
+  mon = parts[2]
+  year = parts[3]
+
+  month = ""
+  if (mon == "Jan") month = "01"
+  else if (mon == "Feb") month = "02"
+  else if (mon == "Mar") month = "03"
+  else if (mon == "Apr") month = "04"
+  else if (mon == "May") month = "05"
+  else if (mon == "Jun") month = "06"
+  else if (mon == "Jul") month = "07"
+  else if (mon == "Aug") month = "08"
+  else if (mon == "Sep") month = "09"
+  else if (mon == "Oct") month = "10"
+  else if (mon == "Nov") month = "11"
+  else if (mon == "Dec") month = "12"
+
+  if (month != "") return year "-" month "-" day
 
   return ""
 }
