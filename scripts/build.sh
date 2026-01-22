@@ -22,5 +22,7 @@ if [ ! -f "$root/src/data/books" ]; then
   exit 1
 fi
 
+./scripts/books_json.sh "$root/src/data/books" "$out/books.json"
+
 build_one "$root/src/index.smol" "$out/index.html"
 build_one "$root/src/books.smol" "$out/books/index.html"

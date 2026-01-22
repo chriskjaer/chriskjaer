@@ -12,9 +12,18 @@ ifeq ($(FORCE),1)
 FORCE_DEP := FORCE
 endif
 
-.PHONY: build dev data html smoke test minify clean fmt wasm FORCE
+.PHONY: build dev data html smoke test minify clean fmt lint doctor cf-tail wasm FORCE
 
 build: html
+
+lint:
+	@./scripts/lint.sh
+
+doctor:
+	@./scripts/doctor.sh
+
+cf-tail:
+	@./scripts/cf_tail_pages.sh
 
 html: data
 	@./scripts/build.sh
@@ -58,7 +67,7 @@ minify: html
 	@./scripts/minify.sh
 
 clean:
-	@rm -f ./public/index.html ./public/books/index.html
+	@rm -f ./public/index.html ./public/books/index.html ./public/books.json
 
 fmt:
 	@./scripts/smol_fmt.sh
