@@ -32,6 +32,7 @@
     .grid
       display: grid
       gap: 2.5rem
+      grid-template-columns: 1fr
     .section_title
       font-size: .75rem
       letter-spacing: .08em
@@ -85,11 +86,6 @@
       text-align: right
       white-space: nowrap
 
-    @media (min-width: 52em)
-      .grid
-        grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr))
-        gap: 3rem
-
 :body
   main.page
     .books
@@ -106,8 +102,6 @@
 
       @data "data/books" | awk -F'|' '{s=$1; gsub(/^[ \t]+|[ \t]+$/, "", s); if(s=="currently-reading") print $0}' | sort -t'|' -k2,2r as currently_reading
       @data "data/books" | awk -F'|' '{s=$1; gsub(/^[ \t]+|[ \t]+$/, "", s); if(s=="to-read") print $0}' | sort -t'|' -k2,2r as to_read
-
-      @data "data/books" | awk -F'|' '{s=$1; gsub(/^[ \t]+|[ \t]+$/, "", s); if(s=="read") {d=$2; gsub(/^[ \t]+|[ \t]+$/, "", d); y=substr(d,1,4); if(y!="") print y}}' | sort -r | uniq as read_years
 
       @data "data/books" | awk -F'|' '{s=$1; gsub(/^[ \t]+|[ \t]+$/, "", s); if(s!="read") next; d=$2; gsub(/^[ \t]+|[ \t]+$/, "", d); y=substr(d,1,4); if(y=="") next; p=$4; gsub(/[^0-9]/, "", p); books[y]++; pages[y]+=p+0; if(pages[y]>max) max=pages[y]} END {for (y in books) {pct=0; if(max>0) pct=int((pages[y]*100)/max); print y " | " books[y] " | " pages[y] " | " pct}}' | sort -t'|' -k1,1r as read_chart
 
@@ -141,23 +135,7 @@
         section
           h2.section_title
             | Read
-          @for read_years as year
-            h3.year
-              | #{year.value}
-            ol.book_list
-              @data "data/books" | awk -F'|' -v Y="#{year.value}" '{s=$1; gsub(/^[ \t]+|[ \t]+$/, "", s); if(s!="read") next; d=$2; gsub(/^[ \t]+|[ \t]+$/, "", d); if(substr(d,1,4)!=Y) next; print $0}' | sort -t'|' -k2,2r as year_books
-              @for year_books as book
-                li
-                  span.book
-                    | #{book.5}
-                  | 
-
-                  span.author
-                    | — #{book.6}
-                  | 
-
-                  span.meta
-                    | (#{book.2})
+          @include data/books_read_grouped.smol
 
         section
           h2.section_title
