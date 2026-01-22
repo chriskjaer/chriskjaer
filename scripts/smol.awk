@@ -634,7 +634,7 @@ function for_finish(file_dir, next_line,   depth, list, alias, indent, count, i,
     }
     vars_pop()
 
-    close_to(indent)
+    close_to(indent + 1)
   }
 
   for (j = 1; j <= count; j++) delete for_lines[depth, j]

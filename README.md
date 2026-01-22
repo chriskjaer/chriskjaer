@@ -65,6 +65,12 @@ Data + unixy pipelines:
 This is the preferred way to keep templates “unixy”: do transforms via shell
 pipelines at build-time, and let Smol stay the layout engine.
 
+Smol philosophy:
+- Smol renders markup (tags, loops, includes).
+- Unix tools shape data.
+- If a template needs a capability Smol doesn’t have, extend/fix `scripts/smol.awk`
+  and add a regression test in `scripts/smol_test.sh` rather than injecting HTML strings.
+
 Example (from `src/books.smol`): group “Read” by year without writing
 intermediate `.smol` files:
 

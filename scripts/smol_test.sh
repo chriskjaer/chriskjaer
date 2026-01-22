@@ -267,3 +267,29 @@ if [ "$has_nested" != "1" ]; then
   exit 1
 fi
 rm -f /tmp/smol_for_nesting_test.smol /tmp/smol_for_nesting_test.data /tmp/smol_for_nesting_test.html
+
+# regression: nested `@for` should keep nesting correct
+cat >/tmp/smol_for_nested_test.smol <<'SMOL'
+:body
+  @data /tmp/smol_for_nested_years.data as years
+  @for years as y
+    h2 #{y.value}
+    ul
+      @data /tmp/smol_for_nested_items.data as items
+      @for items as it
+        li #{y.value}-#{it.value}
+SMOL
+cat >/tmp/smol_for_nested_years.data <<'DATA'
+2025
+DATA
+cat >/tmp/smol_for_nested_items.data <<'DATA'
+a
+DATA
+awk -f "$compiler" /tmp/smol_for_nested_test.smol >/tmp/smol_for_nested_test.html
+# ensure li is inside ul (not after)
+if grep -q "<ul>[[:space:]]*</ul>[[:space:]]*<li" /tmp/smol_for_nested_test.html; then
+  echo "nested for nesting regression" >&2
+  cat /tmp/smol_for_nested_test.html >&2
+  exit 1
+fi
+rm -f /tmp/smol_for_nested_test.smol /tmp/smol_for_nested_years.data /tmp/smol_for_nested_items.data /tmp/smol_for_nested_test.html
