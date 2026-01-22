@@ -409,7 +409,8 @@ function parse_shell(text, indent, file_dir, line,   rest, name, cmd, prefix) {
     exit 1
   }
 
-  prefix = indent_str(stack_depth)
+  # Emit raw output without adding indentation (important for <pre><code> blocks).
+  prefix = ""
   shell_emit(file_dir, cmd, prefix)
   return 1
 }
@@ -495,7 +496,8 @@ function parse_data(text, indent, file_dir, line,   rest, path, q, pos, name, pi
   if (pipeline ~ /^\|/) pipeline = trim(substr(pipeline, 2))
   else pipeline = ""
 
-  prefix = indent_str(stack_depth)
+  # Emit raw output without adding indentation (important for <pre><code> blocks).
+  prefix = ""
   data_emit(path, pipeline, prefix)
   return 1
 }
@@ -1200,8 +1202,20 @@ function yield_lines(kind,   i, prefix, count, line) {
 
   if (kind == "head") {
     count = head_count
+    in_pre = 0
     for (i = 1; i <= count; i++) {
       line = head_lines[i]
+      if (in_pre) {
+        emit(line)
+        if (index(line, "</code></pre>") > 0) in_pre = 0
+        continue
+      }
+      if (index(line, "<pre><code>") > 0) {
+        in_pre = 1
+        emit(prefix line)
+        if (index(line, "</code></pre>") > 0) in_pre = 0
+        continue
+      }
       emit(prefix line)
     }
     return
@@ -1209,8 +1223,20 @@ function yield_lines(kind,   i, prefix, count, line) {
 
   if (kind == "body") {
     count = body_count
+    in_pre = 0
     for (i = 1; i <= count; i++) {
       line = body_lines[i]
+      if (in_pre) {
+        emit(line)
+        if (index(line, "</code></pre>") > 0) in_pre = 0
+        continue
+      }
+      if (index(line, "<pre><code>") > 0) {
+        in_pre = 1
+        emit(prefix line)
+        if (index(line, "</code></pre>") > 0) in_pre = 0
+        continue
+      }
       emit(prefix line)
     }
     return
@@ -1218,8 +1244,20 @@ function yield_lines(kind,   i, prefix, count, line) {
 
   if (kind == "scripts") {
     count = script_count
+    in_pre = 0
     for (i = 1; i <= count; i++) {
       line = script_lines[i]
+      if (in_pre) {
+        emit(line)
+        if (index(line, "</code></pre>") > 0) in_pre = 0
+        continue
+      }
+      if (index(line, "<pre><code>") > 0) {
+        in_pre = 1
+        emit(prefix line)
+        if (index(line, "</code></pre>") > 0) in_pre = 0
+        continue
+      }
       emit(prefix line)
     }
     return

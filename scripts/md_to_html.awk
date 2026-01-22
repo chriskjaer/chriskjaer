@@ -79,7 +79,8 @@ function close_blockquote() {
 
 function close_code() {
   if (!in_code) return
-  print "</code></pre>"
+  code_flush()
+  code_buf_clear()
   in_code = 0
 }
 
@@ -88,6 +89,51 @@ BEGIN {
   in_list = 0
   in_bq = 0
   para = ""
+
+  code_len = 0
+}
+
+function code_buf_clear(   i) {
+  for (i = 1; i <= code_len; i++) delete code_buf[i]
+  code_len = 0
+}
+
+function code_buf_push(s) {
+  code_len++
+  code_buf[code_len] = s
+}
+
+function code_flush(   i, s, n, min, lead) {
+  if (code_len == 0) {
+    # Empty block
+    print "<pre><code></code></pre>"
+    return
+  }
+
+  # Compute minimal leading indentation among non-empty lines.
+  min = -1
+  for (i = 1; i <= code_len; i++) {
+    s = code_buf[i]
+    if (s ~ /^[ \t]*$/) continue
+    lead = 0
+    while (substr(s, lead + 1, 1) == " " || substr(s, lead + 1, 1) == "\t") lead++
+    if (min < 0 || lead < min) min = lead
+  }
+  if (min < 0) min = 0
+
+  # Emit without a leading blank line.
+  printf "%s", "<pre><code>"
+  for (i = 1; i <= code_len; i++) {
+    s = code_buf[i]
+    if (min > 0) {
+      # Strip up to min leading whitespace characters.
+      n = 0
+      while (n < min && (substr(s, n + 1, 1) == " " || substr(s, n + 1, 1) == "\t")) n++
+      s = substr(s, n + 1)
+    }
+    printf "%s\n", html_escape(s)
+  }
+  print "</code></pre>"
 }
 
 {
@@ -98,18 +144,20 @@ BEGIN {
     close_list()
     close_blockquote()
     flush_paragraph()
+
     if (!in_code) {
-      print "<pre><code>"
       in_code = 1
+      code_buf_clear()
     } else {
-      close_code()
+      code_flush()
+      code_buf_clear()
+      in_code = 0
     }
     next
   }
 
   if (in_code) {
-    # In code blocks, preserve quotes as-is (no need to escape them).
-    print html_escape(line)
+    code_buf_push(line)
     next
   }
 
