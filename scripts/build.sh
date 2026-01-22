@@ -1,7 +1,7 @@
 #!/bin/sh
 set -eu
 
-root=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
+root=$(CDPATH="" cd -- "$(dirname -- "$0")/.." && pwd)
 
 out="$root/public"
 compiler="$root/scripts/smol.awk"
@@ -11,7 +11,7 @@ build_one() {
   target="$2"
 
   mkdir -p "$(dirname -- "$target")"
-  awk -f "$compiler" "$template" > "$target"
+  awk -f "$compiler" "$template" >"$target"
 
   printf '%s\n' "built $(basename "$target")"
 }

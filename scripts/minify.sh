@@ -1,7 +1,7 @@
 #!/bin/sh
 set -eu
 
-root=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
+root=$(CDPATH="" cd -- "$(dirname -- "$0")/.." && pwd)
 
 files="$root/public/index.html $root/public/books/index.html"
 
@@ -15,7 +15,7 @@ minify_one() {
   tmp=$(mktemp)
   tmp_css=$(mktemp)
 
-  tr -s ' \t\r\n' ' ' < "$file" | sed -E 's/> </></g; s/^ //; s/ $//; s/>[[:space:]]+([^<[:space:]])/>\1/g; s/="([^"[:space:]=<>`]+)"/=\1/g' > "$tmp"
+  tr -s ' \t\r\n' ' ' <"$file" | sed -E 's/> </></g; s/^ //; s/ $//; s/>[[:space:]]+([^<[:space:]])/>\1/g; s/="([^"[:space:]=<>`]+)"/=\1/g' >"$tmp"
 
   awk '
 function mincss(css,   t) {
@@ -48,12 +48,12 @@ function mincss(css,   t) {
   out = out line
   print out
 }
-' "$tmp" > "$tmp_css"
+' "$tmp" >"$tmp_css"
 
   mv "$tmp_css" "$file"
   rm -f "$tmp"
 
-  size=$(wc -c < "$file" | tr -d ' ')
+  size=$(wc -c <"$file" | tr -d ' ')
   printf '%s\n' "minified $(basename "$file") ($size bytes)"
 }
 

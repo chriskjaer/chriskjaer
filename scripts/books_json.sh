@@ -1,7 +1,7 @@
 #!/bin/sh
 set -eu
 
-root=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
+root=$(CDPATH="" cd -- "$(dirname -- "$0")/.." && pwd)
 
 in="${1:-$root/src/data/books}"
 out="${2:-$root/public/books.json}"
