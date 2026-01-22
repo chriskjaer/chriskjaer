@@ -302,6 +302,52 @@ function data_load(path, pipeline, name,   cmd, line, idx) {
   data_loaded[name] = 1
 }
 
+function shell_load(cmd, name,   line, idx) {
+  if (name == "") return
+  if (name in data_loaded) return
+
+  cmd = trim(cmd)
+  cmd = interpolate(strip_quotes(cmd))
+
+  idx = 0
+  data_debug("shell name='" name "' cmd='" cmd "'")
+
+  while ((cmd | getline line) > 0) {
+    if (line ~ /^[ \t]*$/) continue
+    idx++
+    data_parse_row(line, name, idx)
+  }
+  close(cmd)
+
+  data_debug("shell loaded name='" name "' rows=" idx)
+
+  data_len[name] = idx
+  data_loaded[name] = 1
+}
+
+function parse_shell(text, indent, file_dir, line,   rest, name, cmd) {
+  rest = ltrim(substr(text, length("@shell") + 1))
+  if (rest == "") return 1
+
+  if (!match(rest, /as[ \t]+[A-Za-z0-9_-]+[ \t]*$/)) {
+    print "smol: @shell: missing 'as <name>'" > "/dev/stderr"
+    exit 1
+  }
+
+  name = substr(rest, RSTART)
+  sub(/^as[ \t]+/, "", name)
+  name = trim(name)
+
+  cmd = trim(substr(rest, 1, RSTART - 1))
+  if (cmd == "") {
+    print "smol: @shell: missing command" > "/dev/stderr"
+    exit 1
+  }
+
+  shell_load(cmd, name)
+  return 1
+}
+
 function parse_data(text, indent, file_dir, line,   rest, path, q, pos, name, pipeline) {
   rest = ltrim(substr(text, length("@data") + 1))
   if (rest == "") return 1
@@ -370,6 +416,10 @@ function handle_directive(text, indent, file_dir, line,   rest, key, val, attrs,
 
   if (match(text, /^@data[ \t]+/)) {
     return parse_data(text, indent, file_dir, line)
+  }
+
+  if (match(text, /^@shell[ \t]+/)) {
+    return parse_shell(text, indent, file_dir, line)
   }
 
   if (match(text, /^@for[ \t]+/)) {
@@ -465,6 +515,40 @@ function handle_directive(text, indent, file_dir, line,   rest, key, val, attrs,
     return 1
   }
 
+  if (match(text, /^@if([ \t]|$)/)) {
+    rest = ltrim(substr(text, length("@if") + 1))
+    if (rest == "") {
+      print "smol: @if: missing condition" > "/dev/stderr"
+      exit 1
+    }
+
+    # Condition syntax: <lhs> (==|!=) <rhs>
+    # lhs can be a variable name (including dotted dataset fields like row.1).
+    # rhs can be quoted or bare.
+    if (!match(rest, /[ \t]+(==|!=)[ \t]+/)) {
+      print "smol: @if: expected 'lhs == rhs' or 'lhs != rhs'" > "/dev/stderr"
+      exit 1
+    }
+
+    lhs = trim(substr(rest, 1, RSTART - 1))
+    op = substr(rest, RSTART + 1, RLENGTH - 2)
+    rhs = trim(substr(rest, RSTART + RLENGTH))
+
+    # Resolve lhs from vars if present, otherwise treat as literal.
+    if (lhs in vars) lhs_val = vars[lhs]
+    else lhs_val = strip_quotes(lhs)
+
+    rhs_val = interpolate(strip_quotes(rhs))
+
+    cond = (op == "==") ? (lhs_val == rhs_val) : (lhs_val != rhs_val)
+    if (!cond) {
+      skip_mode = 1
+      skip_indent = indent
+    }
+
+    return 1
+  }
+
   return 0
 }
 
@@ -537,6 +621,12 @@ function process_line(line, file_dir,   indent, text, ch, pos, c, tag, id, class
   text = rtrim(ltrim(line))
 
   if (text ~ /^-#/) return
+
+  if (skip_mode) {
+    if (indent > skip_indent) return
+    skip_mode = 0
+    skip_indent = -1
+  }
 
   if (for_mode && !for_replaying) {
     if (indent <= for_indent) {
@@ -1054,6 +1144,9 @@ BEGIN {
   for_replaying = 0
   for_indent = -1
   for_count = 0
+
+  skip_mode = 0
+  skip_indent = -1
 
   found_html = 0
   found_sections = 0
