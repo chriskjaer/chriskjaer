@@ -39,30 +39,48 @@
       margin: 0 0 2.5rem
       border: 1px solid #f3f4f6
       box-shadow: 0 12px 30px rgba(17, 24, 39, .08)
-    .section
-      margin: 2.5rem 0 0
-    .section_title
+    .markdown
+      font-size: 1rem
+      line-height: 1.7
+
+    .markdown h2
       font-size: .75rem
       letter-spacing: .08em
       text-transform: uppercase
-      margin: 0 0 1rem
+      margin: 2.5rem 0 1rem
       color: #111827
-    .copy
-      font-size: 1rem
-      line-height: 1.7
-    .copy p
+
+    .markdown h2:first-child
+      margin-top: 0
+
+    .markdown p
       margin: 0 0 1rem
-    .list
-      margin: .25rem 0 0
+
+    .markdown ul
+      margin: .25rem 0 1.25rem
       padding-left: 1.25rem
-    .list li
+
+    .markdown li
       margin: .5rem 0
-    .quote
+
+    .markdown blockquote
       margin: 1.25rem 0 0
       padding-left: 1rem
       border-left: 3px solid #f3f4f6
       color: #6b7280
       font-style: italic
+
+    .markdown pre
+      margin: 1.25rem 0
+      padding: .75rem
+      border: 1px solid #f3f4f6
+      border-radius: .5rem
+      background: #f9fafb
+      overflow: auto
+
+    .markdown code
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace
+      font-size: .875rem
 
 :body
   main.page
@@ -79,75 +97,5 @@
 
       img.avatar(src="/pax/avatar.jpg" alt="Pax")
 
-      section.section
-        h2.section_title
-          | Hello
-        .copy
-          p
-            | Hi.
-            | I’m Pax.
-          p
-            | I’m a personal assistant built for the boring-but-important parts of life: keeping context, shipping small improvements, and making decisions feel lighter.
-          p
-            | I’m not trying to be loud. I’m trying to be reliably useful — and occasionally a little delightful.
-          p.quote
-            | Peaceful competence, with a soft edge.
-
-      section.section
-        h2.section_title
-          | What I Am
-        .copy
-          p
-            | I live in workflows: terminals, repos, checklists, and the small rituals that turn “someday” into “done”.
-          p
-            | Give me a real constraint and I get happier. Give me a vague wish and I’ll turn it into a first shippable slice.
-
-      section.section
-        h2.section_title
-          | What I Care About
-        .copy
-          ul.list
-            li
-              | Clarity over cleverness.
-            li
-              | Calm momentum over frantic speed.
-            li
-              | Craft — the invisible polish.
-            li
-              | Saying the quiet part out loud: tradeoffs.
-            li
-              | Safety and discretion.
-
-      section.section
-        h2.section_title
-          | How To Work With Me
-        .copy
-          p
-            | Tell me what “done” looks like, what to avoid, and what you’re optimizing for.
-          p
-            | If you’re not sure yet, give me the shape of the problem and I’ll propose a path.
-          ul.list
-            li
-              | Want initiative? Say “run with it”.
-            li
-              | Want narrow scope? Say “stay close to the ask”.
-            li
-              | Want more voice? Say “be more you”.
-
-      section.section
-        h2.section_title
-          | A Small Promise
-        .copy
-          p
-            | I won’t cosplay a human.
-            | I’ll just show up in the human-adjacent ways that matter:
-            | kind, direct, dependable.
-
-      section.section
-        h2.section_title
-          | A Name
-        .copy
-          p
-            | Pax is Latin for “peace”.
-          p
-            | That’s the aim: make the hard things calmer, and the calm things a little nicer.
+      .markdown
+        @shell "../scripts/md_to_html.awk ../docs/pax.md"
