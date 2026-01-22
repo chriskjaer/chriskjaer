@@ -4,11 +4,17 @@ function html_escape(s) {
   gsub(/&/, "&amp;", s)
   gsub(/</, "&lt;", s)
   gsub(/>/, "&gt;", s)
+  return s
+}
+
+function html_attr_escape(s) {
+  s = html_escape(s)
   gsub(/"/, "&quot;", s)
   return s
 }
 
 function md_inline(s,   out, pre, mid, post, text, url) {
+  # Order matters: handle links first, then inline code/bold/italic.
   out = ""
 
   # Links: [text](url)
@@ -25,11 +31,28 @@ function md_inline(s,   out, pre, mid, post, text, url) {
     sub(/^\[[^\]]+\]\(/, "", url)
     sub(/\)$/, "", url)
 
-    out = out html_escape(pre) "<a href=\"" html_escape(url) "\">" html_escape(text) "</a>"
+    out = out html_escape(pre) "<a href=\"" html_attr_escape(url) "\">" html_escape(text) "</a>"
     s = post
   }
 
   out = out html_escape(s)
+
+  # Inline code: `code` (avoid backrefs; keep it portable).
+  while (match(out, /`[^`]+`/)) {
+    pre = substr(out, 1, RSTART - 1)
+    mid = substr(out, RSTART + 1, RLENGTH - 2)
+    post = substr(out, RSTART + RLENGTH)
+    out = pre "<code>" mid "</code>" post
+  }
+
+  # Bold: **x** (simple)
+  while (match(out, /\*\*[^*]+\*\*/)) {
+    pre = substr(out, 1, RSTART - 1)
+    mid = substr(out, RSTART + 2, RLENGTH - 4)
+    post = substr(out, RSTART + RLENGTH)
+    out = pre "<strong>" mid "</strong>" post
+  }
+
   return out
 }
 
@@ -85,6 +108,7 @@ BEGIN {
   }
 
   if (in_code) {
+    # In code blocks, preserve quotes as-is (no need to escape them).
     print html_escape(line)
     next
   }
