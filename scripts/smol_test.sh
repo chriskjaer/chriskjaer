@@ -239,3 +239,31 @@ if grep -q "<h2 class=section_title>Read <h3" /tmp/smol_directive_test.html; the
   exit 1
 fi
 rm -f /tmp/smol_directive_test.smol /tmp/smol_directive_test.data /tmp/smol_directive_test.html
+
+# regression: `@for` output must stay nested under parent tags
+cat >/tmp/smol_for_nesting_test.smol <<'SMOL'
+:body
+  ul
+    @data /tmp/smol_for_nesting_test.data as rows
+    @for rows as r
+      li
+        | #{r.value}
+SMOL
+cat >/tmp/smol_for_nesting_test.data <<'DATA'
+a
+b
+DATA
+awk -f "$compiler" /tmp/smol_for_nesting_test.smol >/tmp/smol_for_nesting_test.html
+has_nested=$(awk '
+  BEGIN{in_ul=0; ok=0}
+  /<ul>/{in_ul=1; next}
+  in_ul && /<li>/{ok=1; exit}
+  in_ul && /<\/ul>/{exit}
+  END{print ok}
+' /tmp/smol_for_nesting_test.html)
+if [ "$has_nested" != "1" ]; then
+  echo "for nesting regression" >&2
+  cat /tmp/smol_for_nesting_test.html >&2
+  exit 1
+fi
+rm -f /tmp/smol_for_nesting_test.smol /tmp/smol_for_nesting_test.data /tmp/smol_for_nesting_test.html
