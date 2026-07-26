@@ -353,3 +353,21 @@ if grep -q "<ul>[[:space:]]*</ul>[[:space:]]*<li" /tmp/smol_for_nested_test.html
   exit 1
 fi
 rm -f /tmp/smol_for_nested_test.smol /tmp/smol_for_nested_years.data /tmp/smol_for_nested_items.data /tmp/smol_for_nested_test.html
+
+# regression: a nested loop at the end of an outer loop must replay before EOF
+cat >/tmp/smol_nested_eof_test.smol <<'SMOL'
+:body
+  @data /tmp/smol_nested_eof_years.data as years
+  @for years as y
+    h2 #{y.value}
+    @shell "echo '#{y.value}|Book'" as books
+    ul
+      @for books as book
+        li #{book.1}: #{book.2}
+SMOL
+cat >/tmp/smol_nested_eof_years.data <<'DATA'
+2026
+DATA
+awk -f "$compiler" /tmp/smol_nested_eof_test.smol >/tmp/smol_nested_eof_test.html
+grep -q '<li>2026: Book</li>' /tmp/smol_nested_eof_test.html
+rm -f /tmp/smol_nested_eof_test.smol /tmp/smol_nested_eof_years.data /tmp/smol_nested_eof_test.html

@@ -726,6 +726,9 @@ function for_finish(file_dir, next_line,   depth, list, alias, indent, count, i,
     for (j = 1; j <= count; j++) {
       process_line(for_lines[depth, j], file_dir)
     }
+    # A nested loop at the end of the captured block has no following line to
+    # trigger its replay, so finish it before leaving this outer iteration.
+    while (for_depth > depth) for_finish(file_dir, "")
     vars_pop()
 
     close_to(indent + 1)

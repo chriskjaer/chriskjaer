@@ -29,7 +29,7 @@ BEGIN { in_code = 0 }
 
   # If we are inside a <pre><code>...</code></pre> block, preserve whitespace.
   if (in_code) {
-    # Don’t let outer-template indentation leak into code blocks.
+    # Keep outer-template indentation out of code blocks.
     if (match(line, /^[ \t]+<\/code><\/pre>[ \t]*$/)) {
       sub(/^[ \t]+/, "", line)
     }
