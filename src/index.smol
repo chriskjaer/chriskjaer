@@ -1,7 +1,7 @@
 @layout "includes/layout.smol"
 
-@title chriskjaer
-@description Creative Developer, Software Engineer, Co-Founder of Gaest.com. ex-Airbnb. Now CTO & Co-Founder at Landfolk. I code stuff and make it pretty.
+@title Chris Kjær | Co-founder and CTO at Landfolk
+@description Co-founder and CTO at Landfolk, exploring how AI changes what ambitious teams can build.
 @viewport width=device-width, initial-scale=1
 @lang en
 @charset utf-8
@@ -12,6 +12,7 @@
   gaest_url https://techcrunch.com/2019/01/25/airbnb-acquires-denmarks-gaest-to-expand-in-bookings-for-meetings-and-offsites
   linkedin_url https://www.linkedin.com/in/chriskjaer/
   github_url https://github.com/chriskjaer
+  canonical_url https://chriskjaer.com/
 
 :body
   canvas#life.life
@@ -21,17 +22,17 @@
       .copy
         h1.name | #{name}
         p.role
-          | Creative Developer, Software Engineer.
+          | Co-founder &amp; CTO at
+          a(href="#{landfolk_url}") Landfolk,
           br.break
-          | CTO & Co-Founder of
-          a(href="#{landfolk_url}") Landfolk
+          | exploring how AI changes what ambitious teams can build.
         p.past
           | Previously: Co-Founder of
           a(href="#{gaest_url}") Gaest.com
           | , ex-Airbnb.
     .links
       a(href="#{linkedin_url}") LinkedIn
-      a(href="#{github_url}") Github
+      a(href="#{github_url}") GitHub
       a(href="/books") Books
       a(href="/pax") Pax
 

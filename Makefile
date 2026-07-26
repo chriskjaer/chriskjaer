@@ -1,11 +1,6 @@
 SHELL := /bin/sh
 
-RAW_DIR := data/raw
 BOOKS_DATA := src/data/books
-
-RSS_READ := $(RAW_DIR)/books_read.rss
-RSS_TO_READ := $(RAW_DIR)/books_to-read.rss
-RSS_CURRENT := $(RAW_DIR)/books_currently-reading.rss
 
 FORCE_DEP :=
 ifeq ($(FORCE),1)
@@ -34,27 +29,21 @@ dev:
 
 data: $(BOOKS_DATA)
 
-$(RAW_DIR):
-	@mkdir -p "$@"
-
-$(RSS_READ): scripts/fetch_books_rss.sh $(FORCE_DEP) | $(RAW_DIR)
-	@./scripts/fetch_books_rss.sh read "$@"
-
-$(RSS_TO_READ): scripts/fetch_books_rss.sh $(FORCE_DEP) | $(RAW_DIR)
-	@./scripts/fetch_books_rss.sh to-read "$@"
-
-$(RSS_CURRENT): scripts/fetch_books_rss.sh $(FORCE_DEP) | $(RAW_DIR)
-	@./scripts/fetch_books_rss.sh currently-reading "$@"
-
-$(BOOKS_DATA): scripts/lib.awk scripts/books_from_rss.awk $(RSS_READ) $(RSS_TO_READ) $(RSS_CURRENT)
+$(BOOKS_DATA): scripts/fetch_books_rows.sh scripts/goodreads_rss_to_rows.py $(FORCE_DEP)
 	@mkdir -p "$(dir $@)"
-	@tmp=$$(mktemp); \
-	trap 'rm -f "$$tmp"' INT TERM HUP EXIT; \
-	awk -v SHELF=read -v DATE_FIELD=read_at -f scripts/lib.awk -f scripts/books_from_rss.awk <"$(RSS_READ)" >>"$$tmp"; \
-	awk -v SHELF=to-read -v DATE_FIELD=created -f scripts/lib.awk -f scripts/books_from_rss.awk <"$(RSS_TO_READ)" >>"$$tmp"; \
-	awk -v SHELF=currently-reading -v DATE_FIELD=created -f scripts/lib.awk -f scripts/books_from_rss.awk <"$(RSS_CURRENT)" >>"$$tmp"; \
-	LC_ALL=C sort "$$tmp" >"$@.tmp"; \
-	mv "$@.tmp" "$@"; \
+	@set -e; \
+	generation=$$(mktemp -d "$(dir $@).books-generation.XXXXXX"); \
+	trap 'rm -rf "$$generation"' INT TERM HUP EXIT; \
+	./scripts/fetch_books_rows.sh read "$$generation/read.rows"; \
+	./scripts/fetch_books_rows.sh to-read "$$generation/to-read.rows"; \
+	./scripts/fetch_books_rows.sh currently-reading "$$generation/currently-reading.rows"; \
+	tmp="$$generation/books"; \
+	cat "$$generation/read.rows" "$$generation/to-read.rows" "$$generation/currently-reading.rows" >"$$tmp"; \
+	awk -F'|' 'NF != 6 { exit 1 }' "$$tmp" || { printf '%s\n' 'invalid generated book row' >&2; exit 1; }; \
+	grep -q '^read |' "$$tmp" || { printf '%s\n' 'missing required read shelf' >&2; exit 1; }; \
+	grep -q '^to-read |' "$$tmp" || { printf '%s\n' 'missing required to-read shelf' >&2; exit 1; }; \
+	LC_ALL=C sort -o "$$tmp" "$$tmp"; \
+	mv "$$tmp" "$@"; \
 	printf '%s\n' "wrote $@" >&2
 
 smoke: html
@@ -62,6 +51,7 @@ smoke: html
 
 test:
 	@./scripts/smol_test.sh
+	@./scripts/site_test.sh
 
 minify: html
 	@./scripts/minify.sh

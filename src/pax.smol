@@ -5,6 +5,7 @@
 @viewport width=device-width, initial-scale=1
 @lang en
 @charset utf-8
+@set canonical_url https://chriskjaer.com/pax/
 
 :head
   style

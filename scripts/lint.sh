@@ -21,7 +21,7 @@ fi
 
 if command -v shfmt >/dev/null 2>&1; then
   # shellcheck disable=SC2086
-  shfmt -i 2 -bn -ci -w $sh_files || status=$?
+  shfmt -i 2 -bn -ci -d $sh_files || status=$?
 else
   printf '%s\n' "lint: shfmt not installed; skipping (brew install shfmt | go install mvdan.cc/sh/v3/cmd/shfmt@latest)" >&2
 fi

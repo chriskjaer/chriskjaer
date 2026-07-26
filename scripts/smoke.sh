@@ -22,6 +22,24 @@ fail() {
 # Basic style marker (index should have some inlined CSS).
 grep -q "<style>" "$index" || fail "missing <style> in index.html"
 
+# Every public page should have canonical and social sharing metadata.
+for page in "$index" "$books" "$pax" "$projects_smol"; do
+  grep -q 'rel=canonical' "$page" || fail "missing canonical URL in $page"
+  grep -q 'property=og:title' "$page" || fail "missing Open Graph title in $page"
+  grep -q 'property=og:description' "$page" || fail "missing Open Graph description in $page"
+  grep -q 'property=og:url' "$page" || fail "missing Open Graph URL in $page"
+  grep -q 'name=twitter:card' "$page" || fail "missing Twitter card in $page"
+done
+
+# Static discovery and fallback files should exist and have the right content.
+[ -s "$root/public/robots.txt" ] || fail "missing public/robots.txt"
+[ -s "$root/public/sitemap.xml" ] || fail "missing public/sitemap.xml"
+[ -s "$root/public/404.html" ] || fail "missing public/404.html"
+[ -s "$root/public/_redirects" ] || fail "missing public/_redirects"
+grep -q '^User-agent:' "$root/public/robots.txt" || fail "invalid robots.txt"
+grep -q '<urlset' "$root/public/sitemap.xml" || fail "invalid sitemap.xml"
+grep -q '/favicon.ico /favicon.svg 301' "$root/public/_redirects" || fail "missing favicon redirect"
+
 # Books page should have expected headings.
 grep -Eq "<h2[^>]*>To read[[:space:]]*</h2>" "$books" || fail "books page missing 'To read' heading"
 grep -Eq "<h2[^>]*>Read[[:space:]]*</h2>" "$books" || fail "books page missing 'Read' heading"

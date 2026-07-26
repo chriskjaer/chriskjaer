@@ -13,7 +13,7 @@ fi
 
 mkdir -p "$(dirname -- "$out")"
 
-tmp=$(mktemp)
+tmp=$(mktemp "$(dirname -- "$out")/.books-json.XXXXXX")
 trap 'rm -f "$tmp"' INT TERM HUP EXIT
 
 awk -F'[[:space:]]*[|][[:space:]]*' '
