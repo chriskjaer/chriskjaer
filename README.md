@@ -106,18 +106,30 @@ indentation in text nodes is trimmed.
 The favicon is a tiny SVG at `public/favicon.svg`, wired up in the head.
 
 The background runs a tiny Game of Life in WebAssembly. Its source lives in
-`src/wasm/life.wasmol`, written in Wasmol: the deliberately tiny subset of
-WebAssembly text that this site actually needs. `scripts/wasmol.awk` compiles it
-directly to WASM using only AWK. No package manager or extra runtime is needed.
-The generated `public/life.wasm` is checked in so the page can fetch it directly.
+`src/wasm/life.wasmol`, written in Wasmol: a deliberately tiny,
+indentation-based language for this module. `scripts/wasmol_front.awk` lowers
+its `@` directives, expressions, loops, state, and array access to a small stack
+IR. `scripts/wasmol.awk` validates that IR and emits WASM. Both stages use only
+POSIX AWK, with no package manager or extra runtime. The generated
+`public/life.wasm` is checked in so the page can fetch it directly.
 
 To rebuild it:
 `make wasm` (or run `scripts/wasm_build.sh` directly).
 
-Wasmol is intentionally not general-purpose WAT. It supports the module
-features used here: named constants, memory and globals, named functions and
-parameters, locals declared inline on first assignment, exports, labeled
-blocks and loops, branches, and the small set of numeric and memory opcodes
-present in Game of Life. Indentation mirrors control flow but remains
-insignificant to the compiler. Unknown syntax fails closed instead of silently
-producing a different module.
+Wasmol is intentionally purpose-built rather than general-purpose WAT. Its
+source uses the same visual ideas as Smol: `@` introduces declarations and
+control flow, indentation owns scopes, and there are no closing braces or
+`end` markers. For example:
+
+```text
+@func seed density:f32 seed_value:i32
+  @return if width == 0 or height == 0
+  @let threshold:i32 = u32(density *f u32_range)
+  @let rng:i32 = max_u(seed_value, 1)
+  @for index in 0 .. width * height
+    @set cells[index] = rng <=u threshold
+```
+
+The backend still validates declarations, numeric ranges, operand stacks,
+types, branches, and function results. Unknown or invalid source fails closed
+instead of silently producing a different module.
