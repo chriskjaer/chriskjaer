@@ -7,7 +7,7 @@ style
     font-family: avenir next, avenir, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji"
     -webkit-font-smoothing: antialiased
   a
-    color: #b64b23
+    color: #d86738
     text-decoration: underline
   .page
     min-height: 100vh

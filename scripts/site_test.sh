@@ -237,6 +237,8 @@ if printf '%s\n' "$current_section" | grep -q '<li'; then
   exit 1
 fi
 
+grep -q '1 books · 200 pages' "$books"
+
 grep -q 'Co-founder &amp; CTO at' "$index"
 grep -q 'exploring how AI changes what ambitious teams can build.' "$index"
 grep -q '<title>Chris Kjær | Co-founder and CTO at Landfolk</title>' "$index"
