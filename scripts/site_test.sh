@@ -251,6 +251,7 @@ PATH="$tmp/bin:$PATH" FAKE_MODE=normal make -C "$root" html FORCE=1
 
 books="$root/public/books/index.html"
 index="$root/public/index.html"
+pax="$root/public/pax/index.html"
 snake="$root/public/projects/snake/index.html"
 
 current_section=$(awk '/Currently reading/{found=1} found{print} found && /<\/section>/{exit}' "$books")
@@ -272,7 +273,11 @@ grep -q 'property=og:url content=https://chriskjaer.com/books/' "$books"
 
 test -s "$snake"
 test -s "$root/public/snake.wasm"
-grep -q 'href=/projects/snake' "$index"
+if grep -q 'href=/projects/snake' "$index"; then
+  printf '%s\n' 'site test: home page should not list every project' >&2
+  exit 1
+fi
+grep -q 'href=/projects/snake/' "$pax"
 grep -q '<title>Snake — projects — chriskjaer</title>' "$snake"
 grep -q 'rel=canonical href=https://chriskjaer.com/projects/snake/' "$snake"
 grep -q 'property=og:url content=https://chriskjaer.com/projects/snake/' "$snake"
@@ -282,6 +287,14 @@ grep -q 'class="control up"' "$snake"
 grep -q '\.control\.up' "$snake"
 grep -q 'event.target.closest("button")' "$snake"
 grep -q 'prefers-reduced-motion: reduce' "$snake"
+grep -q 'devicePixelRatio' "$snake"
+grep -Eq 'const glyphs[[:space:]]*=' "$snake"
+if grep -q 'fillText(' "$snake"; then
+  printf '%s\n' 'site test: Snake LCD uses antialiased canvas text' >&2
+  exit 1
+fi
+grep -q 'env(safe-area-inset-top)' "$snake"
+grep -q 'viewport-fit=cover' "$snake"
 grep -q 'https://chriskjaer.com/projects/snake/' "$root/public/sitemap.xml"
 
 printf '%s\n' 'site test ok'

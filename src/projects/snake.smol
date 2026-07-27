@@ -2,7 +2,7 @@
 
 @title Snake — projects — chriskjaer
 @description A tiny monochrome Snake game whose deterministic core is compiled from Smol to WebAssembly.
-@viewport width=device-width, initial-scale=1
+@viewport width=device-width, initial-scale=1, viewport-fit=cover
 @lang en
 @charset utf-8
 @set canonical_url https://chriskjaer.com/projects/snake/
@@ -144,7 +144,7 @@
       overflow: auto
     .page
       justify-content: flex-start
-      padding: 3rem 1rem 5rem
+      padding: max(3rem, calc(env(safe-area-inset-top) + 1rem)) 1rem 5rem
     .project
       width: 100%
       max-width: 42rem
@@ -182,13 +182,16 @@
       border: .45rem solid #171b17
       border-radius: .35rem
       box-shadow: inset 0 0 1rem rgb(34 48 31 / .3)
+      display: flex
+      justify-content: center
       padding: .55rem
     .screen
       background: #b7c59d
       display: block
+      height: auto
       image-rendering: pixelated
+      max-width: 100%
       outline: none
-      width: 100%
       aspect-ratio: 7 / 4
       touch-action: none
     .screen:focus-visible
@@ -254,7 +257,7 @@
       padding: .75rem
     @media (max-width: 34rem)
       .page
-        padding-top: 2rem
+        padding-top: max(2rem, calc(env(safe-area-inset-top) + 1rem))
       .phone
         border-radius: 1.6rem 1.6rem 1rem 1rem
         padding: 1.2rem .85rem 1rem
@@ -302,9 +305,37 @@ script
       if (!game || !canvas || !action || !stateLabel || !scoreLabel) return;
 
       const context = canvas.getContext("2d", { alpha: false });
-      context.imageSmoothingEnabled = false;
+      const logicalWidth = 84;
+      const logicalHeight = 48;
       const width = 40;
       const height = 18;
+      const glyphs = {
+        "0": ["111", "101", "101", "101", "111"],
+        "1": ["010", "110", "010", "010", "111"],
+        "2": ["110", "001", "111", "100", "111"],
+        "3": ["110", "001", "111", "001", "110"],
+        "4": ["101", "101", "111", "001", "001"],
+        "5": ["111", "100", "110", "001", "110"],
+        "6": ["011", "100", "111", "101", "111"],
+        "7": ["111", "001", "010", "010", "010"],
+        "8": ["111", "101", "111", "101", "111"],
+        "9": ["111", "101", "111", "001", "110"],
+        A: ["010", "101", "111", "101", "101"],
+        C: ["111", "100", "100", "100", "111"],
+        D: ["110", "101", "101", "101", "110"],
+        E: ["111", "100", "110", "100", "111"],
+        G: ["111", "100", "101", "101", "111"],
+        I: ["111", "010", "010", "010", "111"],
+        L: ["100", "100", "100", "100", "111"],
+        M: ["101", "111", "111", "101", "101"],
+        N: ["101", "111", "111", "111", "101"],
+        O: ["111", "101", "101", "101", "111"],
+        P: ["110", "101", "110", "100", "100"],
+        R: ["110", "101", "110", "101", "101"],
+        S: ["111", "100", "111", "001", "111"],
+        T: ["111", "010", "010", "010", "010"],
+        V: ["101", "101", "101", "101", "010"]
+      };
       let api;
       let board;
       let timer = 0;
@@ -317,21 +348,44 @@ script
         action.textContent = ended ? "Restart" : running ? "Pause" : api ? "Start" : "Loading";
       };
 
+      const measureText = (text) => Array.from(text).reduce(
+        (total, character) => total + (character === " " ? 2 : 4),
+        -1
+      );
+
       const drawText = (text, x, y, align = "left") => {
-        context.font = "bold 5px monospace";
-        context.textAlign = align;
-        context.fillText(text, x, y);
+        let cursor = align === "center" ? x - Math.floor(measureText(text) / 2) :
+          align === "right" ? x - measureText(text) : x;
+        for (const character of text) {
+          if (character === " ") {
+            cursor += 2;
+            continue;
+          }
+          const glyph = glyphs[character];
+          if (!glyph) continue;
+          glyph.forEach((row, rowIndex) => {
+            Array.from(row).forEach((pixel, columnIndex) => {
+              if (pixel === "1") context.fillRect(cursor + columnIndex, y + rowIndex, 1, 1);
+            });
+          });
+          cursor += 4;
+        }
       };
 
       const draw = () => {
         context.fillStyle = "#b7c59d";
-        context.fillRect(0, 0, 84, 48);
+        context.fillRect(0, 0, logicalWidth, logicalHeight);
         context.fillStyle = "#273324";
-        drawText(`SCORE ${String(api ? api.score() : 0).padStart(2, "0")}`, 2, 6);
-        drawText(running ? "●" : "Ⅱ", 81, 6, "right");
+        drawText(`SCORE ${String(api ? api.score() : 0).padStart(2, "0")}`, 2, 2);
+        if (running) {
+          context.fillRect(78, 3, 3, 3);
+        } else {
+          context.fillRect(78, 2, 1, 5);
+          context.fillRect(80, 2, 1, 5);
+        }
         context.fillRect(2, 8, 80, 1);
         if (!board) {
-          drawText("LOADING", 42, 29, "center");
+          drawText("LOADING", 42, 24, "center");
           return;
         }
         for (let index = 0; index < board.length; index += 1) {
@@ -346,13 +400,29 @@ script
           }
         }
         if (!running) {
-          context.fillStyle = "#b7c59d";
-          context.fillRect(20, 21, 44, 10);
-          context.strokeStyle = "#273324";
-          context.strokeRect(20.5, 21.5, 43, 9);
           context.fillStyle = "#273324";
-          drawText(ended ? "GAME OVER" : "PRESS START", 42, 28, "center");
+          context.fillRect(18, 20, 48, 11);
+          context.fillStyle = "#b7c59d";
+          context.fillRect(19, 21, 46, 9);
+          context.fillStyle = "#273324";
+          drawText(ended ? "GAME OVER" : "PRESS START", 42, 23, "center");
         }
+      };
+
+      const resize = () => {
+        const shell = canvas.parentElement;
+        const style = getComputedStyle(shell);
+        const availableWidth = shell.clientWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight);
+        const dpr = Math.max(1, window.devicePixelRatio || 1);
+        const physicalScale = Math.max(1, Math.floor(availableWidth * dpr / logicalWidth));
+        canvas.width = logicalWidth * physicalScale;
+        canvas.height = logicalHeight * physicalScale;
+        canvas.style.width = `${canvas.width / dpr}px`;
+        canvas.style.height = `${canvas.height / dpr}px`;
+        canvas.dataset.renderScale = String(physicalScale);
+        context.setTransform(physicalScale, 0, 0, physicalScale, 0, 0);
+        context.imageSmoothingEnabled = false;
+        draw();
       };
 
       const schedule = () => {
@@ -443,7 +513,8 @@ script
         steer(Math.abs(dx) > Math.abs(dy) ? (dx > 0 ? 0 : 2) : (dy > 0 ? 1 : 3));
       });
 
-      draw();
+      resize();
+      window.addEventListener("resize", resize);
       fetch("#{snake_wasm}")
         .then((response) => {
           if (!response.ok) throw new Error(`HTTP ${response.status}`);

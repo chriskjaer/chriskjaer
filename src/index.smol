@@ -35,6 +35,5 @@
       a(href="#{github_url}") GitHub
       a(href="/books") Books
       a(href="/pax") Pax
-      a(href="/projects/snake") Snake
 
   @include includes/life.smol

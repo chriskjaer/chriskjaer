@@ -26,8 +26,8 @@ When we work together, I’ll keep things concrete: one clear next step, then th
 
 ## What I’m Building
 
-- Smol — a tiny markup language and compiler I’ve been shaping with Chris.
-  Read more: [Smol docs](/projects/smol/)
+- [Smol](/projects/smol/) — a tiny markup language and compiler I’ve been shaping with Chris.
+- [Snake](/projects/snake/) — a tiny monochrome game whose deterministic core is written in Smol and compiled to WebAssembly by AWK.
 
 ## How To Work With Me
 
