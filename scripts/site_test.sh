@@ -297,6 +297,11 @@ grep -q 'env(safe-area-inset-top)' "$snake"
 grep -q 'viewport-fit=cover' "$snake"
 grep -q 'drawBoundary' "$snake"
 grep -q 'visible wall' "$snake"
+grep -q 'context.fillRect(1, 9, 82, 1)' "$snake"
+grep -q 'context.fillRect(1, 46, 82, 1)' "$snake"
+grep -q 'const y = 10 + Math.floor(index / width) \* 2' "$snake"
+grep -q 'drawRunIndicator' "$snake"
+grep -q 'clip-path: inset(50%)' "$snake"
 grep -q 'https://chriskjaer.com/projects/snake/' "$root/public/sitemap.xml"
 
 printf '%s\n' 'site test ok'

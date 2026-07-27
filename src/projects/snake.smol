@@ -198,18 +198,17 @@
       outline: .18rem solid #d86738
       outline-offset: .65rem
     .game-status
-      color: #d8ddd1
-      display: flex
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace
-      font-size: .7rem
-      justify-content: space-between
-      margin: .8rem .15rem .55rem
-      min-height: 1rem
+      clip-path: inset(50%)
+      height: 1px
+      overflow: hidden
+      position: absolute
+      white-space: nowrap
+      width: 1px
     .controls
       display: grid
       gap: .45rem
       grid-template-columns: repeat(3, minmax(3rem, 1fr))
-      margin: 0 auto
+      margin: .8rem auto 0
       max-width: 14rem
     .control
       appearance: none
@@ -373,10 +372,16 @@ script
       };
 
       const drawBoundary = () => {
-        context.fillRect(1, 10, 82, 1);
-        context.fillRect(1, 47, 82, 1);
-        context.fillRect(1, 10, 1, 38);
-        context.fillRect(82, 10, 1, 38);
+        context.fillRect(1, 9, 82, 1);
+        context.fillRect(1, 46, 82, 1);
+        context.fillRect(1, 9, 1, 38);
+        context.fillRect(82, 9, 1, 38);
+      };
+
+      const drawRunIndicator = () => {
+        context.fillRect(78, 2, 1, 5);
+        context.fillRect(79, 3, 1, 3);
+        context.fillRect(80, 4, 1, 1);
       };
 
       const draw = () => {
@@ -385,12 +390,11 @@ script
         context.fillStyle = "#273324";
         drawText(`SCORE ${String(api ? api.score() : 0).padStart(2, "0")}`, 2, 2);
         if (running) {
-          context.fillRect(78, 3, 3, 3);
+          drawRunIndicator();
         } else {
           context.fillRect(78, 2, 1, 5);
           context.fillRect(80, 2, 1, 5);
         }
-        context.fillRect(2, 8, 80, 1);
         drawBoundary();
         if (!board) {
           drawText("LOADING", 42, 24, "center");
@@ -399,7 +403,7 @@ script
         for (let index = 0; index < board.length; index += 1) {
           if (!board[index]) continue;
           const x = 2 + (index % width) * 2;
-          const y = 11 + Math.floor(index / width) * 2;
+          const y = 10 + Math.floor(index / width) * 2;
           if (board[index] === 1) {
             context.fillRect(x, y, 2, 2);
           } else {

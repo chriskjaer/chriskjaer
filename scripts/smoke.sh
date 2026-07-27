@@ -66,6 +66,11 @@ fi
 grep -q 'env(safe-area-inset-top)' "$projects_snake" || fail "Snake page is missing safe-area spacing"
 grep -q 'viewport-fit=cover' "$projects_snake" || fail "Snake page does not expose the iPhone safe area"
 grep -q 'drawBoundary' "$projects_snake" || fail "Snake playfield is missing a visible collision boundary"
+grep -q 'context.fillRect(1, 9, 82, 1)' "$projects_snake" || fail "Snake top wall does not replace the LCD divider"
+grep -q 'context.fillRect(1, 46, 82, 1)' "$projects_snake" || fail "Snake bottom wall is not adjacent to the board"
+grep -q 'const y = 10 + Math.floor(index / width) \* 2' "$projects_snake" || fail "Snake cells are not aligned inside the visible wall"
+grep -q 'drawRunIndicator' "$projects_snake" || fail "Snake running state is missing a play indicator"
+grep -q 'clip-path: inset(50%)' "$projects_snake" || fail "Snake duplicates LCD status below the screen"
 if grep -q 'href=/projects/snake' "$index"; then
   fail "home page should not list every project"
 fi
