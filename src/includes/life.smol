@@ -1,10 +1,104 @@
+@wasm life as life_wasm
+  # Game of Life, compiled from this Smol component.
+  @vars
+    memory_pages 47
+    width_address 1048576
+    height_address 1048580
+    cells_address 1048584
+    next_cells_address 2048584
+    max_cells 1000000
+    random_multiplier 1664525
+    random_increment 1013904223
+    u32_range:f32 4294967296
+    i32_min -2147483648
+
+  @memory memory_pages
+    @state width at width_address
+    @state height at height_address
+    @array cells at cells_address
+    @array next_cells at next_cells_address
+  @export memory
+
+  @func set_size cols:i32 rows:i32 export
+    @set width = 0
+    @set height = 0
+    @return if cols == 0 or rows == 0
+
+    @let w:i32 = cols
+    @let h:i32 = rows
+    @while w * h >u max_cells
+      @let shrink_width:i32 = w >u h
+      @set h = h - (shrink_width == 0)
+      @set w = w - shrink_width
+
+    @set width = w
+    @set height = h
+    @for index in 0 .. w * h
+      @set cells[index] = 0
+      @set next_cells[index] = 0
+
+  @func ptr -> i32 export
+    @return cells_address
+
+  @func seed density:f32 seed_value:i32 export
+    @return if width == 0 or height == 0
+
+    @set density = choose(density <f 0.0, 0.0, density)
+    @set density = choose(density >f 1.0, 1.0, density)
+    @let threshold:i32 = u32(density *f u32_range)
+    @let rng:i32 = max_u(seed_value, 1)
+    @for index in 0 .. width * height
+      @set next_cells[index] = 0
+      @set rng = rng * random_multiplier + random_increment
+      @set cells[index] = rng <=u threshold
+
+  @func splat x:i32 y:i32 export
+    @return if width == 0 or height == 0
+
+    @let w:i32 = width
+    @let h:i32 = height
+    @for dy in -2 .. 3
+      @for dx in -2 .. 3
+        @let nx:i32 = wrap(x + dx, w)
+        @let ny:i32 = wrap(y + dy, h)
+        @set cells[ny * w + nx] = 1
+
+  @func step export
+    @return if width == 0 or height == 0
+
+    @let w:i32 = width
+    @let h:i32 = height
+    @for y in 0 .. h
+      @let y_up:i32 = choose(y == 0, h - 1, y - 1)
+      @let y_down:i32 = choose(y + 1 == h, 0, y + 1)
+
+      @for x in 0 .. w
+        @let x_left:i32 = choose(x == 0, w - 1, x - 1)
+        @let x_right:i32 = choose(x + 1 == w, 0, x + 1)
+        @let count:i32 = 0
+        @set count = count + cells[y_up * w + x_left]
+        @set count = count + cells[y_up * w + x]
+        @set count = count + cells[y_up * w + x_right]
+        @set count = count + cells[y * w + x_left]
+        @set count = count + cells[y * w + x_right]
+        @set count = count + cells[y_down * w + x_left]
+        @set count = count + cells[y_down * w + x]
+        @set count = count + cells[y_down * w + x_right]
+
+        @let index:i32 = y * w + x
+        @let alive:i32 = cells[index] == 1
+        @set next_cells[index] = choose(alive, count == 2 or count == 3, count == 3)
+
+    @for copy_index in 0 .. w * h
+      @set cells[copy_index] = next_cells[copy_index]
+
 script
   :raw
     (() => {
       const idle = window.requestIdleCallback || ((fn) => setTimeout(fn, 200));
 
       idle(() => {
-        fetch("/life.wasm")
+        fetch("#{life_wasm}")
           .then((res) => res.arrayBuffer())
           .then((buffer) => WebAssembly.instantiate(buffer, {}))
           .then(({ instance }) => {

@@ -82,8 +82,11 @@ This is the preferred way to keep templates “unixy”: do transforms via shell
 pipelines at build-time, and let Smol stay the layout engine.
 
 Smol philosophy:
-- Smol renders markup (tags, loops, includes).
+- Smol describes components and their build artifacts: markup by default, with
+  explicit sidecar output such as `@wasm`.
 - Unix tools shape data.
+- Output modes stay isolated: markup goes through `smol.awk`; `@wasm` bodies go
+  through the small validated WASM frontend and backend.
 - If a template needs a capability Smol doesn’t have, extend/fix `scripts/smol.awk`
   and add a regression test in `scripts/smol_test.sh` rather than injecting HTML strings.
 
@@ -105,31 +108,55 @@ indentation in text nodes is trimmed.
 
 The favicon is a tiny SVG at `public/favicon.svg`, wired up in the head.
 
-The background runs a tiny Game of Life in WebAssembly. Its source lives in
-`src/wasm/life.wasmol`, written in Wasmol: a deliberately tiny,
-indentation-based language for this module. `scripts/wasmol_front.awk` lowers
-its `@` directives, expressions, loops, state, and array access to a small stack
-IR. `scripts/wasmol.awk` validates that IR and emits WASM. Both stages use only
-POSIX AWK, with no package manager or extra runtime. The generated
-`public/life.wasm` is checked in so the page can fetch it directly.
+The background runs a tiny Game of Life in WebAssembly. Its markup, loader, and
+module source live together in `src/includes/life.smol`:
 
-To rebuild it:
-`make wasm` (or run `scripts/wasm_build.sh` directly).
+```smol
+@wasm life as life_wasm
+  @vars
+    memory_pages 47
+    cells_address 1048584
 
-Wasmol is intentionally purpose-built rather than general-purpose WAT. Its
-source uses the same visual ideas as Smol: `@` introduces declarations and
-control flow, indentation owns scopes, and there are no closing braces or
-`end` markers. For example:
+  @memory memory_pages
+    @state width at width_address
+    @array cells at cells_address
 
-```text
-@func seed density:f32 seed_value:i32
-  @return if width == 0 or height == 0
-  @let threshold:i32 = u32(density *f u32_range)
-  @let rng:i32 = max_u(seed_value, 1)
-  @for index in 0 .. width * height
-    @set cells[index] = rng <=u threshold
+  @export memory
+
+  @func ptr -> i32 export
+    @return cells_address
+
+script
+  :raw
+    fetch("#{life_wasm}")
 ```
 
-The backend still validates declarations, numeric ranges, operand stacks,
-types, branches, and function results. Unknown or invalid source fails closed
-instead of silently producing a different module.
+`@wasm name as binding` declares a named sidecar module. The block is removed
+from HTML, `binding` becomes `/<name>.wasm`, and the build writes
+`public/<name>.wasm`. Modules may live in any rendered `.smol` file, but names
+must be safe identifiers and each name must have one source declaration. A
+shared component may be rendered by several entrypoints. Modules cannot be
+declared or indirectly included inside template `@for` or `@if` blocks.
+
+Inside `@wasm`:
+- `@vars` groups constants.
+- `@memory` owns nested `@state` and `@array` declarations.
+- `@export memory` exports linear memory.
+- Add `export` to a function declaration to export it next to its definition.
+- `@let`, `@set`, `@for`, `@while`, `@return`, and infix expressions form the
+  deliberately small executable subset.
+
+`scripts/smol.awk` extracts and dedents the module. Then
+`scripts/wasmol_front.awk` lowers it to a small stack IR, and
+`scripts/wasmol.awk` validates that IR and emits WASM. All stages use POSIX AWK
+and ordinary shell tools. No package manager, JavaScript build tool, WAT
+compiler, or extra runtime is needed.
+
+To rebuild every embedded module:
+`make wasm` (or run `scripts/wasm_build.sh` directly).
+
+The backend validates declarations, numeric ranges, operand stacks, types,
+branches, and function results. Module builds are staged, invalid source fails
+closed without replacing the previous artifact, and artifacts whose declaration
+was removed are deleted after a successful build. The generated
+`public/life.wasm` is checked in so the browser can fetch it directly.

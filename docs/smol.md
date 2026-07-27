@@ -9,7 +9,10 @@ This doc is written from the inside: how I (Pax) think about Smol, why it’s sh
 
 ## Philosophy
 
-Smol has one job: **render markup**.
+Smol has one job: **describe a small component clearly**.
+
+Most blocks render markup. An explicit output block such as `@wasm` may also
+compile a sidecar artifact owned by that component.
 
 Unix tools have a different job: **shape data**.
 
@@ -256,13 +259,168 @@ style
       opacity: .9
 ```
 
+## WebAssembly Sidecars
+
+A component can own a small WebAssembly module alongside its markup and
+browser code:
+
+```smol
+@wasm counter as counter_wasm
+  @vars
+    memory_pages 1
+    value_address 0
+
+  @memory memory_pages
+    @state value at value_address
+
+  @export memory
+
+  @func increment amount:i32 export
+    @set value = value + amount
+
+  @func current -> i32 export
+    @return value
+
+script
+  :raw
+    const response = await fetch("#{counter_wasm}");
+    const { instance } = await WebAssembly.instantiate(
+      await response.arrayBuffer(),
+      {}
+    );
+```
+
+The header is always:
+
+```smol
+@wasm module_name as binding_name
+```
+
+It means:
+
+- The indented body is module source, not HTML.
+- `binding_name` becomes `/<module_name>.wasm` for later interpolation.
+- The build writes `public/<module_name>.wasm`.
+- The module may live in any rendered `.smol` page or include.
+- Module names and bindings must be identifiers: letters, numbers, and
+  underscores, not paths.
+- Every module name must have one source declaration. The component containing
+  it may be included by several entrypoints; that reuses the same module.
+- A module cannot be declared or included inside template `@for` or `@if`
+  blocks. Module discovery never depends on data or conditional rendering.
+
+Blank lines are optional. Two spaces own each scope, just like ordinary Smol.
+Do not interpolate template variables inside the module body; use module
+`@vars` instead.
+
+### Module declarations
+
+Declarations come before the first function:
+
+```smol
+@wasm example as example_wasm
+  @vars
+    memory_pages 1
+    count_address 0
+    values_address 4
+    scale:f32 1
+
+  @memory memory_pages
+    @state count at count_address
+    @array values at values_address
+
+  @export memory
+```
+
+- `@vars` contains integer constants by default. Add `:f32` for a float
+  constant.
+- `@memory pages` declares one linear memory.
+- `@state name at address_constant` declares a named 32-bit state value.
+- `@array name at address_constant` declares a named byte array.
+- `@export memory` exports the module memory.
+
+The memory block may only contain `@state` and `@array`. Constants, memory,
+state, arrays, exports, and functions share one module namespace. Parameters
+and locals may not shadow module names.
+
+### Functions and exports
+
+```smol
+@func helper value:i32 -> i32
+  @return value + 1
+
+@func public_value value:i32 -> i32 export
+  @return value + 1
+```
+
+Parameters are written as `name:i32` or `name:f32`. Add `-> i32` or `-> f32`
+for a result. Add `export` at the end to make the function public. Functions
+without `export` stay private.
+
+Supported statements:
+
+```smol
+@let total:i32 = 0
+@set total = total + 1
+@set state_name = total
+@set bytes[index] = 1
+@return total
+@return if total == 0
+@for index in 0 .. count
+  @set total = total + bytes[index]
+@while total <u limit
+  @set total = total + 1
+```
+
+`@for` is an ascending, signed, half-open range. `-2 .. 3` visits five values;
+`2 .. 0` visits none. `@return` is a real early return.
+
+Expressions support parentheses and these operators:
+
+- Boolean: `or`, `and`
+- Equality: `==`, `!=`
+- Unsigned integers: `<u`, `>u`, `<=u`
+- Floats: `<f`, `>f`, `*f`
+- Integers: `+`, `-`, `*`, `%s`, `>>s`
+
+Available helpers are deliberately few:
+
+- `u32(float)` converts a float with saturating unsigned semantics.
+- `max_u(a, b)` chooses the unsigned maximum.
+- `choose(condition, yes, no)` selects without branching.
+- `wrap(value, size)` wraps a signed coordinate into a positive range.
+
+This is intentionally not general WAT. Extend the subset only when a real
+module needs a feature, and add frontend, backend, and runtime regression tests
+with it.
+
+### Compilation and failure behavior
+
+The pipeline remains split internally:
+
+```text
+.smol component
+  -> scripts/smol.awk extracts @wasm
+  -> scripts/wasmol_front.awk lowers expressions and scopes
+  -> scripts/wasmol.awk validates stack/types and emits bytes
+  -> public/<name>.wasm
+```
+
+Run `make wasm` to rebuild embedded modules, or `make test` for all compiler
+regressions. The build stages every module before publishing any of them. A bad
+module returns non-zero and preserves the previous checked-in artifact. After a
+successful build, public `.wasm` files without a current Smol declaration are
+removed, so renaming or deleting a module cannot leave a deployable ghost.
+
 ## Where Things Live
 
-- Compiler: `scripts/smol.awk`
-- Tests: `scripts/smol_test.sh`
-- Templates: `src/*.smol`
-- Partials: `src/includes/*.smol`
-- Built output: `public/` (generated)
+- Markup/sidecar dispatcher: `scripts/smol.awk`
+- WASM lowering: `scripts/wasmol_front.awk`
+- Validated WASM byte emitter: `scripts/wasmol.awk`
+- Tests: `scripts/smol_test.sh` and `scripts/wasm_test.sh`
+- Templates and embedded modules: `src/**/*.smol`
+- Partials/components: `src/includes/*.smol`
+- Built HTML and WASM: `public/` (generated)
 
 ## Extending Smol
 

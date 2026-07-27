@@ -371,3 +371,164 @@ DATA
 awk -f "$compiler" /tmp/smol_nested_eof_test.smol >/tmp/smol_nested_eof_test.html
 grep -q '<li>2026: Book</li>' /tmp/smol_nested_eof_test.html
 rm -f /tmp/smol_nested_eof_test.smol /tmp/smol_nested_eof_years.data /tmp/smol_nested_eof_test.html
+
+# `@wasm` is a sidecar block: it binds the public URL, disappears from HTML,
+# and writes one dedented Smol/WASM source file for the binary backend.
+tmp_wasm_dir=$(mktemp -d)
+tmp_wasm_in=$(mktemp)
+tmp_wasm_out=$(mktemp)
+cat >"$tmp_wasm_in" <<'SMOL'
+@wasm demo as demo_wasm
+  @vars
+    pages 1
+    answer_address 0
+  @memory pages
+    @state answer at answer_address
+  @export memory
+  @func value -> i32 export
+    @return 7
+
+:body
+  p | #{demo_wasm}
+SMOL
+
+if awk -f "$compiler" "$tmp_wasm_in" >"$tmp_wasm_out" 2>/dev/null; then
+  printf '%s\n' 'smol test: @wasm unexpectedly compiled without a sidecar directory' >&2
+  exit 1
+fi
+
+awk -v wasm_source_dir="$tmp_wasm_dir" -f "$compiler" "$tmp_wasm_in" >"$tmp_wasm_out"
+grep -q '<p>/demo.wasm</p>' "$tmp_wasm_out"
+if grep -q '@wasm\|@func\|@return' "$tmp_wasm_out"; then
+  printf '%s\n' 'smol test: @wasm source leaked into HTML' >&2
+  exit 1
+fi
+cat >"$tmp_wasm_dir/expected" <<'WASMOL'
+@vars
+  pages 1
+  answer_address 0
+@memory pages
+  @state answer at answer_address
+@export memory
+@func value -> i32 export
+  @return 7
+WASMOL
+diff -u "$tmp_wasm_dir/expected" "$tmp_wasm_dir/demo.wasmol"
+rm -rf "$tmp_wasm_dir" "$tmp_wasm_in" "$tmp_wasm_out"
+
+# Module declarations are static. An empty data loop must not hide one from the
+# compiler and make source validity depend on runtime data.
+tmp_wasm_loop_dir=$(mktemp -d)
+tmp_wasm_loop_in=$(mktemp)
+tmp_wasm_loop_out=$(mktemp)
+tmp_wasm_empty=$(mktemp)
+cat >"$tmp_wasm_loop_in" <<SMOL
+@data "$tmp_wasm_empty" as rows
+:body
+  @for rows as row
+    @wasm hidden as hidden_wasm
+      @func value -> i32 export
+        @return 1
+SMOL
+if awk -v wasm_source_dir="$tmp_wasm_loop_dir" -f "$compiler" "$tmp_wasm_loop_in" >"$tmp_wasm_loop_out" 2>/dev/null; then
+  printf '%s\n' 'smol test: empty @for silently hid an @wasm module' >&2
+  exit 1
+fi
+if [ -e "$tmp_wasm_loop_dir/hidden.wasmol" ]; then
+  printf '%s\n' 'smol test: forbidden loop module left a sidecar source' >&2
+  exit 1
+fi
+rm -rf "$tmp_wasm_loop_dir" "$tmp_wasm_loop_in" "$tmp_wasm_loop_out" "$tmp_wasm_empty"
+
+for condition in yes no; do
+  tmp_wasm_if_dir=$(mktemp -d)
+  tmp_wasm_if_in=$(mktemp)
+  tmp_wasm_if_out=$(mktemp)
+  cat >"$tmp_wasm_if_in" <<SMOL
+@set enabled yes
+:body
+  @if enabled == "$condition"
+    @wasm conditional as conditional_wasm
+      @func value -> i32 export
+        @return 1
+SMOL
+  if awk -v wasm_source_dir="$tmp_wasm_if_dir" -f "$compiler" "$tmp_wasm_if_in" >"$tmp_wasm_if_out" 2>/dev/null; then
+    printf 'smol test: @if %s silently accepted an @wasm module\n' "$condition" >&2
+    exit 1
+  fi
+  rm -rf "$tmp_wasm_if_dir" "$tmp_wasm_if_in" "$tmp_wasm_if_out"
+done
+
+# A static module may follow a false conditional at the same template indent.
+tmp_wasm_after_if_dir=$(mktemp -d)
+tmp_wasm_after_if_in=$(mktemp)
+tmp_wasm_after_if_out=$(mktemp)
+cat >"$tmp_wasm_after_if_in" <<'SMOL'
+@set enabled no
+:body
+  @if enabled == yes
+    p | hidden
+  @wasm sibling as sibling_wasm
+    @func value -> i32 export
+      @return 1
+  p | #{sibling_wasm}
+SMOL
+awk -v wasm_source_dir="$tmp_wasm_after_if_dir" -f "$compiler" "$tmp_wasm_after_if_in" >"$tmp_wasm_after_if_out"
+[ -f "$tmp_wasm_after_if_dir/sibling.wasmol" ]
+grep -q '<p>/sibling.wasm</p>' "$tmp_wasm_after_if_out"
+rm -rf "$tmp_wasm_after_if_dir" "$tmp_wasm_after_if_in" "$tmp_wasm_after_if_out"
+
+# Dynamic template blocks may not hide a module indirectly through an include.
+tmp_wasm_hidden_dir=$(mktemp -d)
+tmp_wasm_hidden_component=$(mktemp)
+tmp_wasm_hidden_rows=$(mktemp)
+cat >"$tmp_wasm_hidden_component" <<'SMOL'
+@wasm indirect as indirect_wasm
+  @func value -> i32 export
+    @return 1
+SMOL
+for control in for if; do
+  tmp_wasm_hidden_in=$(mktemp)
+  tmp_wasm_hidden_out=$(mktemp)
+  if [ "$control" = for ]; then
+    cat >"$tmp_wasm_hidden_in" <<SMOL
+@data "$tmp_wasm_hidden_rows" as rows
+:body
+  @for rows as row
+    @include "$tmp_wasm_hidden_component"
+SMOL
+  else
+    cat >"$tmp_wasm_hidden_in" <<SMOL
+@set enabled no
+:body
+  @if enabled == yes
+    @include "$tmp_wasm_hidden_component"
+SMOL
+  fi
+  if awk -v wasm_source_dir="$tmp_wasm_hidden_dir" -f "$compiler" "$tmp_wasm_hidden_in" >"$tmp_wasm_hidden_out" 2>/dev/null; then
+    printf 'smol test: empty %s silently hid an included @wasm module\n' "$control" >&2
+    exit 1
+  fi
+  rm -f "$tmp_wasm_hidden_in" "$tmp_wasm_hidden_out"
+done
+rm -rf "$tmp_wasm_hidden_dir" "$tmp_wasm_hidden_component" "$tmp_wasm_hidden_rows"
+
+# Reusing one declaration compares its body, not just its source line, and
+# lexical aliases such as `/./` still identify the same source declaration.
+tmp_wasm_reuse_root=$(mktemp -d)
+mkdir -p "$tmp_wasm_reuse_root/sources"
+cat >"$tmp_wasm_reuse_root/shared.smol" <<'SMOL'
+@wasm shared as shared_wasm
+  @func value -> i32 export
+    @return 1
+SMOL
+awk -v wasm_source_dir="$tmp_wasm_reuse_root/sources" -f "$compiler" "$tmp_wasm_reuse_root/shared.smol" >/dev/null
+awk -v wasm_source_dir="$tmp_wasm_reuse_root/sources" -f "$compiler" "$tmp_wasm_reuse_root/./shared.smol" >/dev/null
+sed 's/@return 1/@return 2/' "$tmp_wasm_reuse_root/shared.smol" >"$tmp_wasm_reuse_root/shared.changed"
+mv "$tmp_wasm_reuse_root/shared.changed" "$tmp_wasm_reuse_root/shared.smol"
+if awk -v wasm_source_dir="$tmp_wasm_reuse_root/sources" -f "$compiler" "$tmp_wasm_reuse_root/shared.smol" >/dev/null 2>&1; then
+  printf '%s\n' 'smol test: changed reused module source was silently accepted' >&2
+  exit 1
+fi
+grep -q '^  @return 1$' "$tmp_wasm_reuse_root/sources/shared.wasmol"
+rm -rf "$tmp_wasm_reuse_root"

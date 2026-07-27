@@ -1,7 +1,7 @@
 #!/usr/bin/awk -f
 
-# Wasmol: a deliberately tiny WebAssembly compiler.
-# It implements only the declarations and opcodes used by src/wasm/life.wasmol.
+# Backend for Smol's deliberately tiny `@wasm` blocks.
+# It implements only the declarations and opcodes used by embedded @wasm blocks.
 
 function fatal(message) {
   print FILENAME ":" FNR ": " message | "cat 1>&2"

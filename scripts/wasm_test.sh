@@ -7,38 +7,75 @@ trap 'rm -rf "$tmp"' INT TERM HUP EXIT
 
 candidate="$tmp/life.wasm"
 ir="$tmp/life.ir.wasmol"
-LC_ALL=C awk -f "$root/scripts/wasmol_front.awk" "$root/src/wasm/life.wasmol" >"$ir"
+sources="$tmp/sources"
+mkdir -p "$sources"
+LC_ALL=C awk -v wasm_source_dir="$sources" -f "$root/scripts/smol.awk" "$root/src/index.smol" >"$tmp/index.html"
+LC_ALL=C awk -f "$root/scripts/wasmol_front.awk" "$sources/life.wasmol" >"$ir"
 LC_ALL=C awk -f "$root/scripts/wasmol.awk" "$ir" >"$candidate"
 
 if ! cmp -s "$candidate" "$root/public/life.wasm"; then
-  printf '%s\n' 'wasm test: Wasmol output differs from committed life.wasm' >&2
+  printf '%s\n' 'wasm test: embedded module differs from committed life.wasm' >&2
   exit 1
 fi
 
-# Exercise the real build wrapper from a clean minimal tree.
-mkdir -p "$tmp/repo/scripts" "$tmp/repo/src/wasm" "$tmp/repo/public"
-cp "$root/scripts/wasmol_front.awk" "$root/scripts/wasmol.awk" "$root/scripts/wasm_build.sh" "$tmp/repo/scripts/"
-cp "$root/src/wasm/life.wasmol" "$tmp/repo/src/wasm/"
-"$tmp/repo/scripts/wasm_build.sh" >/dev/null
+# Exercise the real embedded-module build wrapper from a clean tree.
+mkdir -p "$tmp/repo/scripts" "$tmp/repo/public"
+cp "$root/scripts/smol.awk" "$root/scripts/wasmol_front.awk" "$root/scripts/wasmol.awk" "$root/scripts/wasm_build.sh" "$tmp/repo/scripts/"
+cp -R "$root/src" "$tmp/repo/src"
+"$tmp/repo/scripts/wasm_build.sh" "$tmp/repo/src/index.smol" >/dev/null
 cmp -s "$tmp/repo/public/life.wasm" "$root/public/life.wasm" || {
   printf '%s\n' 'wasm test: clean wrapper build differs from committed life.wasm' >&2
   exit 1
 }
 
-# A failure while creating the second temporary file must clean up the first.
-real_mktemp=$(command -v mktemp)
-mkdir -p "$tmp/fake-bin"
-# The quoted variables belong to the generated script, not this test process.
-# shellcheck disable=SC2016
-printf '%s\n' '#!/bin/sh' 'if [ ! -f "$WASM_MKTEMP_STATE" ]; then' '  : >"$WASM_MKTEMP_STATE"' '  exec "$REAL_MKTEMP" "$@"' 'fi' 'exit 42' >"$tmp/fake-bin/mktemp"
-chmod 755 "$tmp/fake-bin/mktemp"
-if PATH="$tmp/fake-bin:$PATH" REAL_MKTEMP="$real_mktemp" WASM_MKTEMP_STATE="$tmp/mktemp-state" "$tmp/repo/scripts/wasm_build.sh" >/dev/null 2>&1; then
-  printf '%s\n' 'wasm test: second mktemp failure unexpectedly succeeded' >&2
+# A component may own one module and be rendered by multiple entrypoints. The
+# same source declaration is reused, while distinct modules still build once.
+cat >"$tmp/repo/src/shared.smol" <<'SMOL'
+@wasm shared as shared_wasm
+  @func value -> i32 export
+    @return 1
+p | #{shared_wasm}
+SMOL
+cat >"$tmp/repo/src/entry-one.smol" <<'SMOL'
+:body
+  @include shared.smol
+SMOL
+cat >"$tmp/repo/src/entry-two.smol" <<'SMOL'
+@wasm second as second_wasm
+  @func value -> i32 export
+    @return 2
+:body
+  @include shared.smol
+  p | #{second_wasm}
+SMOL
+printf '%s\n' 'stale' >"$tmp/repo/public/obsolete.wasm"
+"$tmp/repo/scripts/wasm_build.sh" "$tmp/repo/src/entry-one.smol" "$tmp/repo/src/entry-two.smol" >/dev/null
+for module in shared second; do
+  [ -f "$tmp/repo/public/$module.wasm" ] || {
+    printf 'wasm test: missing module from multiple entrypoints: %s\n' "$module" >&2
+    exit 1
+  }
+done
+if [ -e "$tmp/repo/public/obsolete.wasm" ]; then
+  printf '%s\n' 'wasm test: stale embedded module survived rebuild' >&2
   exit 1
 fi
-for leaked in "$tmp/repo/public"/.life.wasm.*; do
+
+# A compiler failure must preserve the previous artifact and clean its stage.
+printf '%s\n' 'known-good' >"$tmp/repo/public/life.wasm"
+sed 's/@return cells_address/@return missing_value/' "$tmp/repo/src/includes/life.smol" >"$tmp/repo/src/includes/life.smol.bad"
+mv "$tmp/repo/src/includes/life.smol.bad" "$tmp/repo/src/includes/life.smol"
+if "$tmp/repo/scripts/wasm_build.sh" "$tmp/repo/src/index.smol" >/dev/null 2>&1; then
+  printf '%s\n' 'wasm test: invalid embedded module unexpectedly built' >&2
+  exit 1
+fi
+grep -q '^known-good$' "$tmp/repo/public/life.wasm" || {
+  printf '%s\n' 'wasm test: failed build replaced the previous artifact' >&2
+  exit 1
+}
+for leaked in "$tmp/repo/public"/.wasm-build.*; do
   if [ -e "$leaked" ]; then
-    printf '%s\n' 'wasm test: build leaked temporary output after mktemp failure' >&2
+    printf '%s\n' 'wasm test: failed build leaked its staging directory' >&2
     exit 1
   fi
 done
@@ -120,6 +157,21 @@ expect_front_fail cross-kind-duplicate '@const address 0' '@state value at addre
 expect_front_fail late-parameter-shadow '@func nope value:i32' '  @return' '@const value 7'
 expect_front_fail late-local-shadow '@func nope' '  @let value:i32 = 0' '@const value 7'
 expect_front_fail late-loop-shadow '@func nope' '  @for value in 0 .. 1' '    @return' '@const value 7'
+
+# Smol-shaped module declarations group constants, nest memory layout, and keep
+# exports next to function definitions.
+printf '%s\n' \
+  '@vars' \
+  '  pages 1' \
+  '  answer_address 0' \
+  '@memory pages' \
+  '  @state answer at answer_address' \
+  '@export memory' \
+  '@func value -> i32 export' \
+  '  @return 7' >"$tmp/smol-shaped.wasmol"
+LC_ALL=C awk -f "$root/scripts/wasmol_front.awk" "$tmp/smol-shaped.wasmol" >"$tmp/smol-shaped.ir"
+LC_ALL=C awk -f "$root/scripts/wasmol.awk" "$tmp/smol-shaped.ir" >"$tmp/smol-shaped.wasm"
+grep -q '^export func value$' "$tmp/smol-shaped.ir"
 
 # Value returns must stop execution, and ascending half-open ranges must safely
 # reject descending bounds instead of wrapping around the whole i32 space.

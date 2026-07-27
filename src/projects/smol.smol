@@ -1,7 +1,7 @@
 @layout "../includes/layout.smol"
 
 @title smol — projects — chriskjaer
-@description Smol is a tiny indentation-based markup language compiled to HTML.
+@description Smol is a tiny indentation-based language for HTML and small WebAssembly sidecars.
 @viewport width=device-width, initial-scale=1
 @lang en
 @charset utf-8

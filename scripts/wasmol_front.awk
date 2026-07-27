@@ -1,6 +1,6 @@
 #!/usr/bin/awk -f
 
-# High-level, indentation-based Wasmol frontend.
+# High-level frontend for indentation-based Smol `@wasm` blocks.
 # Lowers @ directives and expressions into the validated stack IR consumed by
 # scripts/wasmol.awk.
 
@@ -298,11 +298,16 @@ function close_scopes(indent) {
   while (scope_depth > 0 && indent <= scope_indent[scope_depth]) close_one_scope()
 }
 
-function start_function(text, indent,   name, result, pieces, count, i, parameter) {
+function start_function(text, indent,   name, result, pieces, count, i, parameter, exported) {
   if (indent != 0) fatal("functions must be top-level")
   current_function = text
   sub(/^@func[ \t]+/, "", current_function)
   if (current_function == "") fatal("missing function declaration")
+  exported = 0
+  if (current_function ~ /[ \t]+export$/) {
+    sub(/[ \t]+export$/, "", current_function)
+    exported = 1
+  }
 
   current_result = ""
   for (parameter in frontend_local) delete frontend_local[parameter]
@@ -320,6 +325,7 @@ function start_function(text, indent,   name, result, pieces, count, i, paramete
     if (parameter in frontend_local) fatal("duplicate parameter " parameter)
     frontend_local[parameter] = 1
   }
+  if (exported) emit("export func " pieces[1])
   emit("func " current_function)
 
   current_return_label = ""
@@ -393,6 +399,8 @@ function handle_directive(text, indent,   rest, name, value, count, fields, expr
     if (rest == "") fatal("invalid @memory")
     register_module_name("memory", "memory")
     emit("memory memory " rest)
+    memory_block = 1
+    memory_block_indent = indent
   } else if (text ~ /^@state[ \t]+/) {
     rest = text
     sub(/^@state[ \t]+/, "", rest)
@@ -473,6 +481,31 @@ BEGIN {
   if (indent % 2 != 0) fatal("indentation must use two-space steps")
   text = trim(raw)
   if (text ~ /^#/) next
+
+  if (constant_block) {
+    if (indent <= constant_block_indent) {
+      constant_block = 0
+    } else {
+      if (indent != constant_block_indent + 2) fatal("@vars entries use one indentation step")
+      text = "@const " text
+      indent = 0
+    }
+  }
+  if (!constant_block && text == "@vars") {
+    if (indent != 0 || functions_started) fatal("@vars must precede functions at top level")
+    constant_block = 1
+    constant_block_indent = indent
+    next
+  }
+
+  if (memory_block) {
+    if (indent <= memory_block_indent) {
+      memory_block = 0
+    } else {
+      if (indent != memory_block_indent + 2 || text !~ /^@(state|array)[ \t]+/) fatal("@memory may only contain @state and @array")
+      indent = 0
+    }
+  }
 
   close_scopes(indent)
   top_level = (text ~ /^@(const|memory|state|array|export|func)([ \t]|$)/)
