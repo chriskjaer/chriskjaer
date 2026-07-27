@@ -59,6 +59,10 @@ grep -Eq "<h1[^>]*>Snake[[:space:]]*</h1>" "$projects_snake" || fail "projects s
 grep -q 'id=snake-screen' "$projects_snake" || fail "projects snake page missing game canvas"
 grep -q 'href=/projects/snake' "$index" || fail "home page missing Snake link"
 
+# Snake game controls and canvas expose explicit accessible roles after minify.
+grep -Eq '<canvas[^>]*role=img[^>]*aria-label=' "$projects_snake" || fail "Snake canvas missing accessible image role"
+grep -Eq '<div[^>]*(class=controls[^>]*role=group|role=group[^>]*class=controls)' "$projects_snake" || fail "Snake controls missing accessible group role"
+
 # If we have to-read rows, ensure the 'To read' section contains at least one <li>.
 if [ -s "$data" ] && grep -q '^to-read |' "$data"; then
   has_li=$(awk '

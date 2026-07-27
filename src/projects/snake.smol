@@ -277,11 +277,11 @@
       section.phone#snake-game(tabindex="-1" aria-label="Snake game")
         .speaker
         .lcd-shell
-          canvas.screen#snake-screen(width="84" height="48" tabindex="0" aria-label="Snake board. Focus here and use arrow keys or WASD to steer.")
+          canvas.screen#snake-screen(width="84" height="48" tabindex="0" role="img" aria-label="Snake board. Focus here and use arrow keys or WASD to steer.")
         .game-status(aria-live="polite")
           span#snake-state | Ready
           span#snake-score | Score 00
-        .controls(aria-label="Snake controls")
+        .controls(role="group" aria-label="Snake controls")
           button.control.up(type="button" data-dir="3" aria-label="Up") ↑
           button.control.left(type="button" data-dir="2" aria-label="Left") ←
           button.control.action#snake-action(type="button") Start
