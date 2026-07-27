@@ -12,6 +12,7 @@
 ## Runtime constraint (important)
 - Do not add implementation languages or runtime/build dependencies.
 - The site must build in a normal shell with the existing shell, `awk`, and standard Unix tools. This portability is a core reason the repo exists, even when another language would make a task easier.
+- Game of Life is written in `src/wasm/life.wasmol`. Extend its deliberately small AWK compiler only when the source needs another WebAssembly feature; do not replace it with Zig, JavaScript, or a general WASM toolchain.
 
 ## Hygiene
 - Avoid raw `@...` in PR/commit messages; wrap in backticks or escape (e.g. ``\@for``).
