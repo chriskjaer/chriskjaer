@@ -62,6 +62,8 @@ grep -q 'href=/projects/snake' "$index" || fail "home page missing Snake link"
 # Snake game controls and canvas expose explicit accessible roles after minify.
 grep -Eq '<canvas[^>]*role=img[^>]*aria-label=' "$projects_snake" || fail "Snake canvas missing accessible image role"
 grep -Eq '<div[^>]*(class=controls[^>]*role=group|role=group[^>]*class=controls)' "$projects_snake" || fail "Snake controls missing accessible group role"
+grep -q 'Math.floor((available \* dpr) / 84)' "$projects_snake" || fail "Snake LCD missing integer-scale sizing"
+grep -q 'shellStyle.paddingLeft' "$projects_snake" || fail "Snake LCD sizing includes shell padding"
 
 # If we have to-read rows, ensure the 'To read' section contains at least one <li>.
 if [ -s "$data" ] && grep -q '^to-read |' "$data"; then
