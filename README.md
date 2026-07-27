@@ -108,15 +108,16 @@ The favicon is a tiny SVG at `public/favicon.svg`, wired up in the head.
 The background runs a tiny Game of Life in WebAssembly. Its source lives in
 `src/wasm/life.wasmol`, written in Wasmol: the deliberately tiny subset of
 WebAssembly text that this site actually needs. `scripts/wasmol.awk` compiles it
-directly to WASM using only AWK. No Zig, `wat2wasm`, package manager, or extra
-runtime is needed. The generated `public/life.wasm` is checked in so the page can
-fetch it directly.
+directly to WASM using only AWK. No package manager or extra runtime is needed.
+The generated `public/life.wasm` is checked in so the page can fetch it directly.
 
 To rebuild it:
 `make wasm` (or run `scripts/wasm_build.sh` directly).
 
 Wasmol is intentionally not general-purpose WAT. It supports the module
-features used here: memory and globals, named functions/parameters/locals,
-exports, labeled blocks and loops, branches, and the small set of numeric and
-memory opcodes present in Game of Life. Unknown syntax fails closed instead of
-silently producing a different module.
+features used here: named constants, memory and globals, named functions and
+parameters, locals declared inline on first assignment, exports, labeled
+blocks and loops, branches, and the small set of numeric and memory opcodes
+present in Game of Life. Indentation mirrors control flow but remains
+insignificant to the compiler. Unknown syntax fails closed instead of silently
+producing a different module.

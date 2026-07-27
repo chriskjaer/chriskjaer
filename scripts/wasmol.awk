@@ -110,6 +110,18 @@ function local_index(name,   key) {
   return locals[key]
 }
 
+function declare_local(name, type,   key, item_index) {
+  if (!is_identifier(name)) fatal("invalid inline local " name)
+  key = current_func SUBSEP name
+  if (key in locals) fatal("duplicate local " name)
+  function_locals[current_func]++
+  item_index = function_params[current_func] + function_locals[current_func] - 1
+  locals[key] = item_index
+  local_type[key] = type
+  function_local_type[current_func, function_locals[current_func]] = type
+  return item_index
+}
+
 function push_value(type) {
   value_type[++value_height] = type
 }
@@ -160,10 +172,14 @@ function append(code) {
 function memory_instruction(op, argument,   offset) {
   offset = 0
   if (argument != "") {
-    if (argument !~ /^offset=[0-9]+$/) fatal("invalid memory argument " argument)
+    if (argument !~ /^offset=[A-Za-z_][A-Za-z0-9_]*$/ && argument !~ /^offset=[0-9]+$/) fatal("invalid memory argument " argument)
     sub(/^offset=/, "", argument)
+    if (is_identifier(argument)) {
+      if (!(argument in constant_value)) fatal("unknown constant " argument)
+      argument = constant_value[argument]
+    }
     offset = argument + 0
-    if (offset > 4294967295) fatal("memory offset is out of range")
+    if (offset < 0 || offset > 4294967295) fatal("memory offset is out of range")
   }
   if (op == "i32.load") return "28" "02" uleb(offset)
   if (op == "i32.load8_u") return "2d" "00" uleb(offset)
@@ -179,7 +195,7 @@ function float32(value) {
   fatal("unsupported f32 constant " value)
 }
 
-function compile_instruction(line,   argument, count, fields, op, item_index, item_type, left_type, right_type) {
+function compile_instruction(line,   argument, count, fields, op, item_index, item_type, left_type, right_type, value) {
   count = split(line, fields, /[ \t]+/)
   op = fields[1]
   argument = count > 1 ? fields[2] : ""
@@ -199,12 +215,21 @@ function compile_instruction(line,   argument, count, fields, op, item_index, it
     if (op == "br") mark_unreachable()
   } else if (op == "local.get" || op == "local.set" || op == "local.tee") {
     if (count != 2) fatal(op " expects one local")
-    item_index = local_index(argument)
-    item_type = local_type[current_func SUBSEP argument]
-    if (op == "local.get") push_value(item_type)
-    else {
+    if (argument ~ /:/) {
+      if (op == "local.get" || argument !~ /^[A-Za-z_][A-Za-z0-9_]*:(i32|f32)$/) fatal("invalid inline local " argument)
+      split(argument, inline_local, ":")
+      item_type = inline_local[2]
+      item_index = declare_local(inline_local[1], item_type)
       pop_value(item_type, op)
       if (op == "local.tee") push_value(item_type)
+    } else {
+      item_index = local_index(argument)
+      item_type = local_type[current_func SUBSEP argument]
+      if (op == "local.get") push_value(item_type)
+      else {
+        pop_value(item_type, op)
+        if (op == "local.tee") push_value(item_type)
+      }
     }
     append((op == "local.get" ? "20" : op == "local.set" ? "21" : "22") uleb(item_index))
   } else if (op == "global.get" || op == "global.set") {
@@ -215,14 +240,24 @@ function compile_instruction(line,   argument, count, fields, op, item_index, it
     append((op == "global.get" ? "23" : "24") uleb(global_index[argument]))
   } else if (op == "i32.const") {
     if (count != 2) fatal("i32.const expects one value")
-    if (argument !~ /^-?[0-9]+$/) fatal("invalid i32 constant " argument)
-    if (argument + 0 < -2147483648 || argument + 0 > 2147483647) fatal("i32 constant is out of range")
+    value = argument
+    if (is_identifier(value)) {
+      if (!(value in constant_value)) fatal("unknown constant " value)
+      value = constant_value[value]
+    }
+    if (value !~ /^-?[0-9]+$/) fatal("invalid i32 constant " argument)
+    if (value + 0 < -2147483648 || value + 0 > 2147483647) fatal("i32 constant is out of range")
     push_value("i32")
-    append("41" sleb(argument + 0))
+    append("41" sleb(value + 0))
   } else if (op == "f32.const") {
     if (count != 2) fatal("f32.const expects one value")
+    value = argument
+    if (is_identifier(value)) {
+      if (!(value in constant_value)) fatal("unknown constant " value)
+      value = constant_value[value]
+    }
     push_value("f32")
-    append("43" float32(argument))
+    append("43" float32(value))
   } else if (op ~ /^i32\.(load|load8_u|store|store8)$/) {
     if (count > 2) fatal(op " expects at most one offset")
     if (memory_count == 0) fatal(op " requires memory")
@@ -308,12 +343,17 @@ BEGIN {
 
   if (field[1] == "memory") {
     if (current_func != "") fatal("memory declaration inside function")
-    if (field_count != 3 || !is_identifier(field[2]) || field[3] !~ /^[0-9]+$/ || field[3] + 0 > 65536) fatal("invalid memory declaration")
+    declaration_value = field[3]
+    if (is_identifier(declaration_value)) {
+      if (!(declaration_value in constant_value)) fatal("unknown constant " declaration_value)
+      declaration_value = constant_value[declaration_value]
+    }
+    if (field_count != 3 || !is_identifier(field[2]) || declaration_value !~ /^[0-9]+$/ || declaration_value + 0 > 65536) fatal("invalid memory declaration")
     if (memory_count != 0) fatal("Wasmol supports exactly one memory")
     if (field[2] in memory_index) fatal("duplicate memory " field[2])
     memory_count++
     memory_name[memory_count] = field[2]
-    memory_pages[memory_count] = field[3] + 0
+    memory_pages[memory_count] = declaration_value + 0
     memory_index[field[2]] = memory_count - 1
   } else if (field[1] == "global") {
     if (current_func != "") fatal("global declaration inside function")
@@ -327,6 +367,11 @@ BEGIN {
     global_name_type[field[2]] = field[4]
     global_value[global_count] = field[5] + 0
     global_index[field[2]] = global_count - 1
+  } else if (field[1] == "const") {
+    if (current_func != "") fatal("constant declaration inside function")
+    if (field_count != 4 || !is_identifier(field[2]) || field[3] != "=" || field[4] !~ /^-?[0-9]+$/) fatal("invalid constant declaration")
+    if (field[2] in constant_value) fatal("duplicate constant " field[2])
+    constant_value[field[2]] = field[4]
   } else if (field[1] == "export") {
     if (current_func != "") fatal("export declaration inside function")
     if ((field_count != 3 && !(field_count == 5 && field[4] == "as")) || !is_identifier(field[3])) fatal("invalid export declaration")
