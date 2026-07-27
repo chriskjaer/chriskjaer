@@ -111,6 +111,29 @@ function set_var_line(text,   key, val) {
   if (key != "") vars[key] = val
 }
 
+function normalize_path(path,   count, parts, stack, depth, i, part, absolute, result) {
+  absolute = (substr(path, 1, 1) == "/")
+  count = split(path, parts, "/")
+  depth = 0
+  for (i = 1; i <= count; i++) {
+    part = parts[i]
+    if (part == "" || part == ".") continue
+    if (part == "..") {
+      if (depth > 0 && stack[depth] != "..") depth--
+      else if (!absolute) stack[++depth] = part
+    } else {
+      stack[++depth] = part
+    }
+  }
+  result = absolute ? "/" : ""
+  for (i = 1; i <= depth; i++) {
+    if (result != "" && result != "/") result = result "/"
+    result = result stack[i]
+  }
+  if (result == "") return absolute ? "/" : "."
+  return result
+}
+
 function path_dir(path,   dir) {
   dir = path
   sub(/\/[^\/]*$/, "", dir)
@@ -120,9 +143,9 @@ function path_dir(path,   dir) {
 }
 
 function join_path(dir, file) {
-  if (file ~ /^\//) return file
-  if (dir == "." || dir == "") return file
-  return dir "/" file
+  if (file ~ /^\//) return normalize_path(file)
+  if (dir == "." || dir == "") return normalize_path(file)
+  return normalize_path(dir "/" file)
 }
 
 function parse_include_parts(text,   rest, file, q, pos) {
@@ -152,6 +175,63 @@ function parse_include_parts(text,   rest, file, q, pos) {
 function parse_include(text) {
   parse_include_parts(text)
   return include_file
+}
+
+function file_has_wasm(path,   line, text, indent, dir, raw_mode, raw_indent, style_mode, style_indent, nested, found) {
+  path = normalize_path(path)
+  if (wasm_include_scan_stack[path]++) return 0
+  dir = path_dir(path)
+  raw_mode = 0
+  style_mode = 0
+  found = 0
+
+  while ((getline line < path) > 0) {
+    indent = indent_count(line)
+    text = rtrim(ltrim(line))
+    if (text == "" || text ~ /^-#/) continue
+
+    if (raw_mode) {
+      if (indent > raw_indent) continue
+      raw_mode = 0
+    }
+    if (style_mode) {
+      if (indent > style_indent) continue
+      style_mode = 0
+    }
+    if (text ~ /^:raw$/ || text ~ /^:plain$/) {
+      raw_mode = 1
+      raw_indent = indent
+      continue
+    }
+    if (text ~ /^(%?style)([ \t.(#]|$)/) {
+      style_mode = 1
+      style_indent = indent
+      continue
+    }
+    if (text ~ /^@wasm([ \t]|$)/) {
+      found = 1
+      break
+    }
+    if (text ~ /^@include[ \t]+/) {
+      parse_include_parts(text)
+      nested = include_file
+      if (nested != "" && file_has_wasm(join_path(dir, nested))) {
+        found = 1
+        break
+      }
+    }
+  }
+
+  close(path)
+  wasm_include_scan_stack[path] = 0
+  return found
+}
+
+function included_file_has_wasm(text, file_dir,   nested) {
+  if (text !~ /^@include[ \t]+/) return 0
+  parse_include_parts(text)
+  nested = include_file
+  return (nested != "" && file_has_wasm(join_path(file_dir, nested)))
 }
 
 function parse_layout_parts(text,   rest, file, q, pos) {
@@ -502,7 +582,103 @@ function parse_data(text, indent, file_dir, line,   rest, path, q, pos, name, pi
   return 1
 }
 
+function wasm_error(message) {
+  print "smol: @wasm: " message > "/dev/stderr"
+  exit 1
+}
+
+function wasm_finish(   extra, status) {
+  if (!wasm_mode) return
+  if (wasm_line_count == 0) wasm_error("empty module '" wasm_name "'")
+  if (wasm_reused) {
+    status = (getline extra < wasm_path)
+    close(wasm_path)
+    if (status != 0) wasm_error("reused module source changed for '" wasm_name "'")
+  } else {
+    close(wasm_path)
+  }
+  wasm_mode = 0
+  wasm_indent = -1
+  wasm_base_indent = -1
+  wasm_name = ""
+  wasm_path = ""
+  wasm_line_count = 0
+  wasm_reused = 0
+}
+
+function wasm_capture(line, indent,   source_line, existing_line, status) {
+  if (!wasm_mode) return 0
+  if (indent <= wasm_indent) {
+    wasm_finish()
+    return 0
+  }
+  if (wasm_base_indent < 0) wasm_base_indent = indent
+  if (indent < wasm_base_indent) wasm_error("inconsistent module indentation")
+  source_line = rtrim(substr(line, wasm_base_indent + 1))
+  if (wasm_reused) {
+    status = (getline existing_line < wasm_path)
+    if (status != 1 || existing_line != source_line) {
+      close(wasm_path)
+      wasm_error("reused module source changed for '" wasm_name "'")
+    }
+  } else {
+    print source_line > wasm_path
+  }
+  wasm_line_count++
+  return 1
+}
+
+function wasm_begin(text, indent,   count, fields, probe, status, origin, origin_path, existing_origin, origin_status) {
+  if (wasm_source_dir == "") wasm_error("compiler needs -v wasm_source_dir=...")
+  if (for_depth > 0) wasm_error("modules cannot be declared inside @for")
+  count = split(text, fields, /[ \t]+/)
+  if (count != 4 || fields[1] != "@wasm" || fields[2] !~ /^[A-Za-z_][A-Za-z0-9_]*$/ || fields[3] != "as" || fields[4] !~ /^[A-Za-z_][A-Za-z0-9_]*$/) {
+    wasm_error("expected @wasm name as binding")
+  }
+
+  wasm_name = fields[2]
+  wasm_path = wasm_source_dir "/" wasm_name ".wasmol"
+  origin = current_source_file ":" current_source_line
+  origin_path = wasm_source_dir "/." wasm_name ".origin"
+  status = (getline probe < wasm_path)
+  close(wasm_path)
+  origin_status = (getline existing_origin < origin_path)
+  close(origin_path)
+  if (status >= 0) {
+    if (origin_status != 1 || existing_origin != origin) wasm_error("duplicate module '" wasm_name "'")
+    wasm_reused = 1
+  } else {
+    if (origin_status >= 0) wasm_error("invalid module registry for '" wasm_name "'")
+    # Reserve the name and remember its source declaration across entrypoints.
+    print origin > origin_path
+    close(origin_path)
+    printf "%s", "" > wasm_path
+    close(wasm_path)
+    wasm_reused = 0
+  }
+  vars[fields[4]] = "/" wasm_name ".wasm"
+  wasm_mode = 1
+  wasm_indent = indent
+  wasm_base_indent = -1
+  wasm_line_count = 0
+}
+
+function conditional_wasm_check(text, indent) {
+  while (conditional_depth > 0 && indent <= conditional_indent[conditional_depth]) {
+    delete conditional_indent[conditional_depth]
+    conditional_depth--
+  }
+  if (conditional_depth > 0 && text ~ /^@wasm([ \t]|$)/) {
+    wasm_error("modules cannot be declared inside @if")
+  }
+}
+
 function handle_directive(text, indent, file_dir, line,   rest, key, val, attrs, inc, path, prefix) {
+  if (text ~ /^@wasm([ \t]|$)/) {
+    wasm_begin(text, indent)
+    return 1
+  }
+
   if (text ~ /^@vars([ \t]|$)/) {
     vars_mode = 1
     vars_indent = indent
@@ -659,9 +835,12 @@ function handle_directive(text, indent, file_dir, line,   rest, key, val, attrs,
     rhs_val = interpolate(strip_quotes(rhs))
 
     cond = (op == "==") ? (lhs_val == rhs_val) : (lhs_val != rhs_val)
+    conditional_depth++
+    conditional_indent[conditional_depth] = indent
     if (!cond) {
       skip_mode = 1
       skip_indent = indent
+      skip_raw_indent = directive_raw_indent
     }
 
     return 1
@@ -748,18 +927,24 @@ function for_finish(file_dir, next_line,   depth, list, alias, indent, count, i,
   }
 }
 
-function process_line(line, file_dir,   indent, text, ch, pos, c, tag, id, classes, attrs, name, depth, inline, raw_text, raw_line, css_text, selector, prop, cols, col) {
+function process_line(line, file_dir,   indent, raw_indent, text, ch, pos, c, tag, id, classes, attrs, name, depth, inline, raw_text, raw_line, css_text, selector, prop, cols, col) {
   if (line ~ /^[ \t]*$/) return
 
   indent = indent_count(line)
+  raw_indent = indent
   text = rtrim(ltrim(line))
 
   if (text ~ /^-#/) return
 
   if (skip_mode) {
-    if (indent > skip_indent) return
+    if (raw_indent > skip_raw_indent) {
+      if (text ~ /^@wasm([ \t]|$)/) wasm_error("modules cannot be declared inside @if")
+      if (included_file_has_wasm(text, file_dir)) wasm_error("modules cannot be included inside @if")
+      return
+    }
     skip_mode = 0
     skip_indent = -1
+    skip_raw_indent = -1
   }
 
   # @for capture handled after section indentation normalization
@@ -778,6 +963,8 @@ function process_line(line, file_dir,   indent, text, ch, pos, c, tag, id, class
   }
 
   if (autowrap && section_name == "") {
+    conditional_wasm_check(text, indent)
+    if (wasm_capture(line, indent)) return
     if (text ~ /^:head([ \t]|$)/) {
       start_section("head", indent)
       return
@@ -787,6 +974,7 @@ function process_line(line, file_dir,   indent, text, ch, pos, c, tag, id, class
       return
     }
     close_to(indent)
+    directive_raw_indent = raw_indent
     if (handle_directive(text, indent, file_dir, line)) return
     start_section("body", indent - 1)
     section_base_indent = indent
@@ -807,16 +995,21 @@ function process_line(line, file_dir,   indent, text, ch, pos, c, tag, id, class
       indent = indent - section_base_indent
       text = rtrim(ltrim(line))
     }
+    conditional_wasm_check(text, indent)
+    if (wasm_capture(line, indent)) return
     if (for_depth > 0 && for_phase[for_depth] == "capture") {
       if (indent <= for_indent_stack[for_depth]) {
         for_finish(file_dir, "")
       } else {
+        if (text ~ /^@wasm([ \t]|$)/) wasm_error("modules cannot be declared inside @for")
+        if (included_file_has_wasm(text, file_dir)) wasm_error("modules cannot be included inside @for")
         for_lines[for_depth, ++for_count_stack[for_depth]] = line
         return
       }
     }
 
     close_to(indent)
+    directive_raw_indent = raw_indent
     if (handle_directive(text, indent, file_dir, line)) return
   }
 
@@ -1029,7 +1222,8 @@ function process_line(line, file_dir,   indent, text, ch, pos, c, tag, id, class
   stack_indent[stack_depth] = indent
 }
 
-function process_file(path, prefix,   line, full, prev_dir, dir, before_depth, before_css_depth, before_css_mode, before_css_base_indent) {
+function process_file(path, prefix,   line, full, prev_dir, dir, prev_source_file, prev_source_line, before_depth, before_css_depth, before_css_mode, before_css_base_indent, before_conditional_depth, before_skip_mode, before_skip_indent, before_skip_raw_indent) {
+  path = normalize_path(path)
   if (++include_depth > 20) {
     print "smol: include depth too deep" > "/dev/stderr"
     exit 1
@@ -1039,18 +1233,29 @@ function process_file(path, prefix,   line, full, prev_dir, dir, before_depth, b
     exit 1
   }
   prev_dir = current_dir
+  prev_source_file = current_source_file
+  prev_source_line = current_source_line
   dir = path_dir(path)
   current_dir = dir
+  current_source_file = path
+  current_source_line = 0
 
   before_depth = stack_depth
   before_css_depth = css_depth
   before_css_mode = css_mode
   before_css_base_indent = css_base_indent
+  before_conditional_depth = conditional_depth
+  before_skip_mode = skip_mode
+  before_skip_indent = skip_indent
+  before_skip_raw_indent = skip_raw_indent
 
   while ((getline line < path) > 0) {
+    current_source_line++
     full = (prefix != "") ? prefix line : line
     process_line(full, current_dir)
   }
+
+  if (wasm_mode) wasm_finish()
 
   while (for_depth > 0 && for_phase[for_depth] == "capture") {
     for_finish(current_dir, "")
@@ -1070,14 +1275,24 @@ function process_file(path, prefix,   line, full, prev_dir, dir, before_depth, b
   }
 
   close_to_depth(before_depth)
+  while (conditional_depth > before_conditional_depth) {
+    delete conditional_indent[conditional_depth]
+    conditional_depth--
+  }
+  skip_mode = before_skip_mode
+  skip_indent = before_skip_indent
+  skip_raw_indent = before_skip_raw_indent
 
   close(path)
   current_dir = prev_dir
+  current_source_file = prev_source_file
+  current_source_line = prev_source_line
   include_stack[path] = 0
   include_depth--
 }
 
 function scan_file(path,   line, text, dir, inc, indent) {
+  path = normalize_path(path)
   if (scan_stack[path]++) return
   css_scan = 0
   css_scan_indent = -1
@@ -1315,6 +1530,7 @@ BEGIN {
 
   skip_mode = 0
   skip_indent = -1
+  skip_raw_indent = -1
 
   found_html = 0
   found_sections = 0
