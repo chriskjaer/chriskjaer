@@ -40,7 +40,8 @@ while [ "$page" -le "$max_pages" ]; do
   fi
 
   rows="$(mktemp)"
-  if python3 "$root/scripts/goodreads_rss_to_rows.py" "$xml" "$shelf" "$date_field" >"$rows"; then
+  if awk -v SHELF="$shelf" -v DATE_FIELD="$date_field" \
+    -f "$root/scripts/goodreads_rss_to_rows.awk" "$xml" >"$rows"; then
     status=0
   else
     status=$?

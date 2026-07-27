@@ -29,7 +29,7 @@ dev:
 
 data: $(BOOKS_DATA)
 
-$(BOOKS_DATA): scripts/fetch_books_rows.sh scripts/goodreads_rss_to_rows.py $(FORCE_DEP)
+$(BOOKS_DATA): scripts/fetch_books_rows.sh scripts/goodreads_rss_to_rows.awk $(FORCE_DEP)
 	@mkdir -p "$(dir $@)"
 	@set -e; \
 	generation=$$(mktemp -d "$(dir $@).books-generation.XXXXXX"); \

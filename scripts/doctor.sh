@@ -33,7 +33,6 @@ status=0
 
 show_tool awk 'awk -W version' || status=1
 show_tool curl 'curl --version' || status=1
-show_tool python3 'python3 --version' || status=1
 show_tool sort 'sort --version' || status=1
 show_tool sed 'sed --version' || status=1
 show_tool sh '' || status=1

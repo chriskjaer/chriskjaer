@@ -17,12 +17,12 @@ Common tasks live behind `make`:
 - `make cf-tail` tails Cloudflare Pages failing logs (requires env vars).
 
 Books page:
-- Requirements: POSIX shell tools plus Python 3 for structural RSS validation.
+- Requirements: POSIX shell, `awk`, and standard Unix tools. No language runtime install.
 - Source: Goodreads shelves `read`, `to-read`, `currently-reading`.
-- Fetch/transform: `scripts/fetch_books_rows.sh` structurally parses each RSS
+- Fetch/transform: `scripts/fetch_books_rows.sh` validates and parses each RSS
   page into normalized rows. `make data` stages all three shelves in one temporary
   generation and atomically publishes only a complete combined dataset.
-- Parser: `scripts/goodreads_rss_to_rows.py` rejects malformed, oversized,
+- Parser: `scripts/goodreads_rss_to_rows.awk` rejects malformed, oversized,
   DTD/entity-bearing, wrong-shelf, or unexpectedly namespaced XML before
   emitting rows. Only Goodreads' Atom link and XHTML meta elements are allowed.
 - Goodreads text stays plain in data/JSON and is HTML-escaped at the Smol
