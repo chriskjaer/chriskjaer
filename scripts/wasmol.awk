@@ -287,11 +287,11 @@ function compile_instruction(line,   argument, count, fields, op, item_index, it
     if (op == "i32.eqz") {
       pop_value("i32", op)
       push_value("i32")
-    } else if (op ~ /^i32\.(eq|ne|lt_u|gt_u|le_u)$/) {
+    } else if (op ~ /^i32\.(eq|ne|lt_s|lt_u|gt_u|le_u)$/) {
       pop_value("i32", op); pop_value("i32", op); push_value("i32")
     } else if (op ~ /^f32\.(lt|gt)$/) {
       pop_value("f32", op); pop_value("f32", op); push_value("i32")
-    } else if (op ~ /^i32\.(add|sub|mul|rem_s|and|shr_s)$/) {
+    } else if (op ~ /^i32\.(add|sub|mul|rem_s|and|or|shr_s)$/) {
       pop_value("i32", op); pop_value("i32", op); push_value("i32")
     } else if (op == "f32.mul") {
       pop_value("f32", op); pop_value("f32", op); push_value("f32")
@@ -318,6 +318,7 @@ BEGIN {
   opcode["i32.eqz"] = "45"
   opcode["i32.eq"] = "46"
   opcode["i32.ne"] = "47"
+  opcode["i32.lt_s"] = "48"
   opcode["i32.lt_u"] = "49"
   opcode["i32.gt_u"] = "4b"
   opcode["i32.le_u"] = "4d"
@@ -328,6 +329,7 @@ BEGIN {
   opcode["i32.mul"] = "6c"
   opcode["i32.rem_s"] = "6f"
   opcode["i32.and"] = "71"
+  opcode["i32.or"] = "72"
   opcode["i32.shr_s"] = "75"
   opcode["f32.mul"] = "94"
   opcode["i32.trunc_sat_f32_u"] = "fc01"

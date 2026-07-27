@@ -2,10 +2,16 @@
 set -eu
 
 root=$(CDPATH="" cd -- "$(dirname -- "$0")/.." && pwd)
+frontend="$root/scripts/wasmol_front.awk"
 compiler="$root/scripts/wasmol.awk"
 source="$root/src/wasm/life.wasmol"
 out="$root/public/life.wasm"
 out_dir=$(dirname "$out")
+
+if [ ! -f "$frontend" ]; then
+  printf '%s\n' "missing Wasmol frontend $frontend" >&2
+  exit 1
+fi
 
 if [ ! -f "$compiler" ]; then
   printf '%s\n' "missing Wasmol compiler $compiler" >&2
@@ -18,10 +24,14 @@ if [ ! -f "$source" ]; then
 fi
 
 mkdir -p "$out_dir"
+tmp=''
+ir=''
 tmp=$(mktemp "$out_dir/.life.wasm.XXXXXX")
-trap 'rm -f "$tmp"' INT TERM HUP EXIT
+trap '[ -z "$tmp" ] || rm -f "$tmp"; [ -z "$ir" ] || rm -f "$ir"' INT TERM HUP EXIT
+ir=$(mktemp "$out_dir/.life.wasmol.XXXXXX")
 
-LC_ALL=C awk -f "$compiler" "$source" >"$tmp"
+LC_ALL=C awk -f "$frontend" "$source" >"$ir"
+LC_ALL=C awk -f "$compiler" "$ir" >"$tmp"
 chmod 755 "$tmp"
 
 magic=$(od -An -N4 -t x1 "$tmp" | tr -d ' \n')
@@ -31,4 +41,6 @@ if [ "$magic" != "0061736d" ]; then
 fi
 
 mv "$tmp" "$out"
+rm -f "$ir"
+trap - INT TERM HUP EXIT
 printf '%s\n' "wrote $(basename "$out")"
