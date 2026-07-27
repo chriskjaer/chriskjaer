@@ -51,6 +51,7 @@ smoke: html
 
 test:
 	@./scripts/smol_test.sh
+	@./scripts/wasm_test.sh
 	@./scripts/site_test.sh
 
 minify: html

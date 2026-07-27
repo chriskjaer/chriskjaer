@@ -105,9 +105,11 @@ indentation in text nodes is trimmed.
 
 The favicon is a tiny SVG at `public/favicon.svg`, wired up in the head.
 
-The background runs a tiny Game of Life in WebAssembly, compiled from
-`src/wasm/life.zig`. The build drops `public/life.wasm`, so the page fetches it at
-runtime and Cloudflare doesn’t need Zig.
+The background runs a tiny Game of Life in WebAssembly. The module is assembled
+directly by `scripts/life_wasm.awk`, a deliberately tiny purpose-built WASM
+compiler written in AWK. No Zig, `wat2wasm`, package manager, or extra runtime is
+needed. The generated `public/life.wasm` is checked in so the page can fetch it
+directly.
 
-To refresh the wasm:
+To rebuild it:
 `make wasm` (or run `scripts/wasm_build.sh` directly).
