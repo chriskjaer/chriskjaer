@@ -927,17 +927,17 @@ function for_finish(file_dir, next_line,   depth, list, alias, indent, count, i,
   }
 }
 
-function process_line(line, file_dir,   indent, raw_indent, text, ch, pos, c, tag, id, classes, attrs, name, depth, inline, raw_text, raw_line, css_text, selector, prop, cols, col) {
+function process_line(line, file_dir,   indent, line_raw_indent, text, ch, pos, c, tag, id, classes, attrs, name, depth, inline, raw_text, raw_line, css_text, selector, prop, cols, col) {
   if (line ~ /^[ \t]*$/) return
 
   indent = indent_count(line)
-  raw_indent = indent
+  line_raw_indent = indent
   text = rtrim(ltrim(line))
 
   if (text ~ /^-#/) return
 
   if (skip_mode) {
-    if (raw_indent > skip_raw_indent) {
+    if (line_raw_indent > skip_raw_indent) {
       if (text ~ /^@wasm([ \t]|$)/) wasm_error("modules cannot be declared inside @if")
       if (included_file_has_wasm(text, file_dir)) wasm_error("modules cannot be included inside @if")
       return
@@ -974,7 +974,7 @@ function process_line(line, file_dir,   indent, raw_indent, text, ch, pos, c, ta
       return
     }
     close_to(indent)
-    directive_raw_indent = raw_indent
+    directive_raw_indent = line_raw_indent
     if (handle_directive(text, indent, file_dir, line)) return
     start_section("body", indent - 1)
     section_base_indent = indent
@@ -1009,7 +1009,7 @@ function process_line(line, file_dir,   indent, raw_indent, text, ch, pos, c, ta
     }
 
     close_to(indent)
-    directive_raw_indent = raw_indent
+    directive_raw_indent = line_raw_indent
     if (handle_directive(text, indent, file_dir, line)) return
   }
 

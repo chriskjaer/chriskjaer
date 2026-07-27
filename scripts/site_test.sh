@@ -251,6 +251,7 @@ PATH="$tmp/bin:$PATH" FAKE_MODE=normal make -C "$root" html FORCE=1
 
 books="$root/public/books/index.html"
 index="$root/public/index.html"
+snake="$root/public/projects/snake/index.html"
 
 current_section=$(awk '/Currently reading/{found=1} found{print} found && /<\/section>/{exit}' "$books")
 if printf '%s\n' "$current_section" | grep -q '<li'; then
@@ -268,5 +269,19 @@ grep -q 'rel=canonical href=https://chriskjaer.com/' "$index"
 grep -q 'property=og:url content=https://chriskjaer.com/' "$index"
 grep -q 'rel=canonical href=https://chriskjaer.com/books/' "$books"
 grep -q 'property=og:url content=https://chriskjaer.com/books/' "$books"
+
+test -s "$snake"
+test -s "$root/public/snake.wasm"
+grep -q 'href=/projects/snake' "$index"
+grep -q '<title>Snake — projects — chriskjaer</title>' "$snake"
+grep -q 'rel=canonical href=https://chriskjaer.com/projects/snake/' "$snake"
+grep -q 'property=og:url content=https://chriskjaer.com/projects/snake/' "$snake"
+grep -q 'id=snake-screen' "$snake"
+grep -q 'aria-label="Snake controls"' "$snake"
+grep -q 'class="control up"' "$snake"
+grep -q '\.control\.up' "$snake"
+grep -q 'event.target.closest("button")' "$snake"
+grep -q 'prefers-reduced-motion: reduce' "$snake"
+grep -q 'https://chriskjaer.com/projects/snake/' "$root/public/sitemap.xml"
 
 printf '%s\n' 'site test ok'
