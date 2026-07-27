@@ -78,6 +78,24 @@ case "$mode:$shelf" in
   mixed-namespace-current:currently-reading)
     printf '%s\n' '<rss xmlns:x="urn:not-rss"><channel><title>Test bookshelf: currently-reading</title><x:item><x:title>Fake</x:title></x:item></channel></rss>'
     ;;
+  wrong-namespace-current:currently-reading)
+    printf '%s\n' '<rss xmlns:atom="urn:not-atom"><channel><title>Test bookshelf: currently-reading</title><atom:link href="https://example.test/"/></channel></rss>'
+    ;;
+  namespaced-attribute-current:currently-reading)
+    printf '%s\n' '<rss xmlns:x="urn:not-allowed"><channel x:id="fake"><title>Test bookshelf: currently-reading</title></channel></rss>'
+    ;;
+  processing-instruction-current:currently-reading)
+    printf '%s\n' '<rss><channel><title>Test bookshelf: currently-reading</title><?fake <item><title>Fake</title><author_name>Fake</author_name><user_date_created>Thu, 22 Jan 2026 06:57:00 +0000</user_date_created></item>?></channel></rss>'
+    ;;
+  malformed-nesting-current:currently-reading)
+    printf '%s\n' '<rss><channel><title>Test bookshelf: currently-reading</title><image><link>bad</image></link></channel></rss>'
+    ;;
+  invalid-date-current:currently-reading)
+    printf '%s\n' '<rss><channel><title>Test bookshelf: currently-reading</title><item><title>Bad date</title><author_name>Reader</author_name><user_date_created>2026-99-99</user_date_created></item></channel></rss>'
+    ;;
+  numeric-reference-current:currently-reading)
+    printf '%s\n' '<rss><channel><title>Test bookshelf: currently-reading</title><item><title>Rock &#38; Roll &#x26; More</title><author_name>Reader</author_name><user_date_created>2026-01-22</user_date_created></item></channel></rss>'
+    ;;
   duplicate-title-current:currently-reading)
     printf '%s\n' '<rss><channel><title>Wrong bookshelf: read</title><title>Test bookshelf: currently-reading</title></channel></rss>'
     ;;
@@ -137,7 +155,7 @@ fi
 
 # Required empty shelves, HTTP failures, malformed RSS, and unusable items fail
 # atomically without replacing the previous good dataset.
-for mode in required-empty http-fail to-read-fail malformed-current truncated-current deceptive-html-current misordered-current namespace-current mixed-namespace-current duplicate-title-current loose-title-current dtd-current oversize-current parser-fail parser-fail-current; do
+for mode in required-empty http-fail to-read-fail malformed-current truncated-current deceptive-html-current misordered-current namespace-current mixed-namespace-current wrong-namespace-current namespaced-attribute-current processing-instruction-current malformed-nesting-current invalid-date-current duplicate-title-current loose-title-current dtd-current oversize-current parser-fail parser-fail-current; do
   printf '%s\n' "$seed" >"$root/src/data/books"
   if PATH="$tmp/bin:$PATH" FAKE_MODE="$mode" "$root/scripts/goodreads_sync.sh"; then
     printf '%s\n' "site test: expected sync failure in mode $mode" >&2
@@ -145,6 +163,9 @@ for mode in required-empty http-fail to-read-fail malformed-current truncated-cu
   fi
   assert_seed_preserved "$mode"
 done
+
+PATH="$tmp/bin:$PATH" FAKE_MODE=numeric-reference-current "$root/scripts/goodreads_sync.sh"
+grep -Fq 'Rock & Roll & More' "$root/src/data/books"
 
 for mode in comment-item-current cdata-item-current; do
   PATH="$tmp/bin:$PATH" FAKE_MODE="$mode" "$root/scripts/goodreads_sync.sh"
@@ -167,7 +188,7 @@ PATH="$tmp/bin:$PATH" FAKE_MODE=undated-page2 "$root/scripts/goodreads_sync.sh"
 grep -q '^read |' "$root/src/data/books"
 
 # The production Make target must reject bad required or optional feeds atomically.
-for mode in required-empty http-fail to-read-fail malformed-current truncated-current deceptive-html-current misordered-current namespace-current mixed-namespace-current duplicate-title-current loose-title-current dtd-current oversize-current parser-fail parser-fail-current; do
+for mode in required-empty http-fail to-read-fail malformed-current truncated-current deceptive-html-current misordered-current namespace-current mixed-namespace-current wrong-namespace-current namespaced-attribute-current processing-instruction-current malformed-nesting-current invalid-date-current duplicate-title-current loose-title-current dtd-current oversize-current parser-fail parser-fail-current; do
   printf '%s\n' "$seed" >"$root/src/data/books"
   rm -rf "$root/data/raw"
   if PATH="$tmp/bin:$PATH" FAKE_MODE="$mode" make -C "$root" data FORCE=1; then
