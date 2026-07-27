@@ -18,6 +18,60 @@ if ! cmp -s "$candidate" "$root/public/life.wasm"; then
   exit 1
 fi
 
+# Snake's embedded sidecar is the deterministic source of gameplay truth. Test
+# the compiled module itself rather than reimplementing movement rules in JS.
+snake_sources="$tmp/snake-sources"
+mkdir -p "$snake_sources"
+LC_ALL=C awk -v wasm_source_dir="$snake_sources" -f "$root/scripts/smol.awk" "$root/src/projects/snake.smol" >"$tmp/snake.html"
+LC_ALL=C awk -f "$root/scripts/wasmol_front.awk" "$snake_sources/snake.wasmol" >"$tmp/snake.ir"
+LC_ALL=C awk -f "$root/scripts/wasmol.awk" "$tmp/snake.ir" >"$tmp/snake.wasm"
+if ! cmp -s "$tmp/snake.wasm" "$root/public/snake.wasm"; then
+  printf '%s\n' 'wasm test: embedded module differs from committed snake.wasm' >&2
+  exit 1
+fi
+if command -v node >/dev/null 2>&1; then
+  node - "$tmp/snake.wasm" <<'JS'
+const fs = require("fs");
+
+(async () => {
+  const bytes = fs.readFileSync(process.argv[2]);
+  const { instance } = await WebAssembly.instantiate(bytes, {});
+  const { memory, ptr, reset, turn, step, score } = instance.exports;
+  const cells = () => new Uint8Array(memory.buffer, ptr(), 40 * 18);
+  const indexes = (value) => Array.from(cells(), (cell, index) => cell === value ? index : -1).filter((index) => index >= 0);
+
+  reset(12345);
+  const first = Array.from(cells());
+  if (indexes(1).join(",") !== "378,379,380") throw new Error("unexpected initial snake");
+  if (indexes(2).length !== 1) throw new Error("reset must place exactly one food cell");
+  if (score() !== 0) throw new Error("reset must clear score");
+
+  reset(12345);
+  if (Array.from(cells()).join(",") !== first.join(",")) throw new Error("same seed must produce same board");
+
+  reset(2147483647);
+  if (indexes(1).length !== 3 || indexes(2).length !== 1) throw new Error("signed RNG output must still place food safely");
+
+  reset(12345);
+  turn(2); // direct reverse from right to left must be ignored
+  if (step() !== 1 || indexes(1).join(",") !== "379,380,381") throw new Error("reverse direction was not ignored");
+
+  turn(3); // queue up
+  turn(2); // a second turn in the same tick must not replace the first
+  if (step() !== 1 || !indexes(1).includes(341)) throw new Error("turn queue accepted more than one turn per tick");
+
+  reset(7);
+  let status = 1;
+  for (let tick = 0; tick < 30 && status === 1; tick += 1) status = step();
+  if (status !== 0) throw new Error("wall collision must end the game");
+  if (step() !== 0) throw new Error("game over must remain stable until reset");
+})().catch((error) => {
+  console.error(`snake runtime test: ${error.message}`);
+  process.exit(1);
+});
+JS
+fi
+
 # Exercise the real embedded-module build wrapper from a clean tree.
 mkdir -p "$tmp/repo/scripts" "$tmp/repo/public"
 cp "$root/scripts/smol.awk" "$root/scripts/wasmol_front.awk" "$root/scripts/wasmol.awk" "$root/scripts/wasm_build.sh" "$tmp/repo/scripts/"
@@ -60,6 +114,65 @@ if [ -e "$tmp/repo/public/obsolete.wasm" ]; then
   printf '%s\n' 'wasm test: stale embedded module survived rebuild' >&2
   exit 1
 fi
+
+# Publishing several modules is one transaction: a failure during publication
+# must roll every artifact back to the previous complete generation.
+mkdir -p "$tmp/bin"
+cat >"$tmp/bin/mv" <<'SH'
+#!/bin/sh
+case "$1:$2" in
+  */binaries/snake.wasm:*/public/snake.wasm) exit 73 ;;
+esac
+exec /bin/mv "$@"
+SH
+chmod +x "$tmp/bin/mv"
+printf '%s\n' 'old-life-generation' >"$tmp/repo/public/life.wasm"
+printf '%s\n' 'old-snake-generation' >"$tmp/repo/public/snake.wasm"
+if PATH="$tmp/bin:$PATH" "$tmp/repo/scripts/wasm_build.sh" >/dev/null 2>&1; then
+  printf '%s\n' 'wasm test: interrupted multi-module publication unexpectedly succeeded' >&2
+  exit 1
+fi
+grep -q '^old-life-generation$' "$tmp/repo/public/life.wasm" || {
+  printf '%s\n' 'wasm test: publication failure left a mixed module generation' >&2
+  exit 1
+}
+grep -q '^old-snake-generation$' "$tmp/repo/public/snake.wasm" || {
+  printf '%s\n' 'wasm test: publication failure replaced the failing module' >&2
+  exit 1
+}
+
+# Failure while removing a stale artifact must also restore every replaced
+# module and clean the transaction stage.
+cat >"$tmp/bin/rm" <<'SH'
+#!/bin/sh
+for arg do
+  case "$arg" in
+    */public/obsolete.wasm) exit 74 ;;
+  esac
+done
+exec /bin/rm "$@"
+SH
+chmod +x "$tmp/bin/rm"
+printf '%s\n' 'old-life-generation' >"$tmp/repo/public/life.wasm"
+printf '%s\n' 'old-snake-generation' >"$tmp/repo/public/snake.wasm"
+printf '%s\n' 'old-obsolete-generation' >"$tmp/repo/public/obsolete.wasm"
+if PATH="$tmp/bin:$PATH" "$tmp/repo/scripts/wasm_build.sh" >/dev/null 2>&1; then
+  printf '%s\n' 'wasm test: stale-removal failure unexpectedly succeeded' >&2
+  exit 1
+fi
+for module in life snake obsolete; do
+  grep -q "^old-$module-generation$" "$tmp/repo/public/$module.wasm" || {
+    printf 'wasm test: stale-removal failure did not restore %s.wasm\n' "$module" >&2
+    exit 1
+  }
+done
+for leaked in "$tmp/repo/public"/.wasm-build.*; do
+  if [ -e "$leaked" ]; then
+    printf '%s\n' 'wasm test: stale-removal rollback leaked its staging directory' >&2
+    exit 1
+  fi
+done
+rm -f "$tmp/bin/rm"
 
 # A compiler failure must preserve the previous artifact and clean its stage.
 printf '%s\n' 'known-good' >"$tmp/repo/public/life.wasm"

@@ -58,7 +58,7 @@ minify: html
 	@./scripts/minify.sh
 
 clean:
-	@rm -f ./public/index.html ./public/books/index.html ./public/pax/index.html ./public/pax/avatar.jpg ./public/projects/smol/index.html ./public/books.json
+	@rm -f ./public/index.html ./public/books/index.html ./public/pax/index.html ./public/pax/avatar.jpg ./public/projects/smol/index.html ./public/projects/snake/index.html ./public/books.json
 
 fmt:
 	@./scripts/smol_fmt.sh

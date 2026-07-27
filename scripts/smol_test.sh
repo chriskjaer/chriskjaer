@@ -532,3 +532,26 @@ if awk -v wasm_source_dir="$tmp_wasm_reuse_root/sources" -f "$compiler" "$tmp_wa
 fi
 grep -q '^  @return 1$' "$tmp_wasm_reuse_root/sources/shared.wasmol"
 rm -rf "$tmp_wasm_reuse_root"
+
+# Blank lines are content inside raw blocks; they must not end browser source
+# and turn the following indented JavaScript into accidental HTML elements.
+tmp_raw_blank_in=$(mktemp)
+tmp_raw_blank_out=$(mktemp)
+cat >"$tmp_raw_blank_in" <<'SMOL'
+:body
+  script
+    :raw
+      (() => {
+        const first = 1;
+
+        const second = 2;
+      })();
+SMOL
+awk -f "$compiler" "$tmp_raw_blank_in" >"$tmp_raw_blank_out"
+grep -q 'const first = 1;' "$tmp_raw_blank_out"
+grep -q 'const second = 2;' "$tmp_raw_blank_out"
+if grep -q '<const>' "$tmp_raw_blank_out"; then
+  printf '%s\n' 'smol test: blank line ended raw block and emitted JavaScript as markup' >&2
+  exit 1
+fi
+rm -f "$tmp_raw_blank_in" "$tmp_raw_blank_out"

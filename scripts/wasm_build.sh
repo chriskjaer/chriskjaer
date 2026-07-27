@@ -16,7 +16,27 @@ done
 
 mkdir -p "$out_dir"
 stage=$(mktemp -d "$out_dir/.wasm-build.XXXXXX")
-trap 'rm -rf "$stage"' INT TERM HUP EXIT
+publishing=0
+cleanup() {
+  status=$?
+  trap - INT TERM HUP EXIT
+  set +e
+  if [ "$publishing" -eq 1 ]; then
+    for current in "$out_dir"/*.wasm; do
+      [ -f "$current" ] || continue
+      if [ ! -f "$stage/previous/$(basename "$current")" ]; then
+        rm -f "$current"
+      fi
+    done
+    for previous in "$stage"/previous/*.wasm; do
+      [ -f "$previous" ] || continue
+      mv -f "$previous" "$out_dir/$(basename "$previous")"
+    done
+  fi
+  rm -rf "$stage"
+  exit "$status"
+}
+trap cleanup INT TERM HUP EXIT
 sources="$stage/sources"
 binaries="$stage/binaries"
 mkdir -p "$sources" "$binaries"
@@ -38,7 +58,8 @@ else
     "$root/src/index.smol" \
     "$root/src/books.smol" \
     "$root/src/pax.smol" \
-    "$root/src/projects/smol.smol"; do
+    "$root/src/projects/smol.smol" \
+    "$root/src/projects/snake.smol"; do
     render_entry "$entry"
   done
 fi
@@ -71,6 +92,15 @@ if [ "$found_module" -ne 1 ]; then
   exit 1
 fi
 
+# Publication is transactional across the whole module generation. Preserve
+# the previous set until every replacement and stale-artifact removal succeeds.
+mkdir -p "$stage/previous"
+for existing in "$out_dir"/*.wasm; do
+  [ -f "$existing" ] || continue
+  cp -p "$existing" "$stage/previous/"
+done
+publishing=1
+
 for binary in "$binaries"/*.wasm; do
   target="$out_dir/$(basename "$binary")"
   mv "$binary" "$target"
@@ -88,6 +118,8 @@ for existing in "$out_dir"/*.wasm; do
     printf '%s\n' "removed $(basename "$existing")"
   fi
 done
+
+publishing=0
 
 trap - INT TERM HUP EXIT
 rm -rf "$stage"

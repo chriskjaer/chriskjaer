@@ -7,6 +7,7 @@ index="$root/public/index.html"
 books="$root/public/books/index.html"
 pax="$root/public/pax/index.html"
 projects_smol="$root/public/projects/smol/index.html"
+projects_snake="$root/public/projects/snake/index.html"
 data="$root/src/data/books"
 
 fail() {
@@ -18,12 +19,14 @@ fail() {
 [ -s "$books" ] || fail "missing $books (run: make html)"
 [ -s "$pax" ] || fail "missing $pax (run: make html)"
 [ -s "$projects_smol" ] || fail "missing $projects_smol (run: make html)"
+[ -s "$projects_snake" ] || fail "missing $projects_snake (run: make html)"
+[ -s "$root/public/snake.wasm" ] || fail "missing public/snake.wasm"
 
 # Basic style marker (index should have some inlined CSS).
 grep -q "<style>" "$index" || fail "missing <style> in index.html"
 
 # Every public page should have canonical and social sharing metadata.
-for page in "$index" "$books" "$pax" "$projects_smol"; do
+for page in "$index" "$books" "$pax" "$projects_smol" "$projects_snake"; do
   grep -q 'rel=canonical' "$page" || fail "missing canonical URL in $page"
   grep -q 'property=og:title' "$page" || fail "missing Open Graph title in $page"
   grep -q 'property=og:description' "$page" || fail "missing Open Graph description in $page"
@@ -50,6 +53,11 @@ grep -Eq "<img[^>]*src=/pax/avatar\\.jpg" "$pax" || fail "pax page missing avata
 
 # Projects Smol page should have expected markers.
 grep -Eq "<h1[^>]*>Smol[[:space:]]*</h1>" "$projects_smol" || fail "projects smol page missing 'Smol' heading"
+
+# Snake is a real playable project, not an orphaned artifact.
+grep -Eq "<h1[^>]*>Snake[[:space:]]*</h1>" "$projects_snake" || fail "projects snake page missing 'Snake' heading"
+grep -q 'id=snake-screen' "$projects_snake" || fail "projects snake page missing game canvas"
+grep -q 'href=/projects/snake' "$index" || fail "home page missing Snake link"
 
 # If we have to-read rows, ensure the 'To read' section contains at least one <li>.
 if [ -s "$data" ] && grep -q '^to-read |' "$data"; then
