@@ -160,8 +160,8 @@
       h1.title | Books
       p.hint | Read / to-read / currently-reading. Synced from Goodreads.
 
-      @data "data/books" | awk -F'|' '{s=$1; gsub(/^[ \t]+|[ \t]+$/, "", s); if(s=="currently-reading") print $0}' | python3 scripts/html_escape_rows.py | sort -t'|' -k2,2r as currently_reading
-      @data "data/books" | awk -F'|' '{s=$1; gsub(/^[ \t]+|[ \t]+$/, "", s); if(s=="to-read") print $0}' | python3 scripts/html_escape_rows.py | sort -t'|' -k2,2r as to_read
+      @data "data/books" | awk -F'|' '{s=$1; gsub(/^[ \t]+|[ \t]+$/, "", s); if(s=="currently-reading") print $0}' | awk -f scripts/html_escape_rows.awk | sort -t'|' -k2,2r as currently_reading
+      @data "data/books" | awk -F'|' '{s=$1; gsub(/^[ \t]+|[ \t]+$/, "", s); if(s=="to-read") print $0}' | awk -f scripts/html_escape_rows.awk | sort -t'|' -k2,2r as to_read
 
       @data "data/books" | awk -F'|' '{s=$1; gsub(/^[ \t]+|[ \t]+$/, "", s); if(s!="read") next; d=$2; gsub(/^[ \t]+|[ \t]+$/, "", d); y=substr(d,1,4); if(y=="") next; p=$4; gsub(/[^0-9]/, "", p); books[y]++; pages[y]+=p+0; if(pages[y]>max) max=pages[y]} END {for (y in books) {pct=0; if(max>0) pct=int((pages[y]*100)/max); print y " | " books[y] " | " pages[y] " | " pct}}' | sort -t'|' -k1,1r as read_chart
 
@@ -201,7 +201,7 @@
           @shell "cat data/books | awk -F'|' -f ../scripts/books_read_years.awk | sort -r" as read_years
           @for read_years as y
             h3.year | #{y.value}
-            @shell "cat data/books | awk -F'|' -v YEAR=#{y.value} -f ../scripts/books_read_for_year.awk | python3 ../scripts/html_escape_rows.py --fields 3,4 | sort -t'|' -k1,1r" as read_books
+            @shell "cat data/books | awk -F'|' -v YEAR=#{y.value} -f ../scripts/books_read_for_year.awk | awk -v FIELDS=3,4 -f ../scripts/html_escape_rows.awk | sort -t'|' -k1,1r" as read_books
             ul.read_list
               @for read_books as book
                 li

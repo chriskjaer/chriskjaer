@@ -18,7 +18,7 @@ trap 'rm -f "$tmp"' INT TERM HUP EXIT
 
 # Ensure stable order: newest first by date.
 # shellcheck disable=SC2016
-python3 "$root/scripts/html_escape_rows.py" --fields 5,6 <"$in" \
+awk -v FIELDS=5,6 -f "$root/scripts/html_escape_rows.awk" <"$in" \
   | awk -F'|' '{s=$1; gsub(/^[ \t]+|[ \t]+$/, "", s); if (s=="read") print $0}' \
   | sort -t'|' -k2,2r \
   | awk -F'|' -f "$root/scripts/books_read_grouped.awk" >"$tmp"

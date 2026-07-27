@@ -88,7 +88,7 @@ case "$mode:$shelf" in
     printf '%s\n' '<!DOCTYPE rss [<!ENTITY x "currently-reading">]><rss><channel><title>Test bookshelf: &x;</title></channel></rss>'
     ;;
   oversize-current:currently-reading)
-    python3 -c 'print("<rss><channel><title>Test bookshelf: currently-reading</title></channel></rss>" + "x" * (5 * 1024 * 1024))'
+    awk 'BEGIN { printf "<rss><channel><title>Test bookshelf: currently-reading</title></channel></rss>"; for (i = 0; i < 5242880; i++) printf "x" }'
     ;;
   markup-current:currently-reading)
     printf '%s\n' '<rss><channel><title>Test bookshelf: currently-reading</title><item><title>&lt;img src=x onerror=alert(1)&gt;</title><author_name>&lt;b&gt;Bad&lt;/b&gt;</author_name><user_date_created>Thu, 22 Jan 2026 06:57:00 +0000</user_date_created><user_rating>0</user_rating><num_pages>1</num_pages></item></channel></rss>'
