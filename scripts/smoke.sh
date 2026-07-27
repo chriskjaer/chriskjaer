@@ -65,6 +65,7 @@ if grep -q 'fillText(' "$projects_snake"; then
 fi
 grep -q 'env(safe-area-inset-top)' "$projects_snake" || fail "Snake page is missing safe-area spacing"
 grep -q 'viewport-fit=cover' "$projects_snake" || fail "Snake page does not expose the iPhone safe area"
+grep -q 'drawBoundary' "$projects_snake" || fail "Snake playfield is missing a visible collision boundary"
 if grep -q 'href=/projects/snake' "$index"; then
   fail "home page should not list every project"
 fi

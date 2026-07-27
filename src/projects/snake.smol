@@ -280,7 +280,7 @@
       section.phone#snake-game(tabindex="-1" aria-label="Snake game")
         .speaker
         .lcd-shell
-          canvas.screen#snake-screen(width="84" height="48" tabindex="0" aria-label="Snake board. Focus here and use arrow keys or WASD to steer.")
+          canvas.screen#snake-screen(width="84" height="48" tabindex="0" aria-label="Snake board with a visible wall. Focus here and use arrow keys or WASD to steer.")
         .game-status(aria-live="polite")
           span#snake-state | Ready
           span#snake-score | Score 00
@@ -372,6 +372,13 @@ script
         }
       };
 
+      const drawBoundary = () => {
+        context.fillRect(1, 10, 82, 1);
+        context.fillRect(1, 47, 82, 1);
+        context.fillRect(1, 10, 1, 38);
+        context.fillRect(82, 10, 1, 38);
+      };
+
       const draw = () => {
         context.fillStyle = "#b7c59d";
         context.fillRect(0, 0, logicalWidth, logicalHeight);
@@ -384,6 +391,7 @@ script
           context.fillRect(80, 2, 1, 5);
         }
         context.fillRect(2, 8, 80, 1);
+        drawBoundary();
         if (!board) {
           drawText("LOADING", 42, 24, "center");
           return;
@@ -391,7 +399,7 @@ script
         for (let index = 0; index < board.length; index += 1) {
           if (!board[index]) continue;
           const x = 2 + (index % width) * 2;
-          const y = 10 + Math.floor(index / width) * 2;
+          const y = 11 + Math.floor(index / width) * 2;
           if (board[index] === 1) {
             context.fillRect(x, y, 2, 2);
           } else {

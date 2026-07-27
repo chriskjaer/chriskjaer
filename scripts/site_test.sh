@@ -295,6 +295,8 @@ if grep -q 'fillText(' "$snake"; then
 fi
 grep -q 'env(safe-area-inset-top)' "$snake"
 grep -q 'viewport-fit=cover' "$snake"
+grep -q 'drawBoundary' "$snake"
+grep -q 'visible wall' "$snake"
 grep -q 'https://chriskjaer.com/projects/snake/' "$root/public/sitemap.xml"
 
 printf '%s\n' 'site test ok'
