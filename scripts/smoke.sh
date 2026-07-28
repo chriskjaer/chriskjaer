@@ -6,6 +6,8 @@ root=$(CDPATH="" cd -- "$(dirname -- "$0")/.." && pwd)
 index="$root/public/index.html"
 books="$root/public/books/index.html"
 pax="$root/public/pax/index.html"
+finance_privacy="$root/public/finance/privacy/index.html"
+finance_terms="$root/public/finance/terms/index.html"
 projects_smol="$root/public/projects/smol/index.html"
 projects_snake="$root/public/projects/snake/index.html"
 data="$root/src/data/books"
@@ -18,6 +20,8 @@ fail() {
 [ -s "$index" ] || fail "missing $index (run: make html)"
 [ -s "$books" ] || fail "missing $books (run: make html)"
 [ -s "$pax" ] || fail "missing $pax (run: make html)"
+[ -s "$finance_privacy" ] || fail "missing $finance_privacy (run: make html)"
+[ -s "$finance_terms" ] || fail "missing $finance_terms (run: make html)"
 [ -s "$projects_smol" ] || fail "missing $projects_smol (run: make html)"
 [ -s "$projects_snake" ] || fail "missing $projects_snake (run: make html)"
 [ -s "$root/public/snake.wasm" ] || fail "missing public/snake.wasm"
@@ -26,13 +30,19 @@ fail() {
 grep -q "<style>" "$index" || fail "missing <style> in index.html"
 
 # Every public page should have canonical and social sharing metadata.
-for page in "$index" "$books" "$pax" "$projects_smol" "$projects_snake"; do
+for page in "$index" "$books" "$pax" "$finance_privacy" "$finance_terms" "$projects_smol" "$projects_snake"; do
   grep -q 'rel=canonical' "$page" || fail "missing canonical URL in $page"
   grep -q 'property=og:title' "$page" || fail "missing Open Graph title in $page"
   grep -q 'property=og:description' "$page" || fail "missing Open Graph description in $page"
   grep -q 'property=og:url' "$page" || fail "missing Open Graph URL in $page"
   grep -q 'name=twitter:card' "$page" || fail "missing Twitter card in $page"
 done
+
+# Provider-facing legal pages are public by URL but deliberately not indexed.
+grep -Eq "<h1[^>]*>Pax Domus Finance Privacy Notice[[:space:]]*</h1>" "$finance_privacy" || fail "finance privacy page missing heading"
+grep -Eq "<h1[^>]*>Pax Domus Finance Terms of Use[[:space:]]*</h1>" "$finance_terms" || fail "finance terms page missing heading"
+grep -q 'name=robots content=noindex' "$finance_privacy" || fail "finance privacy page is indexable"
+grep -q 'name=robots content=noindex' "$finance_terms" || fail "finance terms page is indexable"
 
 # Static discovery and fallback files should exist and have the right content.
 [ -s "$root/public/robots.txt" ] || fail "missing public/robots.txt"

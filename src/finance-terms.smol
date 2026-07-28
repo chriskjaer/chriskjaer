@@ -1,0 +1,54 @@
+@layout "includes/layout.smol"
+
+@title Pax Domus Finance Terms of Use
+@description Terms for the private Pax Domus Finance household-finance application.
+@viewport width=device-width, initial-scale=1
+@lang en
+@charset utf-8
+@meta(name="robots" content="noindex")
+@set canonical_url https://chriskjaer.com/finance/terms/
+
+:head
+  style
+    body
+      overflow: auto
+    .page
+      justify-content: flex-start
+      padding: 4rem 1rem 6rem
+    .legal
+      width: 100%
+      max-width: 42rem
+      font-size: 1rem
+      line-height: 1.7
+    .legal h1
+      font-size: 2rem
+      line-height: 1.15
+      margin: 0 0 .5rem
+    .legal h2
+      font-size: 1.1rem
+      margin: 2rem 0 .5rem
+    .legal p
+      margin: 0 0 1rem
+    .meta
+      color: #6b7280
+      font-size: .9rem
+
+:body
+  main.page
+    article.legal
+      h1 | Pax Domus Finance Terms of Use
+      p.meta | Last updated: 28 July 2026
+      p
+        | Pax Domus Finance is a private application for the operator and his household. It is not offered as a public or commercial service.
+      h2 | Scope
+      p
+        | The application provides read-only aggregation, budgeting and reporting. It does not initiate payments or trades and does not provide financial, investment, tax or legal advice.
+      p
+        | Users remain responsible for checking information against their banks, brokers and official records.
+      h2 | Access and availability
+      p
+        | Access is limited to authorised household members through a private network. The operator may change, suspend or discontinue the application at any time.
+      h2 | Contact
+      p
+        | Questions can be sent to
+        a(href="mailto:me@chriskjaer.com") me@chriskjaer.com.

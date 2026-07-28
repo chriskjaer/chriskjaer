@@ -30,6 +30,8 @@ fi
 build_one "$root/src/index.smol" "$out/index.html"
 build_one "$root/src/books.smol" "$out/books/index.html"
 build_one "$root/src/pax.smol" "$out/pax/index.html"
+build_one "$root/src/finance-privacy.smol" "$out/finance/privacy/index.html"
+build_one "$root/src/finance-terms.smol" "$out/finance/terms/index.html"
 build_one "$root/src/projects/smol.smol" "$out/projects/smol/index.html"
 build_one "$root/src/projects/snake.smol" "$out/projects/snake/index.html"
 
