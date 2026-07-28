@@ -1,0 +1,54 @@
+@layout "includes/layout.smol"
+
+@title Pax Domus Finance Privacy Notice
+@description Privacy information for the private Pax Domus Finance household-finance application.
+@viewport width=device-width, initial-scale=1
+@lang en
+@charset utf-8
+@meta(name="robots" content="noindex")
+@set canonical_url https://chriskjaer.com/finance/privacy/
+
+:head
+  style
+    body
+      overflow: auto
+    .page
+      justify-content: flex-start
+      padding: 4rem 1rem 6rem
+    .legal
+      width: 100%
+      max-width: 42rem
+      font-size: 1rem
+      line-height: 1.7
+    .legal h1
+      font-size: 2rem
+      line-height: 1.15
+      margin: 0 0 .5rem
+    .legal h2
+      font-size: 1.1rem
+      margin: 2rem 0 .5rem
+    .legal p
+      margin: 0 0 1rem
+    .meta
+      color: #6b7280
+      font-size: .9rem
+
+:body
+  main.page
+    article.legal
+      h1 | Pax Domus Finance Privacy Notice
+      p.meta | Last updated: 28 July 2026
+      p
+        | Pax Domus Finance is a private, self-hosted household-finance application operated by Chris Kjær for his own household.
+      h2 | Data processed
+      p
+        | The application processes account details, balances and transaction history that the account holder explicitly authorises through Enable Banking, plus data the household imports manually. Access is read-only. The application cannot initiate payments or trades.
+      h2 | Purpose and storage
+      p
+        | Data is used only to maintain the household budget, reconcile transactions and provide private financial overviews. It is stored on infrastructure controlled by the operator, and the application is accessible only through a private Tailscale network.
+      p
+        | Data is not sold, used for advertising or shared with unrelated third parties. Enable Banking and the connected bank process data as required to provide the authorised account-information service.
+      h2 | Retention and contact
+      p
+        | Data is retained until the household deletes it or stops using the application. Access consent can be revoked through the bank or Enable Banking. Questions or requests can be sent to
+        a(href="mailto:me@chriskjaer.com") me@chriskjaer.com.
