@@ -171,12 +171,16 @@
           ol.book_list
             @for currently_reading as book
               li
-                span.book
-                  | #{book.5}
-                | 
-
-                span.author
-                  | — #{book.6}
+                .book_item
+                  .book_head
+                    span.book
+                      | #{book.5}
+                    span.author
+                      | — #{book.6}
+                  @if book.4 != "0"
+                    @if book.4 != ""
+                      span.meta
+                        | #{book.4} pages
 
         section
           h2.section_title | Read per year
@@ -217,18 +221,24 @@
                         | #{book.1} · #{book.2}
                       @if book.2 == ""
                         | #{book.1}
+                      @if book.5 != ""
+                        |  · #{book.5} pages
 
         section
           h2.section_title | To read
           ol.book_list
             @for to_read as book
               li
-                span.book
-                  | #{book.5}
-                | 
-
-                span.author
-                  | — #{book.6}
+                .book_item
+                  .book_head
+                    span.book
+                      | #{book.5}
+                    span.author
+                      | — #{book.6}
+                  @if book.4 != "0"
+                    @if book.4 != ""
+                      span.meta
+                        | #{book.4} pages
 
   script
     | (function () {
