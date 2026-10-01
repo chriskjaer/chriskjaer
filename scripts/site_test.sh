@@ -117,6 +117,15 @@ case "$mode:$shelf" in
   markup-to-read:to-read)
     printf '%s\n' '<rss><channel><title>Test bookshelf: to-read</title><item><title>&lt;iframe src=evil&gt;</title><author_name>&lt;b&gt;Bad&lt;/b&gt;</author_name><user_date_created>Thu, 22 Jan 2026 06:57:00 +0000</user_date_created><user_rating>0</user_rating><num_pages>1</num_pages></item></channel></rss>'
     ;;
+  pages:read)
+    printf '%s\n' '<rss><channel><title>Test bookshelf: read</title><item><title>Read book</title><author_name>Reader</author_name><user_rating>5</user_rating><num_pages>200</num_pages><user_read_at>Thu, 21 Jan 2026 06:57:00 +0000</user_read_at></item><item><title>Read book without pages</title><author_name>Reader</author_name><user_rating>0</user_rating><num_pages>0</num_pages><user_read_at>Tue, 20 Jan 2026 06:57:00 +0000</user_read_at></item></channel></rss>'
+    ;;
+  pages:to-read)
+    printf '%s\n' '<rss><channel><title>Test bookshelf: to-read</title><item><title>Future book</title><author_name>Writer</author_name><user_rating>0</user_rating><num_pages>300</num_pages><user_date_created>Thu, 22 Jan 2026 06:57:00 +0000</user_date_created></item><item><title>Future book without pages</title><author_name>Writer</author_name><user_rating>0</user_rating><user_date_created>Tue, 20 Jan 2026 06:57:00 +0000</user_date_created></item></channel></rss>'
+    ;;
+  pages:currently-reading)
+    printf '%s\n' '<rss><channel><title>Test bookshelf: currently-reading</title><item><title>Current book</title><author_name>Reader</author_name><user_rating>0</user_rating><num_pages>410</num_pages><user_date_created>Thu, 22 Jan 2026 06:57:00 +0000</user_date_created></item><item><title>Current book without pages</title><author_name>Reader</author_name><user_rating>0</user_rating><user_date_created>Tue, 20 Jan 2026 06:57:00 +0000</user_date_created></item></channel></rss>'
+    ;;
   parser-fail-current:currently-reading)
     printf '%s\n' '<rss><channel><title>Test bookshelf: currently-reading</title><item><title>Missing date</title><author_name>Reader</author_name></item></channel></rss>'
     ;;
@@ -246,7 +255,7 @@ if grep -Fq '<iframe src=evil>' "$root/public/books/index.html"; then
 fi
 
 # Build the complete site from deterministic fixtures in the copied workspace.
-PATH="$tmp/bin:$PATH" FAKE_MODE=normal make -C "$root" html FORCE=1
+PATH="$tmp/bin:$PATH" FAKE_MODE=pages make -C "$root" html FORCE=1
 "$root/scripts/smoke.sh"
 
 books="$root/public/books/index.html"
@@ -255,12 +264,30 @@ pax="$root/public/pax/index.html"
 snake="$root/public/projects/snake/index.html"
 
 current_section=$(awk '/Currently reading/{found=1} found{print} found && /<\/section>/{exit}' "$books")
-if printf '%s\n' "$current_section" | grep -q '<li'; then
-  printf '%s\n' 'site test: expected empty currently-reading section' >&2
+printf '%s\n' "$current_section" | grep -q '410 pages'
+printf '%s\n' "$current_section" | grep -q 'Current book without pages'
+if printf '%s\n' "$current_section" | grep -Eq '(^|[^0-9])0 pages'; then
+  printf '%s\n' 'site test: zero page count rendered in currently-reading section' >&2
   exit 1
 fi
 
-grep -q '1 books · 200 pages' "$books"
+grep -q '2 books · 200 pages' "$books"
+
+read_section=$(awk '/>Read<\/h2>/{found=1} found{print} found && /<\/section>/{exit}' "$books")
+printf '%s\n' "$read_section" | grep -q '200 pages'
+printf '%s\n' "$read_section" | grep -q 'Read book without pages'
+if printf '%s\n' "$read_section" | grep -Eq '(^|[^0-9])0 pages'; then
+  printf '%s\n' 'site test: zero page count rendered in read section' >&2
+  exit 1
+fi
+
+to_read_section=$(awk '/>To read<\/h2>/{found=1} found{print} found && /<\/section>/{exit}' "$books")
+printf '%s\n' "$to_read_section" | grep -q '300 pages'
+printf '%s\n' "$to_read_section" | grep -q 'Future book without pages'
+if printf '%s\n' "$to_read_section" | grep -Eq '(^|[^0-9])0 pages'; then
+  printf '%s\n' 'site test: zero page count rendered in to-read section' >&2
+  exit 1
+fi
 
 grep -q 'Co-founder &amp; CTO at' "$index"
 grep -q 'exploring how AI changes what ambitious teams can build.' "$index"
