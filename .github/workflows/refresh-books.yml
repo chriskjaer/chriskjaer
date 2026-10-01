@@ -2,7 +2,7 @@ name: Refresh books
 
 on:
   schedule:
-    - cron: "17 3 * * 1"
+    - cron: "17 3 * * *"
   workflow_dispatch:
 
 permissions:
@@ -20,7 +20,28 @@ jobs:
         with:
           ref: main
           fetch-depth: 0
+      - name: Check for Goodreads changes
+        id: books
+        run: |
+          set -eu
+          make data FORCE=1
+          ./scripts/books_json.sh src/data/books "$RUNNER_TEMP/books.json"
+          curl --fail --silent --show-error --location \
+            --connect-timeout 10 --max-time 60 \
+            --retry 2 --retry-delay 2 --retry-all-errors \
+            --header 'Cache-Control: no-cache' \
+            https://chriskjaer.com/books.json \
+            --output "$RUNNER_TEMP/live-books.json"
+
+          if cmp -s "$RUNNER_TEMP/books.json" "$RUNNER_TEMP/live-books.json"; then
+            echo "changed=false" >>"$GITHUB_OUTPUT"
+            echo "Goodreads data is unchanged"
+          else
+            echo "changed=true" >>"$GITHUB_OUTPUT"
+            echo "Goodreads data changed"
+          fi
       - name: Trigger a fresh Cloudflare Pages build
+        if: steps.books.outputs.changed == 'true'
         run: |
           git fetch origin main
           git checkout --detach origin/main
