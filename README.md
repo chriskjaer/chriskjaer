@@ -37,8 +37,8 @@ Deployment hygiene:
 - `public/_redirects` sends legacy `/favicon.ico` requests to the SVG favicon.
 - GitHub Actions runs tests and non-mutating shell lint on pull requests.
 - A daily scheduled workflow compares fresh Goodreads data with the live
-  `books.json` and only creates an empty refresh commit when the data changed.
-  That commit makes Cloudflare Pages rebuild the Goodreads-backed book list.
+  `books.json` and only calls a protected Cloudflare Pages Deploy Hook when the
+  data changed. The repository therefore stays untouched by routine refreshes.
 
 Smol is a tiny HAML-ish markup language compiled by `scripts/smol.awk`. The
 site templates live in `src/` (for example `src/index.smol` and `src/books.smol`)

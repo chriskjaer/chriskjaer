@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
 
 concurrency:
   group: refresh-books
@@ -19,7 +19,6 @@ jobs:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
           ref: main
-          fetch-depth: 0
       - name: Check for Goodreads changes
         id: books
         run: |
@@ -42,10 +41,16 @@ jobs:
           fi
       - name: Trigger a fresh Cloudflare Pages build
         if: steps.books.outputs.changed == 'true'
+        env:
+          CLOUDFLARE_DEPLOY_HOOK: ${{ secrets.CLOUDFLARE_DEPLOY_HOOK }}
         run: |
-          git fetch origin main
-          git checkout --detach origin/main
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git commit --allow-empty -m "chore: refresh Goodreads"
-          git push origin HEAD:main
+          set -eu
+          test -n "$CLOUDFLARE_DEPLOY_HOOK" || {
+            echo "missing CLOUDFLARE_DEPLOY_HOOK secret" >&2
+            exit 1
+          }
+          curl --fail --silent --show-error --location \
+            --connect-timeout 10 --max-time 60 \
+            --retry 2 --retry-delay 2 --retry-all-errors \
+            --request POST "$CLOUDFLARE_DEPLOY_HOOK" \
+            --output "$RUNNER_TEMP/cloudflare-deploy.json"
